@@ -9,7 +9,7 @@
     "test:coverage": "yarn test --coverage && open coverage/lcov-report/index.html",
     "start:prod": "NODE_ENV=production node build/server.js",
     "lint": "eslint src --max-warnings 0; tsc",
-    "prettier": "prettier --write '{src,playground}/**/*.{js,ts,tsx}'"
+    "prettier": "prettier --write './src/**/*.{js,ts,tsx}'"
   },
   "dependencies": {
     "@types/react-dom": "^16.8.5",
