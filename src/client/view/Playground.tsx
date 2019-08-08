@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import { Slider, State, SharedProps } from "baseui/slider";
+import { Button } from "baseui/button";
+
 import ConquestGame, { getPlanetLimit } from "../../logic/Game";
 import Player from "../../logic/Player";
 import Planet from "../../logic/Planet";
@@ -30,10 +33,10 @@ const GameField: React.FC<{ game: ConquestGame }> = ({ game }) => {
   );
 };
 
-const useNumberInput = (initialState: number) => {
-  const [value, setValue] = useState<number>(initialState);
+const useSlider = (initialState: number) => {
+  const [value, setValue] = useState<number[]>([initialState]);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(Number(e.target.value));
+  const onChange = ({ value }: State): void => setValue(value);
 
   return {
     value,
@@ -41,37 +44,61 @@ const useNumberInput = (initialState: number) => {
   };
 };
 
+const SliderOverrides = {
+  InnerThumb: ({ $value, $thumbIndex }: SharedProps) => <React.Fragment>{$value[$thumbIndex]}</React.Fragment>,
+  ThumbValue: () => null,
+  Thumb: {
+    style: () => ({
+      height: "36px",
+      width: "36px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      borderTopLeftRadius: "36px",
+      borderTopRightRadius: "36px",
+      borderBottomRightRadius: "36px",
+      borderBottomLeftRadius: "36px",
+      borderColor: "#ccc",
+      borderSize: "3px",
+      borderStyle: "solid",
+      backgroundColor: "#fff"
+    })
+  }
+};
+
 const Playground = () => {
   const [game, setGame] = useState<ConquestGame | null>(null);
-  const fieldSizeInput = useNumberInput(10);
-  const neutralPlanetsInput = useNumberInput(4);
+  const fieldSizeInput = useSlider(10);
+  const neutralPlanetsInput = useSlider(4);
 
   const startGame = () => {
     const newGame = new ConquestGame({
-      fieldHeight: fieldSizeInput.value,
-      fieldWidth: fieldSizeInput.value,
-      neutralPlanetCount: neutralPlanetsInput.value,
+      fieldHeight: fieldSizeInput.value[0],
+      fieldWidth: fieldSizeInput.value[0],
+      neutralPlanetCount: neutralPlanetsInput.value[0],
       players: [new Player("One"), new Player("Two")]
     });
 
     setGame(newGame);
   };
 
+  const maxPlanets = getPlanetLimit(fieldSizeInput.value[0] ** 2, 2);
+
   return (
     <div>
       <label>
         Field Side size
         <br />
-        <input type="number" {...fieldSizeInput} />
+        <Slider {...fieldSizeInput} min={0} max={20} overrides={SliderOverrides} />
       </label>
       <br />
       <label>
-        Neutral planets (max: {getPlanetLimit(fieldSizeInput.value ** 2, 2)})
+        Neutral planets (max: {maxPlanets})
         <br />
-        <input type="number" {...neutralPlanetsInput} />
+        <Slider {...neutralPlanetsInput} min={0} max={maxPlanets} overrides={SliderOverrides} />
       </label>
       <br />
-      <button onClick={startGame}>Start Game</button>
+      <Button onClick={startGame}>Start Game</Button>
       {game && <GameField game={game} />}
     </div>
   );

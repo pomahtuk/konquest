@@ -4,6 +4,11 @@ import { StaticRouter } from "react-router-dom";
 import { StaticRouterContext } from "react-router";
 import express from "express";
 import { renderToString } from "react-dom/server";
+import { Provider as StyletronProvider } from "styletron-react";
+import { Server as Styletron } from "styletron-engine-atomic";
+import { LightTheme, BaseProvider } from "baseui";
+
+const engine = new Styletron();
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -15,10 +20,16 @@ server
   .get("/*", (req, res) => {
     const context: StaticRouterContext = {};
     const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
+      <StyletronProvider value={engine}>
+        <BaseProvider theme={LightTheme}>
+          <StaticRouter context={context} location={req.url}>
+            <App />
+          </StaticRouter>
+        </BaseProvider>
+      </StyletronProvider>
     );
+
+    const styles = engine.getStylesheetsHtml();
 
     if (context.url) {
       res.redirect(context.url);
@@ -37,6 +48,7 @@ server
                   ? `<script src="${assets.client.js}" defer></script>`
                   : `<script src="${assets.client.js}" defer crossorigin></script>`
               }
+              ${styles}
           </head>
           <body>
               <div id="root">${markup}</div>
