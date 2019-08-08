@@ -1,10 +1,18 @@
-import ConquestGame from "../Game";
+import ConquestGame, { getPlanetLimit } from "../Game";
 import Player from "../Player";
 
 const player1 = new Player("player1");
 const player2 = new Player("player2");
 
 describe("Main game", () => {
+  it("Can calculate planetLimit", () => {
+    const smallLimit = getPlanetLimit(4 ** 2, 2);
+    expect(smallLimit).toEqual(2);
+
+    const bigLimit = getPlanetLimit(10 ** 2, 4);
+    expect(bigLimit).toEqual(16);
+  });
+
   it("Creates a new game with given params", () => {
     const game = new ConquestGame({
       fieldHeight: 10,
@@ -26,6 +34,8 @@ describe("Main game", () => {
     // check we have planets generated
     expect(planets).toBeDefined();
     expect(Object.keys(planets).length).toBe(7);
+    expect(planets["A"].coordinates).toMatchObject({ x: 0, y: 0 });
+    expect(planets["B"].coordinates).toMatchObject({ x: 9, y: 9 });
 
     // check game field info is there
     expect(game.getDimensions()).toMatchObject({
@@ -35,5 +45,61 @@ describe("Main game", () => {
 
     // now make sure we don't have turns from start
     expect(game.getTurns().length).toBe(0);
+  });
+
+  it("Throws player count error", () => {
+    const errorText = "Player count should be between 2 and 4";
+
+    expect(() => {
+      new ConquestGame({
+        fieldHeight: 4,
+        fieldWidth: 4,
+        neutralPlanetCount: 0,
+        players: [player1, player2, player1, player1, player1]
+      });
+    }).toThrowError(errorText);
+
+    expect(() => {
+      new ConquestGame({
+        fieldHeight: 4,
+        fieldWidth: 4,
+        neutralPlanetCount: 0,
+        players: [player1]
+      });
+    }).toThrowError(errorText);
+  });
+
+  it("Throws dimension error", () => {
+    const errorText = "Game Field could not be less than 4 and bigger than 20 in any dimension";
+
+    expect(() => {
+      new ConquestGame({
+        fieldHeight: 3,
+        fieldWidth: 3,
+        neutralPlanetCount: 0,
+        players: [player1, player2]
+      });
+    }).toThrowError(errorText);
+
+    expect(() => {
+      new ConquestGame({
+        fieldHeight: 21,
+        fieldWidth: 4,
+        neutralPlanetCount: 0,
+        players: [player1, player2]
+      });
+    }).toThrowError(errorText);
+  });
+
+  it("Throws neutral planets error", () => {
+    const planetLimit = getPlanetLimit(4 * 4, 2);
+    expect(() => {
+      new ConquestGame({
+        fieldHeight: 4,
+        fieldWidth: 4,
+        neutralPlanetCount: planetLimit + 1,
+        players: [player1, player2]
+      });
+    }).toThrowError(`Game Field could not accommodate that many neutral planets, limit: ${planetLimit}`);
   });
 });

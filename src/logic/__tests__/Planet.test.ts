@@ -3,10 +3,15 @@ import Player from "../Player";
 
 const testPlayer = new Player("tester");
 
+const coordinates = {
+  x: 1,
+  y: 1
+};
+
 describe("Planet", () => {
   it("Creates a new neutral Planet", () => {
     const planetName = "A";
-    const planet = new Planet(planetName);
+    const planet = new Planet(planetName, coordinates);
 
     expect(planet).toBeDefined();
 
@@ -25,13 +30,16 @@ describe("Planet", () => {
 
   it("Creates a new player Planet", () => {
     const planetName = "A";
-    const planet = new Planet(planetName, testPlayer);
+
+    const planet = new Planet(planetName, coordinates, testPlayer);
 
     expect(planet).toBeDefined();
 
     expect(planet.name).toBe(planetName);
     expect(planet.owner).toEqual(testPlayer.id);
     expect(planet.killPercent).toBe(0.5);
+
+    expect(planet.coordinates).toEqual(coordinates);
 
     // players should be in equal conditions from start
     expect(planet.production).toBe(10);

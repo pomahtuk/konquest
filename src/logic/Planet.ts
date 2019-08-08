@@ -1,5 +1,10 @@
 import Player from "./Player";
 
+export type PlanetCoordinates = {
+  x: number;
+  y: number;
+};
+
 export default class Planet {
   name: string;
   owner: number | null = null; // reference co playerId
@@ -10,10 +15,12 @@ export default class Planet {
   // Kill percent is a measure of the effectiveness of the ships produced at that planet.
   // Attack fleets take the kill percentage of their planet of departure,
   // and defense fleets use the kill percentage of the planet they are defending.
+  coordinates: PlanetCoordinates;
 
-  constructor(name: string, player?: Player | null) {
+  constructor(name: string, coordinates: PlanetCoordinates = { x: 0, y: 0 }, player?: Player | null) {
     // initialize
     this.name = name;
+    this.coordinates = coordinates;
 
     let production = 10;
     const killPercent = 0.5;
