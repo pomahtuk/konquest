@@ -5,7 +5,15 @@
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["react-hooks"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "prettier/react"
+  ],
+  "plugins": ["react-hooks", "@typescript-eslint"],
   "settings": {
     "react": {
       "version": "detect"

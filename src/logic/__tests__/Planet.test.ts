@@ -8,8 +8,8 @@ const coordinates = {
   y: 1
 };
 
-describe("Planet", () => {
-  it("Creates a new neutral Planet", () => {
+describe("Planet", (): void => {
+  it("Creates a new neutral Planet", (): void => {
     const planetName = "A";
     const planet = new Planet(planetName, coordinates);
 
@@ -28,7 +28,7 @@ describe("Planet", () => {
     expect(planet.shipsDue).toBe(0);
   });
 
-  it("Creates a new player Planet", () => {
+  it("Creates a new player Planet", (): void => {
     const planetName = "A";
 
     const planet = new Planet(planetName, coordinates, testPlayer);

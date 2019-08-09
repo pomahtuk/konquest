@@ -1,11 +1,11 @@
 import Planet, { PlanetMap } from "./Planet";
 
 export default class Player {
-  id: number;
-  screenName: string;
+  public id: number;
+  public screenName: string;
   private planets: PlanetMap = {};
 
-  constructor(name: string) {
+  public constructor(name: string) {
     // TODO: player actually have to be stored somewhere
     this.id = Math.floor(Math.random() * 1000);
     this.screenName = name;
@@ -22,10 +22,10 @@ export default class Player {
   }
 
   public getPlanets(): Planet[] {
-    return Object.keys(this.planets).map((planetName) => this.planets[planetName]);
+    return Object.keys(this.planets).map((planetName): Planet => this.planets[planetName]);
   }
 }
 
-export type PlayerMap = {
+export interface PlayerMap {
   [key: string]: Player;
-};
+}

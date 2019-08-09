@@ -16,8 +16,8 @@ const game = new ConquestGame({
   players: [player1, player2]
 });
 
-describe("<GameField />", () => {
-  it("renders <GameField /> component", () => {
+describe("<GameField />", (): void => {
+  it("renders <GameField /> component", (): void => {
     const wrapper = mount(<GameField game={game} />);
     expect(wrapper).toBeDefined();
   });

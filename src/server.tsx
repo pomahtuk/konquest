@@ -10,6 +10,7 @@ import { LightTheme, BaseProvider } from "baseui";
 
 const engine = new Styletron();
 
+// eslint-disable-next-line
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const server = express();
@@ -17,7 +18,7 @@ const server = express();
 server
   .disable("x-powered-by")
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR || "/public"))
-  .get("/*", (req, res) => {
+  .get("/*", (req, res): void => {
     const context: StaticRouterContext = {};
     const markup = renderToString(
       <StyletronProvider value={engine}>

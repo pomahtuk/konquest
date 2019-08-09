@@ -6,14 +6,14 @@ const server = http.createServer(app);
 
 let currentApp = app;
 
-server.listen(process.env.PORT || 3000, () => {
+server.listen(process.env.PORT || 3000, (): void => {
   console.log("🚀 started");
 });
 
 if (module.hot) {
   console.log("✅  Server-side HMR Enabled!");
 
-  module.hot.accept("./server", () => {
+  module.hot.accept("./server", (): void => {
     console.log("🔁  HMR Reloading `./server`...");
 
     try {

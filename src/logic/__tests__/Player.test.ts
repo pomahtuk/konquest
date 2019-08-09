@@ -3,8 +3,8 @@ import Planet from "../Planet";
 
 const testPlanet = new Planet("A");
 
-describe("Player", () => {
-  it("Creates a new Player", () => {
+describe("Player", (): void => {
+  it("Creates a new Player", (): void => {
     const playerName = "Tester";
     const player = new Player(playerName);
 
@@ -14,7 +14,7 @@ describe("Player", () => {
     expect(player.id).toBeDefined();
   });
 
-  it("can add planets", () => {
+  it("can add planets", (): void => {
     const playerName = "Tester";
     const player = new Player(playerName);
 
@@ -24,7 +24,7 @@ describe("Player", () => {
     expect(player.getPlanets().length).toBe(1);
   });
 
-  it("can remove planets", () => {
+  it("can remove planets", (): void => {
     const playerName = "Tester";
     const player = new Player(playerName);
 
@@ -37,7 +37,7 @@ describe("Player", () => {
     expect(player.getPlanets().length).toBe(0);
   });
 
-  it("can return list of planets", () => {
+  it("can return list of planets", (): void => {
     const playerName = "Tester";
     const player = new Player(playerName);
 

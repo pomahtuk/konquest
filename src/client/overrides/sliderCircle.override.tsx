@@ -1,11 +1,14 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { SharedProps, SliderOverrides } from "baseui/slider";
+import { StyleObject } from "styletron-react";
+
+const InnerThumb = ({ $value, $thumbIndex }: SharedProps): ReactElement => <>{$value[$thumbIndex]}</>;
 
 const sliderCircle: SliderOverrides = {
-  InnerThumb: ({ $value, $thumbIndex }: SharedProps) => <React.Fragment>{$value[$thumbIndex]}</React.Fragment>,
-  ThumbValue: () => null,
+  InnerThumb,
+  ThumbValue: (): null => null,
   Thumb: {
-    style: () => ({
+    style: (): StyleObject => ({
       height: "36px",
       width: "36px",
       display: "flex",

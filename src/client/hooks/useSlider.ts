@@ -3,11 +3,11 @@ import { State, SliderOverrides } from "baseui/slider";
 
 import sliderCircle from "../overrides/sliderCircle.override";
 
-type UseSliderHookReturn = {
+interface UseSliderHookReturn {
   value: number[];
   onChange: (val: State) => void;
   overrides?: SliderOverrides;
-};
+}
 
 const useSlider = (initialState: number, useOverrides: boolean): UseSliderHookReturn => {
   const [value, setValue] = useState<number[]>([initialState]);

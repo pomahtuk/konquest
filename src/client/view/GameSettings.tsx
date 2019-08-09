@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, ReactElement } from "react";
 
 import { Slider } from "baseui/slider";
 import { Button } from "baseui/button";
@@ -9,25 +9,25 @@ import Player from "../../logic/Player";
 
 import useSlider from "../hooks/useSlider";
 
-export type GameSettingsProps = {
+export interface GameSettingsProps {
   onChange: (options: GameOptions) => void;
-};
+}
 
-const GameSettings = ({ onChange }: GameSettingsProps) => {
+const GameSettings = ({ onChange }: GameSettingsProps): ReactElement => {
   const fieldSizeInput = useSlider(8, true);
   const neutralPlanetsInput = useSlider(7, true);
 
   const defaultPlayers = [new Player("One"), new Player("Two"), new Player("Three"), new Player("Four")];
   const maxPlanets = getPlanetLimit(fieldSizeInput.value[0] ** 2, defaultPlayers.length);
 
-  useEffect(() => {
+  useEffect((): void => {
     const currentValue = neutralPlanetsInput.value[0];
     if (currentValue > maxPlanets) {
       neutralPlanetsInput.onChange({ value: [maxPlanets] });
     }
   });
 
-  const changeSettings = () => {
+  const changeSettings = (): void => {
     onChange({
       fieldHeight: fieldSizeInput.value[0],
       fieldWidth: fieldSizeInput.value[0],
@@ -37,16 +37,15 @@ const GameSettings = ({ onChange }: GameSettingsProps) => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <FormControl label="Field Side size">
         <Slider {...fieldSizeInput} min={ConquestGame.minSize} max={ConquestGame.maxSize} />
       </FormControl>
       <FormControl label={`Neutral planets (max: ${maxPlanets})`}>
         <Slider {...neutralPlanetsInput} min={0} max={maxPlanets} />
       </FormControl>
-
       <Button onClick={changeSettings}>Start Game</Button>
-    </>
+    </React.Fragment>
   );
 };
 

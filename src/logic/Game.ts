@@ -1,23 +1,23 @@
 import Planet, { PlanetMap } from "./Planet";
 import Player, { PlayerMap } from "./Player";
 
-export type GameOptions = {
+export interface GameOptions {
   fieldHeight: number;
   fieldWidth: number;
   neutralPlanetCount: number;
   players: Player[];
-};
+}
 
-export type PlayerTurnOrder = {
+export interface PlayerTurnOrder {
   origin: string;
   destination: string;
   amount: number;
-};
+}
 
-export type PlayerTurn = {
+export interface PlayerTurn {
   playerId: number;
   orders: PlayerTurnOrder[];
-};
+}
 
 const alphabetSize = 26;
 export const getPlanetLimit = (fieldSize: number, playerCount: number): number => {
@@ -30,6 +30,11 @@ const ASCIIOffset = 65;
 const getPlanetName = (index: number): string => String.fromCharCode(ASCIIOffset + index);
 
 class ConquestGame {
+  public static maxSize: number = 20;
+  public static minSize: number = 4;
+  public static minPlayers: number = 2;
+  public static maxPlayers: number = 4;
+
   private fieldHeight: number;
   private fieldWidth: number;
   private turns: PlayerTurn[] = [];
@@ -38,12 +43,7 @@ class ConquestGame {
   private playerCount: number = 0;
   private planetCount: number = 0;
 
-  public static maxSize: number = 20;
-  public static minSize: number = 4;
-  public static minPlayers: number = 2;
-  public static maxPlayers: number = 4;
-
-  constructor({ fieldHeight, fieldWidth, neutralPlanetCount, players }: GameOptions) {
+  public constructor({ fieldHeight, fieldWidth, neutralPlanetCount, players }: GameOptions) {
     this.validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players });
 
     this.fieldHeight = fieldHeight;
@@ -55,6 +55,32 @@ class ConquestGame {
     this.addNeutralPlanets(neutralPlanetCount, players.length);
     // place planets
     this.placePlanets();
+  }
+
+  public processTurn(): void {}
+
+  public addPlayerTurnData(): void {
+    // based on orders - calculate how long will it take for ships to arrive
+    //
+  }
+
+  public getPlayers(): PlayerMap {
+    return this.players;
+  }
+
+  public getPlanets(): PlanetMap {
+    return this.planets;
+  }
+
+  public getTurns(): PlayerTurn[] {
+    return this.turns;
+  }
+
+  public getDimensions(): { width: number; height: number } {
+    return {
+      height: this.fieldHeight,
+      width: this.fieldWidth
+    };
   }
 
   private validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players = [] }: GameOptions): void {
@@ -163,32 +189,6 @@ class ConquestGame {
       const planet = this.planets[name];
       planet.coordinates = corners[name];
     }
-  }
-
-  public processTurn(): void {}
-
-  public addPlayerTurnData(): void {
-    // based on orders - calculate how long will it take for ships to arrive
-    //
-  }
-
-  public getPlayers(): PlayerMap {
-    return this.players;
-  }
-
-  public getPlanets(): PlanetMap {
-    return this.planets;
-  }
-
-  public getTurns(): PlayerTurn[] {
-    return this.turns;
-  }
-
-  public getDimensions(): { width: number; height: number } {
-    return {
-      height: this.fieldHeight,
-      width: this.fieldWidth
-    };
   }
 }
 

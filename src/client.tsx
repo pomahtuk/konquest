@@ -10,7 +10,7 @@ import { LightTheme, BaseProvider } from "baseui";
 const engine = new Styletron();
 const el = document.getElementById("root");
 
-function main({ node }: { node: typeof el }) {
+function main({ node }: { node: typeof el }): void {
   hydrate(
     <StyletronProvider value={engine}>
       <BaseProvider theme={LightTheme}>

@@ -4,13 +4,13 @@ import main from "../client";
 
 jest.mock("react-dom");
 
-const wait = (timeout: number) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(), timeout);
+const wait = (timeout: number): Promise<void> =>
+  new Promise((resolve): void => {
+    setTimeout((): void => resolve(), timeout);
   });
 
-describe("client", () => {
-  it("hydrates app on client", async (done) => {
+describe("client", (): void => {
+  it("hydrates app on client", async (done): Promise<void> => {
     const el = document.createElement("div");
     // ReactDOM.hydrate is a constant, so its not assignable here. We are mocking with jest and ts will complain about it without an ignore
     // @ts-ignore

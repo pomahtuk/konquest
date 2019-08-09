@@ -4,8 +4,8 @@ import { MemoryRouter } from "react-router-dom";
 
 import App from "./App";
 
-describe("<App />", () => {
-  test("renders without exploding", () => {
+describe("<App />", (): void => {
+  test("renders without exploding", (): void => {
     const div = document.createElement("div");
     ReactDOM.render(
       <MemoryRouter>

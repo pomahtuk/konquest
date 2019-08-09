@@ -1,11 +1,11 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import Playground from "./view/Playground";
 
-const App = () => (
+const App = (): ReactElement => (
   <Switch>
-    <Route exact path="/" render={() => <Playground />} />
+    <Route exact path="/" component={Playground} />
   </Switch>
 );
 

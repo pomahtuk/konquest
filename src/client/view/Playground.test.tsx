@@ -3,8 +3,8 @@ import { mount } from "enzyme";
 
 import Playground from "./Playground";
 
-describe("<Playground />", () => {
-  it("renders three <Playground /> component", () => {
+describe("<Playground />", (): void => {
+  it("renders three <Playground /> component", (): void => {
     const wrapper = mount(<Playground />);
     expect(wrapper).toBeDefined();
   });

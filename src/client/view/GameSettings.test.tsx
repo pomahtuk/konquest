@@ -3,9 +3,9 @@ import { mount } from "enzyme";
 
 import GameSettings from "./GameSettings";
 
-describe("<GameSettings />", () => {
-  it("renders three <GameSettings /> component", () => {
-    const wrapper = mount(<GameSettings onChange={() => {}} />);
+describe("<GameSettings />", (): void => {
+  it("renders three <GameSettings /> component", (): void => {
+    const wrapper = mount(<GameSettings onChange={(): void => {}} />);
     expect(wrapper).toBeDefined();
   });
 });
