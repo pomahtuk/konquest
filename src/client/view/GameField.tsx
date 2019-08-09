@@ -22,7 +22,9 @@ const GameField: React.FC<{ game: ConquestGame }> = ({ game }) => {
         {field.map((row: (Planet | undefined)[], index) => (
           <tr key={index}>
             {row.map((cell: Planet, index) => (
-              <td key={cell ? cell.name : index}>{cell ? cell.name : "·"}</td>
+              <td key={cell ? cell.name : index} style={{ color: cell && cell.owner ? "red" : "inherit" }}>
+                {cell ? cell.name : "·"}
+              </td>
             ))}
           </tr>
         ))}

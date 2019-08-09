@@ -19,13 +19,15 @@ export type PlayerTurn = {
   orders: PlayerTurnOrder[];
 };
 
+const alphabetSize = 26;
 export const getPlanetLimit = (fieldSize: number, playerCount: number): number => {
   const densityRation = 0.2;
   // it make sense to space things out
-  return Math.ceil(fieldSize * densityRation) - playerCount;
+  return Math.min(Math.ceil(fieldSize * densityRation) - playerCount, alphabetSize - playerCount);
 };
 
-const getPlanetName = (index: number): string => String.fromCharCode(65 + index);
+const ASCIIOffset = 65;
+const getPlanetName = (index: number): string => String.fromCharCode(ASCIIOffset + index);
 
 class ConquestGame {
   private fieldHeight: number;
@@ -106,27 +108,43 @@ class ConquestGame {
 
     // we could assume we are dealing with square
     const fieldSize = this.fieldWidth * this.fieldHeight;
-    const targetSubSquareSide = Math.floor((fieldSize / this.planetCount) ** 0.5);
+    const targetSubSquareSide = (fieldSize / this.planetCount) ** 0.5;
     const leftover = this.fieldWidth % targetSubSquareSide;
 
     // now actually we know size of
     let squareOffsetX = 0;
     let squareOffsetY = 0;
+    let axisMaxX = this.fieldWidth;
+    const axisMaxY = this.fieldHeight;
     for (let i = 0; i < this.planetCount - this.playerCount; i++) {
       // iterate over planets
       const planetName = getPlanetName(this.playerCount + i);
       const planet = this.planets[planetName];
+      // random things to space out
+      // start increasing
       squareOffsetX += targetSubSquareSide;
-      if (squareOffsetX + targetSubSquareSide > this.fieldWidth) {
-        squareOffsetX = 0 + Math.round(Math.random() * leftover);
+      // in case we have 4 players - top right corner have to be vacant
+      if (squareOffsetY === 0 && this.playerCount === 4) {
+        axisMaxX = this.fieldWidth - targetSubSquareSide;
+      } else {
+        axisMaxX = this.fieldWidth;
+      }
+      if (squareOffsetX + targetSubSquareSide > axisMaxX) {
+        // We need to avoid not only top left corner, but others as well
+        squareOffsetX = 0;
         squareOffsetY += targetSubSquareSide;
-        if (squareOffsetY + targetSubSquareSide > this.fieldHeight) {
-          squareOffsetY = this.fieldHeight - targetSubSquareSide;
+        if (squareOffsetY + targetSubSquareSide > axisMaxY) {
+          squareOffsetY = axisMaxY - targetSubSquareSide;
+        }
+        if (squareOffsetX === 0 && this.playerCount >= 3 && squareOffsetY >= this.fieldHeight - leftover - targetSubSquareSide) {
+          // in case we have 3 players - bottom left corner have to be free
+          squareOffsetX += targetSubSquareSide;
         }
       }
+
       planet.coordinates = {
-        x: squareOffsetX + Math.floor(Math.random() * targetSubSquareSide),
-        y: squareOffsetY + Math.floor(Math.random() * targetSubSquareSide)
+        x: Math.floor(squareOffsetX + Math.random() * targetSubSquareSide),
+        y: Math.floor(squareOffsetY + Math.random() * targetSubSquareSide)
       };
     }
   }

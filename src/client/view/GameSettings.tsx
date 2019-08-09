@@ -14,10 +14,10 @@ export type GameSettingsProps = {
 };
 
 const GameSettings = ({ onChange }: GameSettingsProps) => {
-  const fieldSizeInput = useSlider(10, true);
-  const neutralPlanetsInput = useSlider(4, true);
+  const fieldSizeInput = useSlider(8, true);
+  const neutralPlanetsInput = useSlider(7, true);
 
-  const defaultPlayers = [new Player("One"), new Player("Two")];
+  const defaultPlayers = [new Player("One"), new Player("Two"), new Player("Three"), new Player("Four")];
   const maxPlanets = getPlanetLimit(fieldSizeInput.value[0] ** 2, defaultPlayers.length);
 
   useEffect(() => {
