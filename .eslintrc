@@ -13,7 +13,7 @@
     "prettier/@typescript-eslint",
     "prettier/react"
   ],
-  "plugins": ["react-hooks", "@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "react", "react-hooks"],
   "settings": {
     "react": {
       "version": "detect"
@@ -22,8 +22,6 @@
   "rules": {
     "require-jsdoc": "off",
     "valid-jsdoc": "off",
-    "quotes": ["warn", "double", "avoid-escape"],
-    "semi": "warn",
     "prefer-const": "error",
     "no-console": "off",
     "react-hooks/rules-of-hooks": "error",
