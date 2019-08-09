@@ -36,6 +36,11 @@ class ConquestGame {
   private playerCount: number = 0;
   private planetCount: number = 0;
 
+  public static maxSize: number = 20;
+  public static minSize: number = 4;
+  public static minPlayers: number = 2;
+  public static maxPlayers: number = 4;
+
   constructor({ fieldHeight, fieldWidth, neutralPlanetCount, players }: GameOptions) {
     this.validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players });
 
@@ -53,12 +58,17 @@ class ConquestGame {
   private validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players = [] }: GameOptions): void {
     // add validations
     const playerCount = players.length;
-    if (playerCount > 4 || playerCount < 2) {
-      throw new Error("Player count should be between 2 and 4");
+    if (playerCount > ConquestGame.maxPlayers || playerCount < ConquestGame.minPlayers) {
+      throw new Error(`Player count should be between ${ConquestGame.minPlayers} and ${ConquestGame.maxPlayers}`);
     }
 
-    if (fieldHeight < 4 || fieldWidth < 4 || fieldHeight > 20 || fieldWidth > 20) {
-      throw new Error("Game Field could not be less than 4 and bigger than 20 in any dimension");
+    if (
+      fieldHeight < ConquestGame.minSize ||
+      fieldWidth < ConquestGame.minSize ||
+      fieldHeight > ConquestGame.maxSize ||
+      fieldWidth > ConquestGame.maxSize
+    ) {
+      throw new Error(`Game Field could not be less than ${ConquestGame.minSize} and bigger than ${ConquestGame.maxSize} in any dimension`);
     }
 
     const planetLimit = getPlanetLimit(fieldWidth * fieldHeight, playerCount);
