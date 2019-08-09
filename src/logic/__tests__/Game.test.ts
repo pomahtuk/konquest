@@ -11,6 +11,9 @@ describe("Main game", () => {
 
     const bigLimit = getPlanetLimit(10 ** 2, 4);
     expect(bigLimit).toEqual(16);
+
+    const tooBigLimit = getPlanetLimit(20 ** 2, 4);
+    expect(tooBigLimit).toEqual(26 - 4);
   });
 
   it("Creates a new game with given params", () => {
