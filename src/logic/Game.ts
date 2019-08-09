@@ -37,11 +37,13 @@ class ConquestGame {
 
   private fieldHeight: number;
   private fieldWidth: number;
-  private turns: PlayerTurn[] = [];
+  private turns: PlayerTurn[][] = [];
   private planets: PlanetMap = {};
   private players: PlayerMap = {};
   private playerCount: number = 0;
   private planetCount: number = 0;
+  private currentTurn: number = 0;
+  private waitingForPlayer: number = 0;
 
   public constructor({ fieldHeight, fieldWidth, neutralPlanetCount, players }: GameOptions) {
     this.validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players });
@@ -57,11 +59,37 @@ class ConquestGame {
     this.placePlanets();
   }
 
-  public processTurn(): void {}
+  public processTurn(): void {
+    console.log(this.currentTurn);
+    // advance all fleets
+    // conduct all battles
+    // check if game is won
+    this.currentTurn += 1;
+  }
 
-  public addPlayerTurnData(): void {
-    // based on orders - calculate how long will it take for ships to arrive
-    //
+  public addPlayerTurnData(data: PlayerTurn): void {
+    const { playerId } = data;
+    const playerWeAreWaitingFor = this.players[this.waitingForPlayer];
+    if (playerId !== playerWeAreWaitingFor.id) {
+      throw new Error("We are waiting for other player to make a move");
+    }
+    // this will throw if data is invalid
+    this.validateTurnData(data);
+    // check if we already have some data for this turn
+    let turn = this.turns[this.currentTurn];
+    if (!turn) {
+      turn = [];
+    }
+    turn.push(data);
+    this.turns[this.currentTurn] = turn;
+    // update pointer to player we are waiting for
+    this.waitingForPlayer += 1;
+    if (this.waitingForPlayer >= this.playerCount) {
+      // if we made full circle - start anew
+      this.waitingForPlayer = 0;
+      // and process current turn
+      this.processTurn();
+    }
   }
 
   public getPlayers(): PlayerMap {
@@ -72,7 +100,7 @@ class ConquestGame {
     return this.planets;
   }
 
-  public getTurns(): PlayerTurn[] {
+  public getTurns(): PlayerTurn[][] {
     return this.turns;
   }
 
@@ -81,6 +109,41 @@ class ConquestGame {
       height: this.fieldHeight,
       width: this.fieldWidth
     };
+  }
+
+  public validateTurnData({ playerId, orders }: PlayerTurn): void {
+    if (!playerId) {
+      throw new Error("Player must be specified");
+    }
+    // check if all fields are filled
+    if (!orders || orders.length === 0) {
+      // we don't have orders, might be normal
+      return;
+    }
+    // make sure that
+    // 0 - source is specified
+    // 1 - source planet belong to player
+    // 2 - destination is specified
+    // 3 - source planet have required amount of ships available
+    // 4 - stays true for all orders submitted
+    const modifiers: { [key: string]: number } = {};
+    for (const order of orders) {
+      if (!order.origin) {
+        throw new Error("Origin planet is not specified");
+      }
+      if (!order.destination) {
+        throw new Error("Destination planet is not specified");
+      }
+      const origin = this.planets[order.origin];
+      if (origin.owner !== playerId) {
+        throw new Error("Source planet does not belong to player!");
+      }
+      const planetShipModifier = modifiers[origin.name] || 0;
+      if (origin.ships - planetShipModifier < order.amount) {
+        throw new Error("Source planet have less ships than required");
+      }
+      modifiers[origin.name] = planetShipModifier + order.amount;
+    }
   }
 
   private validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players = [] }: GameOptions): void {
@@ -111,7 +174,7 @@ class ConquestGame {
       const playerPlanet = new Planet(getPlanetName(index), undefined, player);
       player.addPlanet(playerPlanet);
       this.planets[playerPlanet.name] = playerPlanet;
-      acc[player.id] = player;
+      acc[index] = player;
       return acc;
     }, {});
   }
