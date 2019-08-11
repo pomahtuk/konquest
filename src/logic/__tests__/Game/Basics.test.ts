@@ -1,4 +1,4 @@
-import ConquestGame, { getPlanetLimit } from "../../Game";
+import ConquestGame, { getPlanetLimit, getDistanceBetweenPoints } from "../../Game";
 import Player from "../../Player";
 
 const player1 = new Player("player1");
@@ -58,51 +58,20 @@ describe("Main game", (): void => {
     expect(game.getTurns().length).toBe(0);
   });
 
-  describe("Could have a game", (): void => {
-    let game: ConquestGame;
-    beforeAll((): void => {
-      game = new ConquestGame({
-        fieldHeight: 4,
-        fieldWidth: 4,
-        neutralPlanetCount: 2,
-        players: [player1, player2]
-      });
-    });
-
-    it("Does not let player 2 take turn before player 1", (): void => {
-      expect((): void => {
-        game.addPlayerTurnData({
-          playerId: player2.id,
-          orders: [
-            {
-              origin: player2.getPlanets()[0].name,
-              destination: "D",
-              amount: 10
-            }
-          ]
-        });
-      }).toThrow();
-    });
-
-    it("Does accept player 1 turn", (): void => {
-      game.addPlayerTurnData({
-        playerId: player1.id,
-        orders: [
-          {
-            origin: player1.getPlanets()[0].name,
-            destination: "D",
-            amount: 10
-          }
-        ]
-      });
-    });
-
-    it("Does not accept player 1 turn for second time", (): void => {
-      // console.log(game);
-    });
-
-    it("Does accept player 2 turn", (): void => {
-      // console.log(game);
-    });
+  it("Can calculate distance between points", (): void => {
+    const A = {
+      x: 0,
+      y: 0
+    };
+    const B = {
+      x: 3,
+      y: 3
+    };
+    expect(getDistanceBetweenPoints(A, B)).toBe(1);
+    expect(getDistanceBetweenPoints(B, A)).toBe(1);
+    A.x = 2;
+    A.y = 1;
+    expect(getDistanceBetweenPoints(A, B)).toBe(0);
+    expect(getDistanceBetweenPoints(B, A)).toBe(0);
   });
 });

@@ -13,6 +13,14 @@ describe("Could have a game", (): void => {
       neutralPlanetCount: 1,
       players: [player1, player2]
     });
+    // now! rig the game!
+    // this will make sure player1 can capture tha planet on first step
+    game.getPlanets()["C"].ships = 9;
+    game.getPlanets()["C"].production = 10;
+    game.getPlanets()["C"].coordinates = {
+      x: 1,
+      y: 2
+    };
   });
 
   it("Does not let player 2 take turn before player 1", (): void => {
@@ -73,5 +81,39 @@ describe("Could have a game", (): void => {
       ]
     });
     expect(res).toBe(undefined);
+  });
+
+  it("Able to process turn 1", (): void => {
+    // we need to know it did not throw
+    const res = game.addPlayerTurnData({
+      playerId: player1.id,
+      orders: [
+        {
+          origin: "C",
+          destination: "B",
+          amount: 11
+        }
+      ]
+    });
+    expect(res).toBe(undefined);
+  });
+
+  it("Able to process turn 2", (): void => {
+    // we need to know it did not throw
+    const res = game.addPlayerTurnData({
+      playerId: player2.id,
+      orders: [
+        {
+          origin: "B",
+          destination: "A",
+          amount: 10
+        }
+      ]
+    });
+    expect(res).toBe(undefined);
+  });
+
+  it("some", (): void => {
+    console.log(JSON.stringify(game, null, 4));
   });
 });

@@ -19,6 +19,17 @@ export interface PlayerTurn {
   orders: PlayerTurnOrder[];
 }
 
+export interface Point {
+  x: number;
+  y: number;
+}
+
+export interface FleetDetails {
+  owner: number;
+  destination: string;
+  amount: number;
+}
+
 const alphabetSize = 26;
 export const getPlanetLimit = (fieldSize: number, playerCount: number): number => {
   const densityRation = 0.2;
@@ -27,7 +38,11 @@ export const getPlanetLimit = (fieldSize: number, playerCount: number): number =
 };
 
 const ASCIIOffset = 65;
-const getPlanetName = (index: number): string => String.fromCharCode(ASCIIOffset + index);
+export const getPlanetName = (index: number): string => String.fromCharCode(ASCIIOffset + index);
+
+const unitsPerTurnTravelSpeed = 3;
+export const getDistanceBetweenPoints = (A: Point, B: Point): number =>
+  Math.floor(Math.round(Math.sqrt((A.x - B.x) ** 2 + (A.y - B.y) ** 2)) / unitsPerTurnTravelSpeed);
 
 class ConquestGame {
   public static maxSize: number = 20;
@@ -44,6 +59,7 @@ class ConquestGame {
   private planetCount: number = 0;
   private currentTurn: number = 0;
   private waitingForPlayer: number = 0;
+  private fleetTimeline: FleetDetails[][] = [];
 
   public constructor({ fieldHeight, fieldWidth, neutralPlanetCount, players }: GameOptions) {
     this.validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players });
@@ -60,10 +76,41 @@ class ConquestGame {
   }
 
   public processTurn(): void {
-    console.log(this.currentTurn);
-    // advance all fleets
-    // conduct all battles
-    // check if game is won
+    // send fleets
+    const currentTurns = this.turns[this.currentTurn];
+    for (let turn of currentTurns) {
+      const owner = turn.playerId;
+      for (let order of turn.orders) {
+        const originPlanet = this.planets[order.origin];
+        const destinationPlanet = this.planets[order.destination];
+        const fleetTravelTime = getDistanceBetweenPoints(originPlanet.coordinates, destinationPlanet.coordinates);
+        const fleetTimelineIndex = this.currentTurn + fleetTravelTime;
+        const fleetTimelinePoint = this.fleetTimeline[fleetTimelineIndex] || [];
+        fleetTimelinePoint.push({
+          owner,
+          destination: order.destination,
+          amount: order.amount
+        });
+        this.fleetTimeline[fleetTimelineIndex] = fleetTimelinePoint;
+        originPlanet.ships -= order.amount;
+      }
+    }
+    // check arrival
+    const arrivingFleets = this.fleetTimeline[this.currentTurn] || [];
+    for (let fleet of arrivingFleets) {
+      const destinationPlanet = this.planets[fleet.destination];
+      // conduct battle!
+      if (destinationPlanet.ships < fleet.amount) {
+        // new owner
+        destinationPlanet.owner = fleet.owner;
+      }
+      destinationPlanet.ships = Math.abs(destinationPlanet.ships - fleet.amount);
+    }
+    // do production only for captured planets
+    Object.keys(this.planets)
+      .map((planetName) => this.planets[planetName])
+      .filter((planet) => planet.owner)
+      .forEach((planet) => (planet.ships += planet.production));
     this.currentTurn += 1;
   }
 
