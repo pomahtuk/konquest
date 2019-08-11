@@ -1,10 +1,10 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import GameField from "./GameField";
+import GameField from "../GameField";
 
-import ConquestGame from "../../logic/Game";
-import Player from "../../logic/Player";
+import ConquestGame from "../../../logic/Game";
+import Player from "../../../logic/Player";
 
 const player1 = new Player("player1");
 const player2 = new Player("player2");

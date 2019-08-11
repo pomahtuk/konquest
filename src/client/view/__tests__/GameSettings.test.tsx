@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import GameSettings from "./GameSettings";
+import GameSettings from "../GameSettings";
 
 describe("<GameSettings />", (): void => {
   it("renders three <GameSettings /> component", (): void => {
