@@ -107,6 +107,7 @@ class ConquestGame {
       destinationPlanet.ships = Math.abs(destinationPlanet.ships - fleet.amount);
     }
     // do production only for captured planets
+    // TODO: not optimal!
     Object.keys(this.planets)
       .map((planetName) => this.planets[planetName])
       .filter((planet) => planet.owner)
