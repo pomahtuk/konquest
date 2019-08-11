@@ -1,4 +1,5 @@
-import ConquestGame, { getPlanetLimit } from "../../Game";
+import ConquestGame from "../../Game";
+import getPlanetLimit from "../../utils/getPlanetLimit";
 import Player from "../../Player";
 
 const player1 = new Player("player1");

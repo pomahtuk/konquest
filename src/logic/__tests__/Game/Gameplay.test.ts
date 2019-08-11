@@ -17,10 +17,6 @@ describe("Could have a game", (): void => {
     // this will make sure player1 can capture tha planet on first step
     game.getPlanets()["C"].ships = 9;
     game.getPlanets()["C"].production = 10;
-    game.getPlanets()["C"].coordinates = {
-      x: 1,
-      y: 2
-    };
   });
 
   it("Does not let player 2 take turn before player 1", (): void => {
@@ -114,6 +110,6 @@ describe("Could have a game", (): void => {
   });
 
   it("some", (): void => {
-    console.log(JSON.stringify(game, null, 4));
+    console.log(game);
   });
 });

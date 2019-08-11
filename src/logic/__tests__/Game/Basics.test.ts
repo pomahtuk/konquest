@@ -1,4 +1,4 @@
-import ConquestGame, { getPlanetLimit, getDistanceBetweenPoints } from "../../Game";
+import ConquestGame from "../../Game";
 import Player from "../../Player";
 
 const player1 = new Player("player1");
@@ -12,18 +12,6 @@ describe("Main game", (): void => {
     expect(maxSize).toBe(20);
     expect(minSize).toBe(4);
   });
-
-  it("Can calculate planetLimit", (): void => {
-    const smallLimit = getPlanetLimit(4 ** 2, 2);
-    expect(smallLimit).toEqual(2);
-
-    const bigLimit = getPlanetLimit(10 ** 2, 4);
-    expect(bigLimit).toEqual(16);
-
-    const tooBigLimit = getPlanetLimit(20 ** 2, 4);
-    expect(tooBigLimit).toEqual(26 - 4);
-  });
-
   it("Creates a new game with given params", (): void => {
     const game = new ConquestGame({
       fieldHeight: 10,
@@ -56,22 +44,5 @@ describe("Main game", (): void => {
 
     // now make sure we don't have turns from start
     expect(game.getTurns().length).toBe(0);
-  });
-
-  it("Can calculate distance between points", (): void => {
-    const A = {
-      x: 0,
-      y: 0
-    };
-    const B = {
-      x: 3,
-      y: 3
-    };
-    expect(getDistanceBetweenPoints(A, B)).toBe(1);
-    expect(getDistanceBetweenPoints(B, A)).toBe(1);
-    A.x = 2;
-    A.y = 1;
-    expect(getDistanceBetweenPoints(A, B)).toBe(0);
-    expect(getDistanceBetweenPoints(B, A)).toBe(0);
   });
 });

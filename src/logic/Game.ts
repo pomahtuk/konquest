@@ -1,6 +1,11 @@
 import Planet, { PlanetMap } from "./Planet";
 import Player, { PlayerMap } from "./Player";
 
+import getPlanetLimit from "./utils/getPlanetLimit";
+import getPlanetName from "./utils/getPlanetName";
+import getDistanceBetweenPoints from "./utils/getDistanceBetweenPoints";
+import validateGameParams from "./utils/validateGameParams";
+
 export interface GameOptions {
   fieldHeight: number;
   fieldWidth: number;
@@ -19,30 +24,24 @@ export interface PlayerTurn {
   orders: PlayerTurnOrder[];
 }
 
-export interface Point {
-  x: number;
-  y: number;
-}
-
 export interface FleetDetails {
   owner: number;
   destination: string;
   amount: number;
 }
 
-const alphabetSize = 26;
-export const getPlanetLimit = (fieldSize: number, playerCount: number): number => {
-  const densityRation = 0.2;
-  // it make sense to space things out
-  return Math.min(Math.ceil(fieldSize * densityRation) - playerCount, alphabetSize - playerCount);
-};
-
-const ASCIIOffset = 65;
-export const getPlanetName = (index: number): string => String.fromCharCode(ASCIIOffset + index);
-
-const unitsPerTurnTravelSpeed = 3;
-export const getDistanceBetweenPoints = (A: Point, B: Point): number =>
-  Math.floor(Math.round(Math.sqrt((A.x - B.x) ** 2 + (A.y - B.y) ** 2)) / unitsPerTurnTravelSpeed);
+// making fields truly private
+const validateParams = Symbol("validateParams");
+const addPlayers = Symbol("addPlayers");
+const addNeutralPlanets = Symbol("addNeutralPlanets");
+const placePlanets = Symbol("placePlanets");
+const placePlayerPlanets = Symbol("placePlayerPlanets");
+const processTurn = Symbol("processTurn");
+const _status = Symbol("_status");
+const _winner = Symbol("_winner");
+const fleetTimeline = Symbol("fleetTimeline");
+const waitingForPlayer = Symbol("waitingForPlayer");
+const currentTurn = Symbol("currentTurn");
 
 class ConquestGame {
   public static maxSize: number = 20;
@@ -57,86 +56,48 @@ class ConquestGame {
   private players: PlayerMap = {};
   private playerCount: number = 0;
   private planetCount: number = 0;
-  private currentTurn: number = 0;
-  private waitingForPlayer: number = 0;
-  private fleetTimeline: FleetDetails[][] = [];
+  private [currentTurn]: number = 0;
+  private [waitingForPlayer]: number = 0;
+  private [fleetTimeline]: FleetDetails[][] = [];
+  private [_status]: string = "";
+  private [_winner]: number | undefined = undefined;
 
   public constructor({ fieldHeight, fieldWidth, neutralPlanetCount, players }: GameOptions) {
-    this.validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players });
+    this[validateParams]({ fieldHeight, fieldWidth, neutralPlanetCount, players });
 
     this.fieldHeight = fieldHeight;
     this.fieldWidth = fieldWidth;
     // create game field
     // get players in easy way
-    this.addPlayers(players);
+    this[addPlayers](players);
     // add neutral planets
-    this.addNeutralPlanets(neutralPlanetCount, players.length);
+    this[addNeutralPlanets](neutralPlanetCount, players.length);
     // place planets
-    this.placePlanets();
-  }
-
-  public processTurn(): void {
-    // send fleets
-    const currentTurns = this.turns[this.currentTurn];
-    for (let turn of currentTurns) {
-      const owner = turn.playerId;
-      for (let order of turn.orders) {
-        const originPlanet = this.planets[order.origin];
-        const destinationPlanet = this.planets[order.destination];
-        const fleetTravelTime = getDistanceBetweenPoints(originPlanet.coordinates, destinationPlanet.coordinates);
-        const fleetTimelineIndex = this.currentTurn + fleetTravelTime;
-        const fleetTimelinePoint = this.fleetTimeline[fleetTimelineIndex] || [];
-        fleetTimelinePoint.push({
-          owner,
-          destination: order.destination,
-          amount: order.amount
-        });
-        this.fleetTimeline[fleetTimelineIndex] = fleetTimelinePoint;
-        originPlanet.ships -= order.amount;
-      }
-    }
-    // check arrival
-    const arrivingFleets = this.fleetTimeline[this.currentTurn] || [];
-    for (let fleet of arrivingFleets) {
-      const destinationPlanet = this.planets[fleet.destination];
-      // conduct battle!
-      if (destinationPlanet.ships < fleet.amount) {
-        // new owner
-        destinationPlanet.owner = fleet.owner;
-      }
-      destinationPlanet.ships = Math.abs(destinationPlanet.ships - fleet.amount);
-    }
-    // do production only for captured planets
-    // TODO: not optimal!
-    Object.keys(this.planets)
-      .map((planetName) => this.planets[planetName])
-      .filter((planet) => planet.owner)
-      .forEach((planet) => (planet.ships += planet.production));
-    this.currentTurn += 1;
+    this[placePlanets]();
   }
 
   public addPlayerTurnData(data: PlayerTurn): void {
     const { playerId } = data;
-    const playerWeAreWaitingFor = this.players[this.waitingForPlayer];
+    const playerWeAreWaitingFor = this.players[this[waitingForPlayer]];
     if (playerId !== playerWeAreWaitingFor.id) {
       throw new Error("We are waiting for other player to make a move");
     }
     // this will throw if data is invalid
     this.validateTurnData(data);
     // check if we already have some data for this turn
-    let turn = this.turns[this.currentTurn];
+    let turn = this.turns[this[currentTurn]];
     if (!turn) {
       turn = [];
     }
     turn.push(data);
-    this.turns[this.currentTurn] = turn;
+    this.turns[this[currentTurn]] = turn;
     // update pointer to player we are waiting for
-    this.waitingForPlayer += 1;
-    if (this.waitingForPlayer >= this.playerCount) {
+    this[waitingForPlayer] += 1;
+    if (this[waitingForPlayer] >= this.playerCount) {
       // if we made full circle - start anew
-      this.waitingForPlayer = 0;
+      this[waitingForPlayer] = 0;
       // and process current turn
-      this.processTurn();
+      this[processTurn]();
     }
   }
 
@@ -194,29 +155,55 @@ class ConquestGame {
     }
   }
 
-  private validateParams({ fieldHeight, fieldWidth, neutralPlanetCount, players = [] }: GameOptions): void {
-    // add validations
-    const playerCount = players.length;
-    if (playerCount > ConquestGame.maxPlayers || playerCount < ConquestGame.minPlayers) {
-      throw new Error(`Player count should be between ${ConquestGame.minPlayers} and ${ConquestGame.maxPlayers}`);
+  private [processTurn](): void {
+    // send fleets
+    const currentTurns = this.turns[this[currentTurn]];
+    for (const turn of currentTurns) {
+      const owner = turn.playerId;
+      for (const order of turn.orders) {
+        const originPlanet = this.planets[order.origin];
+        const destinationPlanet = this.planets[order.destination];
+        const fleetTravelTime = getDistanceBetweenPoints(originPlanet.coordinates, destinationPlanet.coordinates);
+        const fleetTimelineIndex = this[currentTurn] + fleetTravelTime;
+        const fleetTimelinePoint = this[fleetTimeline][fleetTimelineIndex] || [];
+        fleetTimelinePoint.push({
+          owner,
+          destination: order.destination,
+          amount: order.amount
+        });
+        this[fleetTimeline][fleetTimelineIndex] = fleetTimelinePoint;
+        originPlanet.ships -= order.amount;
+      }
     }
-
-    if (
-      fieldHeight < ConquestGame.minSize ||
-      fieldWidth < ConquestGame.minSize ||
-      fieldHeight > ConquestGame.maxSize ||
-      fieldWidth > ConquestGame.maxSize
-    ) {
-      throw new Error(`Game Field could not be less than ${ConquestGame.minSize} and bigger than ${ConquestGame.maxSize} in any dimension`);
+    // check arrival
+    const arrivingFleets = this[fleetTimeline][this[currentTurn]] || [];
+    for (const fleet of arrivingFleets) {
+      const destinationPlanet = this.planets[fleet.destination];
+      // conduct battle!
+      if (destinationPlanet.ships < fleet.amount) {
+        // new owner
+        destinationPlanet.owner = fleet.owner;
+      }
+      destinationPlanet.ships = Math.abs(destinationPlanet.ships - fleet.amount);
     }
+    // do production only for captured planets
+    // TODO: not optimal!
+    Object.keys(this.planets)
+      .map((planetName) => this.planets[planetName])
+      .filter((planet) => planet.owner)
+      .forEach((planet) => (planet.ships += planet.production));
+    this[currentTurn] += 1;
+    // check if someone won
+  }
 
-    const planetLimit = getPlanetLimit(fieldWidth * fieldHeight, playerCount);
-    if (neutralPlanetCount > planetLimit) {
-      throw new Error(`Game Field could not accommodate that many neutral planets, limit: ${planetLimit}`);
+  private [validateParams](options: GameOptions): void {
+    const result = validateGameParams(options);
+    if (!result.valid) {
+      throw new Error(result.error);
     }
   }
 
-  private addPlayers(players: Player[]): void {
+  private [addPlayers](players: Player[]): void {
     this.playerCount = players.length;
     this.players = players.reduce((acc, player, index): PlayerMap => {
       const playerPlanet = new Planet(getPlanetName(index), undefined, player);
@@ -227,7 +214,7 @@ class ConquestGame {
     }, {});
   }
 
-  private addNeutralPlanets(neutralPlanetCount: number, playersCount: number): void {
+  private [addNeutralPlanets](neutralPlanetCount: number, playersCount: number): void {
     for (let i = 0; i < neutralPlanetCount; i++) {
       // 65 - charCode for A letter
       // we will leave first planets to players
@@ -237,9 +224,9 @@ class ConquestGame {
     this.planetCount = neutralPlanetCount + playersCount;
   }
 
-  private placePlanets(): void {
+  private [placePlanets](): void {
     // first - place player planets
-    this.placePlayerPlanets();
+    this[placePlayerPlanets]();
     // now divide matrix to equal segments
     // and place each planet in segment randomly
 
@@ -286,7 +273,7 @@ class ConquestGame {
     }
   }
 
-  private placePlayerPlanets(): void {
+  private [placePlayerPlanets](): void {
     // for now stick to the corners
     const corners = {
       A: { x: 0, y: 0 },
@@ -300,6 +287,14 @@ class ConquestGame {
       const planet = this.planets[name];
       planet.coordinates = corners[name];
     }
+  }
+
+  get status(): string {
+    return this[_status];
+  }
+
+  get winner(): number | undefined {
+    return this[_winner];
   }
 }
 
