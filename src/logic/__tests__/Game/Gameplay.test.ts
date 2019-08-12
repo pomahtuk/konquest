@@ -13,10 +13,6 @@ describe("Could have a game", (): void => {
       neutralPlanetCount: 1,
       players: [player1, player2]
     });
-    // now! rig the game!
-    // this will make sure player1 can capture tha planet on first step
-    game.getPlanets()["C"].ships = 9;
-    game.getPlanets()["C"].production = 10;
   });
 
   it("Does not let player 2 take turn before player 1", (): void => {
@@ -65,7 +61,6 @@ describe("Could have a game", (): void => {
   });
 
   it("Does accept player 2 turn", (): void => {
-    // we need to know it did not throw
     const res = game.addPlayerTurnData({
       playerId: player2.id,
       orders: [
@@ -80,14 +75,14 @@ describe("Could have a game", (): void => {
   });
 
   it("Able to process turn 1", (): void => {
-    // we need to know it did not throw
+    const maxShips = game.getPlanets()["C"].ships;
     const res = game.addPlayerTurnData({
       playerId: player1.id,
       orders: [
         {
           origin: "C",
           destination: "B",
-          amount: 11
+          amount: maxShips
         }
       ]
     });

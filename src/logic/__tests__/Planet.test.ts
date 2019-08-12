@@ -23,7 +23,7 @@ describe("Planet", (): void => {
     expect(production).toBeGreaterThanOrEqual(8);
     expect(production).toBeLessThanOrEqual(16);
     // initial amount equals production
-    expect(planet.ships).toBe(production);
+    expect(planet.ships).toBe(0);
     // no pending ships here
     expect(planet.shipsDue).toBe(0);
   });

@@ -12,6 +12,7 @@ describe("Main game", (): void => {
     expect(maxSize).toBe(20);
     expect(minSize).toBe(4);
   });
+
   it("Creates a new game with given params", (): void => {
     const game = new ConquestGame({
       fieldHeight: 10,

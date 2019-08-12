@@ -102,15 +102,18 @@ class ConquestGame {
   }
 
   public getPlayers(): PlayerMap {
-    return this.players;
+    // returning deep copy of an object to prevent modification by pointer
+    return JSON.parse(JSON.stringify(this.players));
   }
 
   public getPlanets(): PlanetMap {
-    return this.planets;
+    // returning deep copy of an object to prevent modification by pointer
+    return JSON.parse(JSON.stringify(this.planets));
   }
 
   public getTurns(): PlayerTurn[][] {
-    return this.turns;
+    // returning deep copy of an object to prevent modification by pointer
+    return JSON.parse(JSON.stringify(this.turns));
   }
 
   public getDimensions(): { width: number; height: number } {
@@ -123,6 +126,7 @@ class ConquestGame {
   public validateTurnData(turn: PlayerTurn): void {
     const result = validateTurnData(turn, this.planets);
     if (!result.valid) {
+      // TODO: not sure throwing is a best approach here
       throw new Error(result.error);
     }
   }
@@ -173,6 +177,7 @@ class ConquestGame {
   private [validateParams](options: GameOptions): void {
     const result = validateGameParams(options);
     if (!result.valid) {
+      // TODO: not sure throwing is a best approach here
       throw new Error(result.error);
     }
   }
@@ -181,7 +186,6 @@ class ConquestGame {
     this.playerCount = players.length;
     this.players = players.reduce((acc, player, index): PlayerMap => {
       const playerPlanet = new Planet(getPlanetName(index), undefined, player);
-      player.addPlanet(playerPlanet);
       this.planets[playerPlanet.name] = playerPlanet;
       acc[index] = player;
       return acc;

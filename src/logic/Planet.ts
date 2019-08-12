@@ -27,10 +27,12 @@ export default class Planet {
     if (!player) {
       production = 8 + Math.floor(Math.random() * 8);
       // TODO: generate killPercent
+      this.ships = 0;
     } else {
       this.owner = player.id;
+      this.ships = production;
     }
-    this.ships = production;
+
     this.production = production;
     this.killPercent = killPercent;
   }

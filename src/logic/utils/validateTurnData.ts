@@ -20,12 +20,7 @@ const validateTurnData = ({ playerId, orders }: PlayerTurn, planets: PlanetMap):
       valid: true
     };
   }
-  // make sure that
-  // 0 - source is specified
-  // 1 - source planet belong to player
-  // 2 - destination is specified
-  // 3 - source planet have required amount of ships available
-  // 4 - stays true for all orders submitted
+
   const modifiers: { [key: string]: number } = {};
   for (const order of orders) {
     if (!order.origin || !planets[order.origin]) {
