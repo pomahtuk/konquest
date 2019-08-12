@@ -1,10 +1,10 @@
 import Planet, { PlanetMap } from "./Planet";
 import Player, { PlayerMap } from "./Player";
 
-import getPlanetLimit from "./utils/getPlanetLimit";
 import getPlanetName from "./utils/getPlanetName";
 import getDistanceBetweenPoints from "./utils/getDistanceBetweenPoints";
 import validateGameParams from "./utils/validateGameParams";
+import validateTurnData from "./utils/validateTurnData";
 
 export interface GameOptions {
   fieldHeight: number;
@@ -120,38 +120,10 @@ class ConquestGame {
     };
   }
 
-  public validateTurnData({ playerId, orders }: PlayerTurn): void {
-    if (!playerId) {
-      throw new Error("Player must be specified");
-    }
-    // check if all fields are filled
-    if (!orders || orders.length === 0) {
-      // we don't have orders, might be normal
-      return;
-    }
-    // make sure that
-    // 0 - source is specified
-    // 1 - source planet belong to player
-    // 2 - destination is specified
-    // 3 - source planet have required amount of ships available
-    // 4 - stays true for all orders submitted
-    const modifiers: { [key: string]: number } = {};
-    for (const order of orders) {
-      if (!order.origin) {
-        throw new Error("Origin planet is not specified");
-      }
-      if (!order.destination) {
-        throw new Error("Destination planet is not specified");
-      }
-      const origin = this.planets[order.origin];
-      if (origin.owner !== playerId) {
-        throw new Error("Source planet does not belong to player!");
-      }
-      const planetShipModifier = modifiers[origin.name] || 0;
-      if (origin.ships - planetShipModifier < order.amount) {
-        throw new Error("Source planet have less ships than required");
-      }
-      modifiers[origin.name] = planetShipModifier + order.amount;
+  public validateTurnData(turn: PlayerTurn): void {
+    const result = validateTurnData(turn, this.planets);
+    if (!result.valid) {
+      throw new Error(result.error);
     }
   }
 
@@ -189,9 +161,11 @@ class ConquestGame {
     // do production only for captured planets
     // TODO: not optimal!
     Object.keys(this.planets)
-      .map((planetName) => this.planets[planetName])
-      .filter((planet) => planet.owner)
-      .forEach((planet) => (planet.ships += planet.production));
+      .map((planetName): Planet => this.planets[planetName])
+      .filter((planet): boolean => !!planet.owner)
+      .forEach((planet): void => {
+        planet.ships += planet.production;
+      });
     this[currentTurn] += 1;
     // check if someone won
   }
@@ -289,11 +263,11 @@ class ConquestGame {
     }
   }
 
-  get status(): string {
+  public get status(): string {
     return this[_status];
   }
 
-  get winner(): number | undefined {
+  public get winner(): number | undefined {
     return this[_winner];
   }
 }
