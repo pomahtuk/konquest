@@ -30,4 +30,5 @@ describe("placeNeutralPlanets", (): void => {
 
   it("Places planets evenly distributed", (): void => {});
   it("Place planets so they do not collide with players planets coordinates", (): void => {});
+  it("Place planets so they do not collide with other planets coordinates", (): void => {});
 });

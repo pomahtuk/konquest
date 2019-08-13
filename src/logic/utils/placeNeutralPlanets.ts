@@ -14,6 +14,9 @@ const placeNeutralPlanets = ({ planets, fieldWidth, fieldHeight, planetCount, pl
   const fieldSize = fieldWidth * fieldHeight;
   const targetSubSquareSide = (fieldSize / planetCount) ** 0.5;
   const leftover = fieldWidth % targetSubSquareSide;
+  // const PLAYER_PLANET_SQUARE_SIDE = 2;
+
+  console.log(targetSubSquareSide, leftover);
 
   // now actually we know size of
   let squareOffsetX = 0;
