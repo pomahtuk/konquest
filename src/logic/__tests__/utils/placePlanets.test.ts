@@ -1,4 +1,4 @@
-import placeNeutralPlanets from "../../utils/placeNeutralPlanets";
+import placeNeutralPlanets from "../../utils/placePlanets";
 
 import Planet, { PlanetMap } from "../../Planet";
 import Player from "../../Player";
@@ -15,7 +15,7 @@ const planets: PlanetMap = {
   D: new Planet("D", player4)
 };
 
-describe("placeNeutralPlanets", (): void => {
+describe("placePlanets", (): void => {
   it("Able to place planets", (): void => {
     const fieldWidth = 8;
     const fieldHeight = 8;
@@ -23,12 +23,8 @@ describe("placeNeutralPlanets", (): void => {
       planets,
       fieldWidth,
       fieldHeight,
-      playerCount: 4,
       planetCount: 4
     });
   });
-
-  it("Places planets evenly distributed", (): void => {});
-  it("Place planets so they do not collide with players planets coordinates", (): void => {});
   it("Place planets so they do not collide with other planets coordinates", (): void => {});
 });

@@ -16,9 +16,9 @@ export interface GameSettingsProps {
 
 const GameSettings = ({ onChange }: GameSettingsProps): ReactElement => {
   const fieldSizeInput = useSlider(8, true);
-  const neutralPlanetsInput = useSlider(4, true);
+  const neutralPlanetsInput = useSlider(5, true);
 
-  const defaultPlayers = [new Player("One"), new Player("Two"), new Player("Three"), new Player("Four")];
+  const defaultPlayers = [new Player("One"), new Player("Two")];
   const maxPlanets = getPlanetLimit(fieldSizeInput.value[0] ** 2, defaultPlayers.length);
 
   useEffect((): void => {

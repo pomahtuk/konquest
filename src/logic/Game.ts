@@ -5,8 +5,7 @@ import getPlanetName from "./utils/getPlanetName";
 import getDistanceBetweenPoints from "./utils/getDistanceBetweenPoints";
 import validateGameParams from "./utils/validateGameParams";
 import validateTurnData from "./utils/validateTurnData";
-import placePlayerPlanets from "./utils/placePlayerPlanets";
-import placeNeutralPlanets from "./utils/placeNeutralPlanets";
+import placePlanets from "./utils/placePlanets";
 
 export interface GameOptions {
   fieldHeight: number;
@@ -35,11 +34,11 @@ export interface FleetDetails {
 // making fields truly private
 const addPlayers = Symbol("addPlayers");
 const addNeutralPlanets = Symbol("addNeutralPlanets");
-const _placePlanets = Symbol("_placePlanets");
 const processTurn = Symbol("processTurn");
 const fleetTimeline = Symbol("fleetTimeline");
 const waitingForPlayer = Symbol("waitingForPlayer");
 const currentTurn = Symbol("currentTurn");
+const completedTurns = Symbol("completedTurns");
 
 class ConquestGame {
   public static maxSize: number = 20;
@@ -55,6 +54,7 @@ class ConquestGame {
   private playerCount: number = 0;
   private planetCount: number = 0;
   private [currentTurn]: number = 0;
+  private [completedTurns]: boolean[] = [];
   private [waitingForPlayer]: number = 0;
   private [fleetTimeline]: FleetDetails[][] = [];
 
@@ -73,7 +73,12 @@ class ConquestGame {
     // add neutral planets
     this[addNeutralPlanets](neutralPlanetCount, players.length);
     // place planets
-    this[_placePlanets]();
+    placePlanets({
+      planets: this.planets,
+      fieldHeight: this.fieldHeight,
+      fieldWidth: this.fieldWidth,
+      planetCount: this.planetCount
+    });
   }
 
   public addPlayerTurnData(data: PlayerTurn): void {
@@ -128,6 +133,10 @@ class ConquestGame {
   }
 
   private [processTurn](): void {
+    // do not process processed turn
+    if (this[completedTurns][this[currentTurn]]) {
+      return;
+    }
     // send fleets
     const currentTurns = this.turns[this[currentTurn]];
     for (const turn of currentTurns) {
@@ -152,6 +161,39 @@ class ConquestGame {
     for (const fleet of arrivingFleets) {
       const destinationPlanet = this.planets[fleet.destination];
       // conduct battle!
+      // Original battle code:
+      // bool  haveVictor  = false;
+      // bool  planetHolds = true;
+
+      // while( !haveVictor ) {
+      //     double  attackerRoll = random.getDouble();
+      //     double  defenderRoll = random.getDouble();
+
+      //     /* special case if both have 0 kill percentages */
+      //     if( defenderPlanet->killPercentage() == 0 &&
+      //         attackerPlanet->killPercentage() == 0) {
+      //         if(attackerRoll <  defenderRoll )
+      //             makeKill(&defender, attackerPlanet->player());
+      //         else
+      //             makeKill(attacker, defenderPlanet->player());
+      //     }
+
+      //     if( defenderRoll < defenderPlanet->killPercentage() )
+      //         makeKill(attacker, defenderPlanet->player());
+
+      //     if( attacker->shipCount() <= 0 ) {
+      //         haveVictor  = true;
+      //         planetHolds = true;
+      //         continue;
+      //     }
+      //     if( attackerRoll < attackerPlanet->killPercentage() )
+      //         makeKill(&defender, attackerPlanet->player());
+
+      //     if( defender.shipCount() <= 0 ) {
+      //         haveVictor  = true;
+      //         planetHolds = false;
+      //     }
+      // }
       if (destinationPlanet.ships < fleet.amount) {
         // new owner
         destinationPlanet.owner = fleet.owner;
@@ -159,13 +201,15 @@ class ConquestGame {
       destinationPlanet.ships = Math.abs(destinationPlanet.ships - fleet.amount);
     }
     // do production only for captured planets
-    // TODO: not optimal!
     Object.keys(this.planets)
       .map((planetName): Planet => this.planets[planetName])
       .filter((planet): boolean => !!planet.owner)
       .forEach((planet): void => {
         planet.ships += planet.production;
       });
+    // mark turn complete
+    this[completedTurns][this[currentTurn]] = true;
+    // advance turn
     this[currentTurn] += 1;
     // check if someone won
   }
@@ -182,30 +226,10 @@ class ConquestGame {
 
   private [addNeutralPlanets](neutralPlanetCount: number, playersCount: number): void {
     for (let i = 0; i < neutralPlanetCount; i++) {
-      // 65 - charCode for A letter
-      // we will leave first planets to players
       const planet = new Planet(getPlanetName(playersCount + i));
       this.planets[planet.name] = planet;
     }
     this.planetCount = neutralPlanetCount + playersCount;
-  }
-
-  private [_placePlanets](): void {
-    // first - place player planets
-    placePlayerPlanets({
-      planets: this.planets,
-      fieldHeight: this.fieldHeight,
-      fieldWidth: this.fieldWidth,
-      playerCount: this.playerCount
-    });
-    // then place neutral planets
-    placeNeutralPlanets({
-      planets: this.planets,
-      fieldHeight: this.fieldHeight,
-      fieldWidth: this.fieldWidth,
-      playerCount: this.playerCount,
-      planetCount: this.planetCount
-    });
   }
 }
 

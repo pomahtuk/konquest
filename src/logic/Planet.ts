@@ -23,11 +23,11 @@ export default class Planet {
     this.coordinates = coordinates;
 
     let production = 10;
-    const killPercent = 0.5;
+    let killPercent = 0.5;
     if (!player) {
-      production = 8 + Math.floor(Math.random() * 8);
-      // TODO: generate killPercent
+      production = 5 + Math.floor(Math.random() * 10); // 5-15 as in original
       this.ships = 0;
+      killPercent = Number((0.3 + Math.random() * 0.6).toFixed(1)); //  0.30 - 0.90
     } else {
       this.owner = player.id;
       this.ships = production;

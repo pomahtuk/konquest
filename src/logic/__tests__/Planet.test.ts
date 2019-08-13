@@ -18,11 +18,12 @@ describe("Planet", (): void => {
 
     expect(planet.name).toBe(planetName);
     expect(planet.owner).toBeNull();
-    expect(planet.killPercent).toBe(0.5);
+    expect(planet.killPercent).toBeGreaterThanOrEqual(0.3);
+    expect(planet.killPercent).toBeLessThanOrEqual(0.9);
     const production = planet.production;
-    // we use 8 as a base number and adding random number from 0 to 8
-    expect(production).toBeGreaterThanOrEqual(8);
-    expect(production).toBeLessThanOrEqual(16);
+    // we use 5 as a base number and adding random number from 0 to 10
+    expect(production).toBeGreaterThanOrEqual(5);
+    expect(production).toBeLessThanOrEqual(15);
     // initial amount equals production
     expect(planet.ships).toBe(0);
     // no pending ships here

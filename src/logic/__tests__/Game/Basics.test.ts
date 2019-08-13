@@ -34,8 +34,8 @@ describe("Main game", (): void => {
     // check we have planets generated
     expect(planets).toBeDefined();
     expect(Object.keys(planets).length).toBe(7);
-    expect(planets["A"].coordinates).toMatchObject({ x: 0, y: 0 });
-    expect(planets["B"].coordinates).toMatchObject({ x: 9, y: 9 });
+    expect(planets["A"].coordinates).toBeDefined();
+    expect(planets["B"].coordinates).toBeDefined();
 
     // check game field info is there
     expect(game.getDimensions()).toMatchObject({
