@@ -11,7 +11,8 @@ const coordinates = {
 describe("Planet", (): void => {
   it("Creates a new neutral Planet", (): void => {
     const planetName = "A";
-    const planet = new Planet(planetName, coordinates);
+    const planet = new Planet(planetName);
+    planet.coordinates = coordinates;
 
     expect(planet).toBeDefined();
 
@@ -31,7 +32,7 @@ describe("Planet", (): void => {
   it("Creates a new player Planet", (): void => {
     const planetName = "A";
 
-    const planet = new Planet(planetName, coordinates, testPlayer);
+    const planet = new Planet(planetName, testPlayer, coordinates);
 
     expect(planet).toBeDefined();
 

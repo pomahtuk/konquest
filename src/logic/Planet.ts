@@ -17,7 +17,7 @@ export default class Planet {
   // and defense fleets use the kill percentage of the planet they are defending.
   public coordinates: PlanetCoordinates;
 
-  public constructor(name: string, coordinates: PlanetCoordinates = { x: 0, y: 0 }, player?: Player | null) {
+  public constructor(name: string, player?: Player | null, coordinates: PlanetCoordinates = { x: 0, y: 0 }) {
     // initialize
     this.name = name;
     this.coordinates = coordinates;

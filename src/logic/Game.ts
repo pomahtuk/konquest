@@ -5,6 +5,8 @@ import getPlanetName from "./utils/getPlanetName";
 import getDistanceBetweenPoints from "./utils/getDistanceBetweenPoints";
 import validateGameParams from "./utils/validateGameParams";
 import validateTurnData from "./utils/validateTurnData";
+import placePlayerPlanets from "./utils/placePlayerPlanets";
+import placeNeutralPlanets from "./utils/placeNeutralPlanets";
 
 export interface GameOptions {
   fieldHeight: number;
@@ -31,14 +33,10 @@ export interface FleetDetails {
 }
 
 // making fields truly private
-const validateParams = Symbol("validateParams");
 const addPlayers = Symbol("addPlayers");
 const addNeutralPlanets = Symbol("addNeutralPlanets");
-const placePlanets = Symbol("placePlanets");
-const placePlayerPlanets = Symbol("placePlayerPlanets");
+const _placePlanets = Symbol("_placePlanets");
 const processTurn = Symbol("processTurn");
-const _status = Symbol("_status");
-const _winner = Symbol("_winner");
 const fleetTimeline = Symbol("fleetTimeline");
 const waitingForPlayer = Symbol("waitingForPlayer");
 const currentTurn = Symbol("currentTurn");
@@ -59,11 +57,13 @@ class ConquestGame {
   private [currentTurn]: number = 0;
   private [waitingForPlayer]: number = 0;
   private [fleetTimeline]: FleetDetails[][] = [];
-  private [_status]: string = "";
-  private [_winner]: number | undefined = undefined;
 
   public constructor({ fieldHeight, fieldWidth, neutralPlanetCount, players }: GameOptions) {
-    this[validateParams]({ fieldHeight, fieldWidth, neutralPlanetCount, players });
+    const result = validateGameParams({ fieldHeight, fieldWidth, neutralPlanetCount, players });
+    if (!result.valid) {
+      // TODO: not sure throwing is a best approach here
+      throw new Error(result.error);
+    }
 
     this.fieldHeight = fieldHeight;
     this.fieldWidth = fieldWidth;
@@ -73,7 +73,7 @@ class ConquestGame {
     // add neutral planets
     this[addNeutralPlanets](neutralPlanetCount, players.length);
     // place planets
-    this[placePlanets]();
+    this[_placePlanets]();
   }
 
   public addPlayerTurnData(data: PlayerTurn): void {
@@ -83,7 +83,11 @@ class ConquestGame {
       throw new Error("We are waiting for other player to make a move");
     }
     // this will throw if data is invalid
-    this.validateTurnData(data);
+    const result = validateTurnData(data, this.planets);
+    if (!result.valid) {
+      // TODO: not sure throwing is a best approach here
+      throw new Error(result.error);
+    }
     // check if we already have some data for this turn
     let turn = this.turns[this[currentTurn]];
     if (!turn) {
@@ -121,14 +125,6 @@ class ConquestGame {
       height: this.fieldHeight,
       width: this.fieldWidth
     };
-  }
-
-  public validateTurnData(turn: PlayerTurn): void {
-    const result = validateTurnData(turn, this.planets);
-    if (!result.valid) {
-      // TODO: not sure throwing is a best approach here
-      throw new Error(result.error);
-    }
   }
 
   private [processTurn](): void {
@@ -174,18 +170,10 @@ class ConquestGame {
     // check if someone won
   }
 
-  private [validateParams](options: GameOptions): void {
-    const result = validateGameParams(options);
-    if (!result.valid) {
-      // TODO: not sure throwing is a best approach here
-      throw new Error(result.error);
-    }
-  }
-
   private [addPlayers](players: Player[]): void {
     this.playerCount = players.length;
     this.players = players.reduce((acc, player, index): PlayerMap => {
-      const playerPlanet = new Planet(getPlanetName(index), undefined, player);
+      const playerPlanet = new Planet(getPlanetName(index), player);
       this.planets[playerPlanet.name] = playerPlanet;
       acc[index] = player;
       return acc;
@@ -202,77 +190,22 @@ class ConquestGame {
     this.planetCount = neutralPlanetCount + playersCount;
   }
 
-  private [placePlanets](): void {
+  private [_placePlanets](): void {
     // first - place player planets
-    this[placePlayerPlanets]();
-    // now divide matrix to equal segments
-    // and place each planet in segment randomly
-
-    // we could assume we are dealing with square
-    const fieldSize = this.fieldWidth * this.fieldHeight;
-    const targetSubSquareSide = (fieldSize / this.planetCount) ** 0.5;
-    const leftover = this.fieldWidth % targetSubSquareSide;
-
-    // now actually we know size of
-    let squareOffsetX = 0;
-    let squareOffsetY = 0;
-    let axisMaxX = this.fieldWidth;
-    const axisMaxY = this.fieldHeight;
-    for (let i = 0; i < this.planetCount - this.playerCount; i++) {
-      // iterate over planets
-      const planetName = getPlanetName(this.playerCount + i);
-      const planet = this.planets[planetName];
-      // random things to space out
-      // start increasing
-      squareOffsetX += targetSubSquareSide;
-      // in case we have 4 players - top right corner have to be vacant
-      if (squareOffsetY === 0 && this.playerCount === 4) {
-        axisMaxX = this.fieldWidth - targetSubSquareSide;
-      } else {
-        axisMaxX = this.fieldWidth;
-      }
-      if (squareOffsetX + targetSubSquareSide > axisMaxX) {
-        // We need to avoid not only top left corner, but others as well
-        squareOffsetX = 0;
-        squareOffsetY += targetSubSquareSide;
-        if (squareOffsetY + targetSubSquareSide > axisMaxY) {
-          squareOffsetY = axisMaxY - targetSubSquareSide;
-        }
-        if (squareOffsetX === 0 && this.playerCount >= 3 && squareOffsetY >= this.fieldHeight - leftover - targetSubSquareSide) {
-          // in case we have 3 players - bottom left corner have to be free
-          squareOffsetX += targetSubSquareSide;
-        }
-      }
-
-      planet.coordinates = {
-        x: Math.floor(squareOffsetX + Math.random() * targetSubSquareSide),
-        y: Math.floor(squareOffsetY + Math.random() * targetSubSquareSide)
-      };
-    }
-  }
-
-  private [placePlayerPlanets](): void {
-    // for now stick to the corners
-    const corners = {
-      A: { x: 0, y: 0 },
-      B: { x: this.fieldWidth - 1, y: this.fieldHeight - 1 },
-      C: { x: 0, y: this.fieldHeight - 1 },
-      D: { x: this.fieldWidth - 1, y: 0 }
-    };
-    // grab available planets and update their coordinates
-    for (let i = 0; i < this.playerCount; i++) {
-      const name = getPlanetName(i);
-      const planet = this.planets[name];
-      planet.coordinates = corners[name];
-    }
-  }
-
-  public get status(): string {
-    return this[_status];
-  }
-
-  public get winner(): number | undefined {
-    return this[_winner];
+    placePlayerPlanets({
+      planets: this.planets,
+      fieldHeight: this.fieldHeight,
+      fieldWidth: this.fieldWidth,
+      playerCount: this.playerCount
+    });
+    // then place neutral planets
+    placeNeutralPlanets({
+      planets: this.planets,
+      fieldHeight: this.fieldHeight,
+      fieldWidth: this.fieldWidth,
+      playerCount: this.playerCount,
+      planetCount: this.planetCount
+    });
   }
 }
 

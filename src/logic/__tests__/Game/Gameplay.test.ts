@@ -15,6 +15,21 @@ describe("Could have a game", (): void => {
     });
   });
 
+  it("Trows error when passing invalid turn", (): void => {
+    expect((): void => {
+      game.addPlayerTurnData({
+        playerId: player1.id,
+        orders: [
+          {
+            origin: "Z",
+            destination: "D",
+            amount: 10
+          }
+        ]
+      });
+    }).toThrow();
+  });
+
   it("Does not let player 2 take turn before player 1", (): void => {
     expect((): void => {
       game.addPlayerTurnData({

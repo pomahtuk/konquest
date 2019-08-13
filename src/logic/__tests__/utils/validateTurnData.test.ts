@@ -6,7 +6,7 @@ import Player from "../../Player";
 const player1 = new Player("player1");
 
 const planets: PlanetMap = {
-  A: new Planet("A", undefined, player1),
+  A: new Planet("A", player1),
   B: new Planet("B")
 };
 

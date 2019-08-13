@@ -46,4 +46,15 @@ describe("Main game", (): void => {
     // now make sure we don't have turns from start
     expect(game.getTurns().length).toBe(0);
   });
+
+  it("Trows error when passing invalid params", (): void => {
+    expect((): void => {
+      new ConquestGame({
+        fieldHeight: 10,
+        fieldWidth: 10,
+        neutralPlanetCount: 50,
+        players: [player1, player2]
+      });
+    }).toThrow();
+  });
 });
