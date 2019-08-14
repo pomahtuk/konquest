@@ -4,6 +4,7 @@ export default class Player {
   public statEnemyShipsDestroyed: number = 0;
   public statEnemyFleetsDestroyed: number = 0;
   public statShipCount: number = 0;
+  public isDead: boolean = false;
 
   public constructor(name: string) {
     this.id = Math.floor(Math.random() * 1000);

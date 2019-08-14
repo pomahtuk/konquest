@@ -1,4 +1,4 @@
-import ConquestGame from "../../Game";
+import ConquestGame, { GameStatus } from "../../Game";
 import Player from "../../Player";
 
 const player1 = new Player("player1");
@@ -31,7 +31,7 @@ describe("Could have a game", (): void => {
 
   // strategy here -
   // player2 just sitting on own planet accumulating ships
-  // player 1 - waiting 1 turn and capturing neutral planet and sitting for a while accumulating ships
+  // player 1 - waiting 2 turns and capturing neutral planet and sitting for a while accumulating ships
   // then when enough produced - combining fleets at neutral
   // and attacking player 2 capturing their planet
 
@@ -94,6 +94,9 @@ describe("Could have a game", (): void => {
   });
 
   it("Takes player turns in orders", (): void => {
+    // wait one more turn to be sure
+    makeIdlePlayer1Turn(game);
+    makeIdlePlayer2Turn(game);
     // let player 1 capture neutral planet
     const availableAttackFleet = game.getPlanets()["A"].ships;
     game.addPlayerTurnData({
@@ -107,8 +110,8 @@ describe("Could have a game", (): void => {
       ]
     });
     makeIdlePlayer2Turn(game);
-    // sitting here, waiting for 5 turns
-    for (let i = 0; i < 5; i++) {
+    // sitting here, waiting for 10 turns
+    for (let i = 0; i < 10; i++) {
       makeIdlePlayer1Turn(game);
       makeIdlePlayer2Turn(game);
     }
@@ -140,6 +143,11 @@ describe("Could have a game", (): void => {
     makeIdlePlayer2Turn(game);
     // now game processed another turn
     // we should know the winner
-    console.log(game.getPlanets());
+    expect(game.status).toBe(GameStatus.COMPLETED);
+    expect(game.winner).toBeDefined();
+    // @ts-ignore
+    expect(game.winner.id).toBe(player1.id);
   });
+
+  // now game should not accept new turns
 });

@@ -17,8 +17,8 @@ const planets: PlanetMap = {
 
 describe("placePlanets", (): void => {
   it("Able to place planets", (): void => {
-    const fieldWidth = 8;
-    const fieldHeight = 8;
+    const fieldWidth = 3;
+    const fieldHeight = 3;
     placePlanets({
       planets,
       fieldWidth,
@@ -26,6 +26,7 @@ describe("placePlanets", (): void => {
       planetCount: 4
     });
   });
+
   it("Place planets so they do not collide with other planets coordinates", (): void => {
     const usedCoords: Point[] = Object.keys(planets)
       .map((planetName): Planet => planets[planetName])

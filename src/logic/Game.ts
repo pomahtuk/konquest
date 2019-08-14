@@ -8,12 +8,19 @@ import validateGameParams from "./helpers/validateGameParams";
 import validateTurnData from "./helpers/validateTurnData";
 import placePlanets from "./helpers/placePlanets";
 import conductBattle from "./helpers/conductBattle";
+import markDeadPlayers from "./helpers/markDeadPlayers";
 
 export interface GameOptions {
   fieldHeight: number;
   fieldWidth: number;
   neutralPlanetCount: number;
   players: Player[];
+}
+
+export enum GameStatus {
+  "NOT_STARTED" = "not_started",
+  "IN_PROGRESS" = "in_progress",
+  "COMPLETED" = "completed"
 }
 
 // making fields truly private
@@ -30,6 +37,9 @@ const planetCount = Symbol("planetCount");
 const fieldHeight = Symbol("fieldHeight");
 const fieldWidth = Symbol("fieldWidth");
 const turns = Symbol("turns");
+const status = Symbol("status");
+const winner = Symbol("winner");
+const findWinner = Symbol("findWinner");
 
 class ConquestGame {
   public static maxSize: number = 20;
@@ -47,6 +57,8 @@ class ConquestGame {
   private [completedTurns]: boolean[] = [];
   private [waitingForPlayer]: number = 0;
   private [fleetTimeline]: Fleet[][] = [];
+  private [status]: GameStatus = GameStatus.NOT_STARTED;
+  private [winner]: Player | null = null;
 
   public get width(): number {
     return this[fieldWidth];
@@ -54,6 +66,14 @@ class ConquestGame {
 
   public get height(): number {
     return this[fieldHeight];
+  }
+
+  public get status(): GameStatus {
+    return this[status];
+  }
+
+  public get winner(): Player | null {
+    return this[winner];
   }
 
   public constructor({ fieldHeight: height, fieldWidth: width, neutralPlanetCount, players: newPlayers }: GameOptions) {
@@ -80,6 +100,10 @@ class ConquestGame {
   }
 
   public addPlayerTurnData(data: PlayerTurn): void {
+    // do not accept any turns for completed game
+    if (this[status] === GameStatus.COMPLETED) {
+      return;
+    }
     const { player } = data;
     const playerWeAreWaitingFor = this[players][this[waitingForPlayer]];
     if (player.id !== playerWeAreWaitingFor.id) {
@@ -90,6 +114,10 @@ class ConquestGame {
     if (!result.valid) {
       // TODO: not sure throwing is a best approach here
       throw new Error(result.error);
+    }
+    // mark game as in progress if it is not started yet
+    if (this.status === GameStatus.NOT_STARTED) {
+      this[status] = GameStatus.IN_PROGRESS;
     }
     // check if we already have some data for this turn
     let turn = this[turns][this[currentTurn]];
@@ -176,9 +204,26 @@ class ConquestGame {
       });
     // mark turn complete
     this[completedTurns][this[currentTurn]] = true;
+    // mark dead players
+    markDeadPlayers({
+      players: this[players],
+      planets: this[planets],
+      remainingTimeline: this[fleetTimeline].slice(this[currentTurn])
+    });
     // advance turn
     this[currentTurn] += 1;
     // check if someone won
+    this[findWinner]();
+  }
+
+  private [findWinner](): void {
+    // may be check if all planets are captured?
+    const alivePlayers = this[players].filter((player): boolean => !player.isDead);
+    // if we have exactly 1 alive player
+    if (alivePlayers.length === 1) {
+      this[winner] = alivePlayers[0];
+      this[status] = GameStatus.COMPLETED;
+    }
   }
 
   private [addPlayers](newPlayers: Player[]): void {
