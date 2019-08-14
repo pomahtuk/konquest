@@ -1,11 +1,13 @@
 import Planet, { PlanetMap } from "./Planet";
 import Player, { PlayerMap } from "./Player";
+import Fleet from "./Fleet";
 
 import getPlanetName from "./helpers/getPlanetName";
 import getDistanceBetweenPoints from "./helpers/getDistanceBetweenPoints";
 import validateGameParams from "./helpers/validateGameParams";
 import validateTurnData from "./helpers/validateTurnData";
 import placePlanets from "./helpers/placePlanets";
+import conductBattle from "./helpers/conductBattle";
 
 export interface GameOptions {
   fieldHeight: number;
@@ -23,12 +25,6 @@ export interface PlayerTurnOrder {
 export interface PlayerTurn {
   playerId: number;
   orders: PlayerTurnOrder[];
-}
-
-export interface FleetDetails {
-  owner: number;
-  destination: string;
-  amount: number;
 }
 
 // making fields truly private
@@ -56,7 +52,7 @@ class ConquestGame {
   private [currentTurn]: number = 0;
   private [completedTurns]: boolean[] = [];
   private [waitingForPlayer]: number = 0;
-  private [fleetTimeline]: FleetDetails[][] = [];
+  private [fleetTimeline]: Fleet[][] = [];
 
   public constructor({ fieldHeight, fieldWidth, neutralPlanetCount, players }: GameOptions) {
     const result = validateGameParams({ fieldHeight, fieldWidth, neutralPlanetCount, players });
@@ -140,18 +136,20 @@ class ConquestGame {
     // send fleets
     const currentTurns = this.turns[this[currentTurn]];
     for (const turn of currentTurns) {
-      const owner = turn.playerId;
       for (const order of turn.orders) {
         const originPlanet = this.planets[order.origin];
         const destinationPlanet = this.planets[order.destination];
         const fleetTravelTime = getDistanceBetweenPoints(originPlanet.coordinates, destinationPlanet.coordinates);
         const fleetTimelineIndex = this[currentTurn] + fleetTravelTime;
         const fleetTimelinePoint = this[fleetTimeline][fleetTimelineIndex] || [];
-        fleetTimelinePoint.push({
-          owner,
-          destination: order.destination,
-          amount: order.amount
-        });
+        fleetTimelinePoint.push(
+          new Fleet({
+            owner: this.players[turn.playerId],
+            amount: order.amount,
+            killPercent: 0.5,
+            destination: destinationPlanet.name
+          })
+        );
         this[fleetTimeline][fleetTimelineIndex] = fleetTimelinePoint;
         originPlanet.ships -= order.amount;
       }
@@ -160,11 +158,15 @@ class ConquestGame {
     const arrivingFleets = this[fleetTimeline][this[currentTurn]] || [];
     for (const fleet of arrivingFleets) {
       const destinationPlanet = this.planets[fleet.destination];
-      if (destinationPlanet.ships < fleet.amount) {
-        // new owner
-        destinationPlanet.owner = fleet.owner;
+      if (destinationPlanet.owner && destinationPlanet.owner.id === fleet.owner.id) {
+        // arriving to own planet, grow fleet
+        destinationPlanet.ships += fleet.amount;
+      } else {
+        conductBattle({
+          attackerFleet: fleet,
+          defenderPlanet: destinationPlanet
+        });
       }
-      destinationPlanet.ships = Math.abs(destinationPlanet.ships - fleet.amount);
     }
     // do production only for captured planets
     Object.keys(this.planets)

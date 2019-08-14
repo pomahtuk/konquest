@@ -36,7 +36,7 @@ const validateTurnData = ({ playerId, orders }: PlayerTurn, planets: PlanetMap):
       };
     }
     const origin = planets[order.origin];
-    if (origin.owner !== playerId) {
+    if (!origin.owner || origin.owner.id !== playerId) {
       return {
         valid: false,
         error: "Origin planet does not belong to player!"

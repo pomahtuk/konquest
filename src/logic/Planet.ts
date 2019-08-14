@@ -7,7 +7,7 @@ export interface PlanetCoordinates {
 
 export default class Planet {
   public name: string;
-  public owner: number | null = null; // reference co playerId
+  public owner: Player | null = null; // reference co playerId
   public ships: number;
   public shipsDue: number | 0 = 0; // only if there are ships en route
   public production: number; // only happens when planet is taken, next turn
@@ -29,7 +29,7 @@ export default class Planet {
       this.ships = 0;
       killPercent = Number((0.3 + Math.random() * 0.6).toFixed(1)); //  0.30 - 0.90
     } else {
-      this.owner = player.id;
+      this.owner = player;
       this.ships = production;
     }
 

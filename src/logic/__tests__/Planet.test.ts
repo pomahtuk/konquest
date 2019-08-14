@@ -38,7 +38,7 @@ describe("Planet", (): void => {
     expect(planet).toBeDefined();
 
     expect(planet.name).toBe(planetName);
-    expect(planet.owner).toEqual(testPlayer.id);
+    expect(planet.owner).toMatchObject(testPlayer);
     expect(planet.killPercent).toBe(0.5);
 
     expect(planet.coordinates).toEqual(coordinates);
