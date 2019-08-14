@@ -29,15 +29,6 @@ const conductBattle = ({ defenderPlanet, attackerFleet }: ConductBattleParams): 
     const attackerRoll = Math.random();
     const defenderRoll = Math.random();
 
-    // special case if both have 0 kill percentages
-    if (defenderPlanet.killPercent === 0 && attackerFleet.killPercent === 0) {
-      if (attackerRoll < defenderRoll) {
-        makePlanetKill(attackerFleet, defenderPlanet.owner);
-      } else {
-        makeFleetKill(defenderPlanet, attackerFleet.owner);
-      }
-    }
-
     // check if defender able to score a kill
     if (defenderRoll < defenderPlanet.killPercent) {
       makePlanetKill(attackerFleet, defenderPlanet.owner);

@@ -4,7 +4,7 @@ import ConquestGame from "../../logic/Game";
 import Planet from "../../logic/Planet";
 
 const GameField = ({ game }: { game: ConquestGame }): ReactElement => {
-  const { height, width } = game.getDimensions();
+  const { height, width } = game;
   const planets = game.getPlanets();
 
   // prepare matrix

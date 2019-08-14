@@ -29,19 +29,13 @@ describe("Main game", (): void => {
 
     // check we have all players
     expect(players).toBeDefined();
-    expect(Object.keys(players).length).toBe(2);
+    expect(players.length).toBe(2);
 
     // check we have planets generated
     expect(planets).toBeDefined();
     expect(Object.keys(planets).length).toBe(7);
     expect(planets["A"].coordinates).toBeDefined();
     expect(planets["B"].coordinates).toBeDefined();
-
-    // check game field info is there
-    expect(game.getDimensions()).toMatchObject({
-      width: 10,
-      height: 10
-    });
 
     // now make sure we don't have turns from start
     expect(game.getTurns().length).toBe(0);

@@ -1,4 +1,4 @@
-import { PlayerTurn } from "../Game";
+import { PlayerTurn } from "../Player";
 import { PlanetMap } from "../Planet";
 
 export interface ValidationResult {

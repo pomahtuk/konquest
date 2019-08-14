@@ -4,6 +4,20 @@ import Player from "../../Player";
 const player1 = new Player("player1");
 const player2 = new Player("player2");
 
+const makeIdlePlayer1Turn = (game: ConquestGame): void => {
+  game.addPlayerTurnData({
+    player: player1,
+    orders: []
+  });
+};
+
+const makeIdlePlayer2Turn = (game: ConquestGame): void => {
+  game.addPlayerTurnData({
+    player: player2,
+    orders: []
+  });
+};
+
 describe("Could have a game", (): void => {
   let game: ConquestGame;
   beforeAll((): void => {
@@ -14,6 +28,12 @@ describe("Could have a game", (): void => {
       players: [player1, player2]
     });
   });
+
+  // strategy here -
+  // player2 just sitting on own planet accumulating ships
+  // player 1 - waiting 1 turn and capturing neutral planet and sitting for a while accumulating ships
+  // then when enough produced - combining fleets at neutral
+  // and attacking player 2 capturing their planet
 
   it("Trows error when passing invalid turn", (): void => {
     expect((): void => {
@@ -47,17 +67,9 @@ describe("Could have a game", (): void => {
 
   it("Does accept player 1 turn", (): void => {
     // we need to know it did not throw
-    const res = game.addPlayerTurnData({
-      player: player1,
-      orders: [
-        {
-          origin: "A",
-          destination: "C",
-          amount: 10
-        }
-      ]
-    });
-    expect(res).toBe(undefined);
+    expect((): void => {
+      makeIdlePlayer1Turn(game);
+    }).not.toThrow();
   });
 
   it("Does not accept player 1 turn for second time", (): void => {
@@ -76,50 +88,58 @@ describe("Could have a game", (): void => {
   });
 
   it("Does accept player 2 turn", (): void => {
-    const res = game.addPlayerTurnData({
-      player: player2,
+    expect((): void => {
+      makeIdlePlayer2Turn(game);
+    }).not.toThrow();
+  });
+
+  it("Takes player turns in orders", (): void => {
+    // let player 1 capture neutral planet
+    const availableAttackFleet = game.getPlanets()["A"].ships;
+    game.addPlayerTurnData({
+      player: player1,
       orders: [
         {
-          origin: "B",
-          destination: "A",
-          amount: 10
+          origin: "A",
+          destination: "C",
+          amount: availableAttackFleet
         }
       ]
     });
-    expect(res).toBe(undefined);
+    makeIdlePlayer2Turn(game);
+    // sitting here, waiting for 5 turns
+    for (let i = 0; i < 5; i++) {
+      makeIdlePlayer1Turn(game);
+      makeIdlePlayer2Turn(game);
+    }
+    // done waiting, combine fleets
+    const availableFleetAtA = game.getPlanets()["A"].ships;
+    game.addPlayerTurnData({
+      player: player1,
+      orders: [
+        {
+          origin: "A",
+          destination: "C",
+          amount: availableFleetAtA
+        }
+      ]
+    });
+    makeIdlePlayer2Turn(game);
+    // at this point turn processed and we have combined fleet at planet C
+    const availableFleetAtC = game.getPlanets()["C"].ships;
+    game.addPlayerTurnData({
+      player: player1,
+      orders: [
+        {
+          origin: "C",
+          destination: "B",
+          amount: availableFleetAtC
+        }
+      ]
+    });
+    makeIdlePlayer2Turn(game);
+    // now game processed another turn
+    // we should know the winner
+    console.log(game.getPlanets());
   });
-
-  // it("Able to process turn 1", (): void => {
-  //   const maxShips = game.getPlanets()["C"].ships;
-  //   const res = game.addPlayerTurnData({
-  //     player: player1,
-  //     orders: [
-  //       {
-  //         origin: "C",
-  //         destination: "B",
-  //         amount: maxShips
-  //       }
-  //     ]
-  //   });
-  //   expect(res).toBe(undefined);
-  // });
-
-  // it("Able to process turn 2", (): void => {
-  //   // we need to know it did not throw
-  //   const res = game.addPlayerTurnData({
-  //     player: player2,
-  //     orders: [
-  //       {
-  //         origin: "B",
-  //         destination: "A",
-  //         amount: 10
-  //       }
-  //     ]
-  //   });
-  //   expect(res).toBe(undefined);
-  // });
-
-  // it("some", (): void => {
-  //   console.log(game);
-  // });
 });

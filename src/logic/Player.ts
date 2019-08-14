@@ -3,6 +3,7 @@ export default class Player {
   public screenName: string;
   public statEnemyShipsDestroyed: number = 0;
   public statEnemyFleetsDestroyed: number = 0;
+  public statShipCount: number = 0;
 
   public constructor(name: string) {
     this.id = Math.floor(Math.random() * 1000);
@@ -10,6 +11,13 @@ export default class Player {
   }
 }
 
-export interface PlayerMap {
-  [key: string]: Player;
+export interface PlayerTurnOrder {
+  origin: string;
+  destination: string;
+  amount: number;
+}
+
+export interface PlayerTurn {
+  player: Player;
+  orders: PlayerTurnOrder[];
 }
