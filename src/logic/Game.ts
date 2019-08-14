@@ -145,7 +145,7 @@ class ConquestGame {
           new Fleet({
             owner: turn.player,
             amount: order.amount,
-            killPercent: 0.5,
+            killPercent: originPlanet.killPercent,
             destination: destinationPlanet.name
           })
         );
