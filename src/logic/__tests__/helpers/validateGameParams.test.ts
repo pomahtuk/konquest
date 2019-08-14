@@ -1,6 +1,6 @@
 import ConquestGame from "../../Game";
-import validateGameParams from "../../utils/validateGameParams";
-import getPlanetLimit from "../../utils/getPlanetLimit";
+import validateGameParams from "../../helpers/validateGameParams";
+import getPlanetLimit from "../../helpers/getPlanetLimit";
 
 import Player from "../../Player";
 

@@ -1,4 +1,4 @@
-import getDistanceBetweenPoints from "../../utils/getDistanceBetweenPoints";
+import getDistanceBetweenPoints from "../../helpers/getDistanceBetweenPoints";
 
 describe("get distance between two points", (): void => {
   it("Can get correct distance in turns", (): void => {

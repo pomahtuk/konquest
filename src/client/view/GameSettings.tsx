@@ -5,7 +5,7 @@ import { Button } from "baseui/button";
 import { FormControl } from "baseui/form-control";
 
 import ConquestGame, { GameOptions } from "../../logic/Game";
-import getPlanetLimit from "../../logic/utils/getPlanetLimit";
+import getPlanetLimit from "../../logic/helpers/getPlanetLimit";
 import Player from "../../logic/Player";
 
 import useSlider from "../hooks/useSlider";

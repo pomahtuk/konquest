@@ -1,11 +1,11 @@
 import Planet, { PlanetMap } from "./Planet";
 import Player, { PlayerMap } from "./Player";
 
-import getPlanetName from "./utils/getPlanetName";
-import getDistanceBetweenPoints from "./utils/getDistanceBetweenPoints";
-import validateGameParams from "./utils/validateGameParams";
-import validateTurnData from "./utils/validateTurnData";
-import placePlanets from "./utils/placePlanets";
+import getPlanetName from "./helpers/getPlanetName";
+import getDistanceBetweenPoints from "./helpers/getDistanceBetweenPoints";
+import validateGameParams from "./helpers/validateGameParams";
+import validateTurnData from "./helpers/validateTurnData";
+import placePlanets from "./helpers/placePlanets";
 
 export interface GameOptions {
   fieldHeight: number;
@@ -160,40 +160,6 @@ class ConquestGame {
     const arrivingFleets = this[fleetTimeline][this[currentTurn]] || [];
     for (const fleet of arrivingFleets) {
       const destinationPlanet = this.planets[fleet.destination];
-      // conduct battle!
-      // Original battle code:
-      // bool  haveVictor  = false;
-      // bool  planetHolds = true;
-
-      // while( !haveVictor ) {
-      //     double  attackerRoll = random.getDouble();
-      //     double  defenderRoll = random.getDouble();
-
-      //     /* special case if both have 0 kill percentages */
-      //     if( defenderPlanet->killPercentage() == 0 &&
-      //         attackerPlanet->killPercentage() == 0) {
-      //         if(attackerRoll <  defenderRoll )
-      //             makeKill(&defender, attackerPlanet->player());
-      //         else
-      //             makeKill(attacker, defenderPlanet->player());
-      //     }
-
-      //     if( defenderRoll < defenderPlanet->killPercentage() )
-      //         makeKill(attacker, defenderPlanet->player());
-
-      //     if( attacker->shipCount() <= 0 ) {
-      //         haveVictor  = true;
-      //         planetHolds = true;
-      //         continue;
-      //     }
-      //     if( attackerRoll < attackerPlanet->killPercentage() )
-      //         makeKill(&defender, attackerPlanet->player());
-
-      //     if( defender.shipCount() <= 0 ) {
-      //         haveVictor  = true;
-      //         planetHolds = false;
-      //     }
-      // }
       if (destinationPlanet.ships < fleet.amount) {
         // new owner
         destinationPlanet.owner = fleet.owner;

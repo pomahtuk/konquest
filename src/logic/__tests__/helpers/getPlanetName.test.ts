@@ -1,4 +1,4 @@
-import getPlanetName from "../../utils/getPlanetName";
+import getPlanetName from "../../helpers/getPlanetName";
 
 describe("get planet name", (): void => {
   it("Can generate name", (): void => {

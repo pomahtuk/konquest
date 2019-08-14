@@ -1,4 +1,4 @@
-import getPlanetLimit from "../../utils/getPlanetLimit";
+import getPlanetLimit from "../../helpers/getPlanetLimit";
 
 describe("get planet limit", (): void => {
   it("Can calculate planetLimit", (): void => {

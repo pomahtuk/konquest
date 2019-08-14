@@ -8,7 +8,7 @@ export interface PlaceNeutralPlanetsParams {
   planetCount: number;
 }
 
-interface Point {
+export interface Point {
   x: number;
   y: number;
 }

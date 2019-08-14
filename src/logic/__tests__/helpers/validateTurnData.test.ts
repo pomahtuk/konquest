@@ -1,4 +1,4 @@
-import validateTurnData from "../../utils/validateTurnData";
+import validateTurnData from "../../helpers/validateTurnData";
 
 import Planet, { PlanetMap } from "../../Planet";
 import Player from "../../Player";
