@@ -26,7 +26,7 @@ export default class Planet {
     let killPercent = 0.5;
     if (!player) {
       production = 5 + Math.floor(Math.random() * 10); // 5-15 as in original
-      this.ships = 0;
+      this.ships = production;
       killPercent = Number((0.3 + Math.random() * 0.6).toFixed(1)); //  0.30 - 0.90
     } else {
       this.owner = player;

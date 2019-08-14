@@ -1,5 +1,5 @@
 import Planet, { PlanetMap } from "./Planet";
-import Player, { PlayerMap } from "./Player";
+import Player from "./Player";
 import Fleet from "./Fleet";
 
 import getPlanetName from "./helpers/getPlanetName";
@@ -23,7 +23,7 @@ export interface PlayerTurnOrder {
 }
 
 export interface PlayerTurn {
-  playerId: number;
+  player: Player;
   orders: PlayerTurnOrder[];
 }
 
@@ -46,8 +46,7 @@ class ConquestGame {
   private fieldWidth: number;
   private turns: PlayerTurn[][] = [];
   private planets: PlanetMap = {};
-  private players: PlayerMap = {};
-  private playerCount: number = 0;
+  private players: Player[] = [];
   private planetCount: number = 0;
   private [currentTurn]: number = 0;
   private [completedTurns]: boolean[] = [];
@@ -78,9 +77,9 @@ class ConquestGame {
   }
 
   public addPlayerTurnData(data: PlayerTurn): void {
-    const { playerId } = data;
+    const { player } = data;
     const playerWeAreWaitingFor = this.players[this[waitingForPlayer]];
-    if (playerId !== playerWeAreWaitingFor.id) {
+    if (player.id !== playerWeAreWaitingFor.id) {
       throw new Error("We are waiting for other player to make a move");
     }
     // this will throw if data is invalid
@@ -98,7 +97,7 @@ class ConquestGame {
     this.turns[this[currentTurn]] = turn;
     // update pointer to player we are waiting for
     this[waitingForPlayer] += 1;
-    if (this[waitingForPlayer] >= this.playerCount) {
+    if (this[waitingForPlayer] >= this.players.length) {
       // if we made full circle - start anew
       this[waitingForPlayer] = 0;
       // and process current turn
@@ -106,7 +105,7 @@ class ConquestGame {
     }
   }
 
-  public getPlayers(): PlayerMap {
+  public getPlayers(): Player[] {
     // returning deep copy of an object to prevent modification by pointer
     return JSON.parse(JSON.stringify(this.players));
   }
@@ -144,7 +143,7 @@ class ConquestGame {
         const fleetTimelinePoint = this[fleetTimeline][fleetTimelineIndex] || [];
         fleetTimelinePoint.push(
           new Fleet({
-            owner: this.players[turn.playerId],
+            owner: turn.player,
             amount: order.amount,
             killPercent: 0.5,
             destination: destinationPlanet.name
@@ -183,13 +182,12 @@ class ConquestGame {
   }
 
   private [addPlayers](players: Player[]): void {
-    this.playerCount = players.length;
-    this.players = players.reduce((acc, player, index): PlayerMap => {
+    this.players = players;
+    // generate player planets
+    players.forEach((player, index): void => {
       const playerPlanet = new Planet(getPlanetName(index), player);
       this.planets[playerPlanet.name] = playerPlanet;
-      acc[index] = player;
-      return acc;
-    }, {});
+    });
   }
 
   private [addNeutralPlanets](neutralPlanetCount: number, playersCount: number): void {

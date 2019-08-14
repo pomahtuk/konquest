@@ -28,6 +28,7 @@ const conductBattle = ({ defenderPlanet, attackerFleet }: ConductBattleParams): 
   while (!haveVictor) {
     const attackerRoll = Math.random();
     const defenderRoll = Math.random();
+
     // special case if both have 0 kill percentages
     if (defenderPlanet.killPercent === 0 && attackerFleet.killPercent === 0) {
       if (attackerRoll < defenderRoll) {
@@ -35,29 +36,30 @@ const conductBattle = ({ defenderPlanet, attackerFleet }: ConductBattleParams): 
       } else {
         makeFleetKill(defenderPlanet, attackerFleet.owner);
       }
+    }
 
-      // check if defender able to score a kill
-      if (defenderRoll < defenderPlanet.killPercent) {
-        makePlanetKill(attackerFleet, defenderPlanet.owner);
-      }
+    // check if defender able to score a kill
+    if (defenderRoll < defenderPlanet.killPercent) {
+      makePlanetKill(attackerFleet, defenderPlanet.owner);
+    }
 
-      // attacker lost all ships
-      if (attackerFleet.amount <= 0) {
-        haveVictor = true;
-        planetHolds = true;
-        continue;
-      }
+    // attacker lost all ships
+    if (attackerFleet.amount <= 0) {
+      haveVictor = true;
+      planetHolds = true;
+      break;
+    }
 
-      // check if attacker able to score a kill
-      if (attackerRoll < attackerFleet.killPercent) {
-        makeFleetKill(defenderPlanet, attackerFleet.owner);
-      }
+    // check if attacker able to score a kill
+    if (attackerRoll < attackerFleet.killPercent) {
+      makeFleetKill(defenderPlanet, attackerFleet.owner);
+    }
 
-      // defender lost all ships
-      if (defenderPlanet.ships <= 0) {
-        haveVictor = true;
-        planetHolds = false;
-      }
+    // defender lost all ships
+    if (defenderPlanet.ships <= 0) {
+      haveVictor = true;
+      planetHolds = false;
+      break;
     }
   }
 

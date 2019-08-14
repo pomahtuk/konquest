@@ -6,8 +6,8 @@ export interface ValidationResult {
   error?: string;
 }
 
-const validateTurnData = ({ playerId, orders }: PlayerTurn, planets: PlanetMap): ValidationResult => {
-  if (!playerId) {
+const validateTurnData = ({ player, orders }: PlayerTurn, planets: PlanetMap): ValidationResult => {
+  if (!player) {
     return {
       valid: false,
       error: "Player must be specified"
@@ -36,7 +36,7 @@ const validateTurnData = ({ playerId, orders }: PlayerTurn, planets: PlanetMap):
       };
     }
     const origin = planets[order.origin];
-    if (!origin.owner || origin.owner.id !== playerId) {
+    if (!origin.owner || origin.owner.id !== player.id) {
       return {
         valid: false,
         error: "Origin planet does not belong to player!"

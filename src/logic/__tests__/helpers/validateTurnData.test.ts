@@ -14,7 +14,7 @@ describe("Can validate player turn", (): void => {
   it("Validates correct turn", (): void => {
     const validationResult = validateTurnData(
       {
-        playerId: player1.id,
+        player: player1,
         orders: [
           {
             origin: "A",
@@ -31,7 +31,7 @@ describe("Can validate player turn", (): void => {
 
     const emptyTurnValidationResult = validateTurnData(
       {
-        playerId: player1.id,
+        player: player1,
         orders: []
       },
       planets
@@ -54,7 +54,7 @@ describe("Can validate player turn", (): void => {
     const validationResult = validateTurnData(
       // @ts-ignore
       {
-        playerId: 1,
+        player: player1,
         orders: [
           {
             // @ts-ignore
@@ -73,7 +73,7 @@ describe("Can validate player turn", (): void => {
 
     const missingValidationResult = validateTurnData(
       {
-        playerId: 1,
+        player: player1,
         orders: [
           {
             origin: "Z",
@@ -94,7 +94,7 @@ describe("Can validate player turn", (): void => {
     const validationResult = validateTurnData(
       // @ts-ignore
       {
-        playerId: 1,
+        player: player1,
         orders: [
           // @ts-ignore
           {
@@ -114,7 +114,7 @@ describe("Can validate player turn", (): void => {
 
     const missingValidationResult = validateTurnData(
       {
-        playerId: 1,
+        player: player1,
         orders: [
           {
             origin: "A",
@@ -134,7 +134,7 @@ describe("Can validate player turn", (): void => {
   it("Return error when trying to send ships from planet which does not belong to player", (): void => {
     const validationResult = validateTurnData(
       {
-        playerId: player1.id,
+        player: player1,
         orders: [
           {
             origin: "B",
@@ -154,7 +154,7 @@ describe("Can validate player turn", (): void => {
   it("Throws error when trying to send more ships that are available at origin", (): void => {
     const validationResult = validateTurnData(
       {
-        playerId: player1.id,
+        player: player1,
         orders: [
           {
             origin: "A",
@@ -174,7 +174,7 @@ describe("Can validate player turn", (): void => {
   it("Throws error when trying to send more ships that are available at origin in few orders", (): void => {
     const validationResult = validateTurnData(
       {
-        playerId: player1.id,
+        player: player1,
         orders: [
           {
             origin: "A",
