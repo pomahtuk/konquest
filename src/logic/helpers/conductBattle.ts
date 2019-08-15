@@ -18,11 +18,9 @@ const conductBattle = ({ defenderPlanet, attackerFleet }: ConductBattleParams): 
     }
   };
 
-  const makeFleetKill = (planet: Planet, player: Player | null): void => {
+  const makeFleetKill = (planet: Planet, player: Player): void => {
     planet.ships -= 1;
-    if (player) {
-      player.statEnemyShipsDestroyed += 1;
-    }
+    player.statEnemyShipsDestroyed += 1;
   };
 
   while (!haveVictor) {

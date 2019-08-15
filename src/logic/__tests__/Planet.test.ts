@@ -49,4 +49,22 @@ describe("Planet", (): void => {
     // no pending ships here
     expect(planet.shipsDue).toBe(0);
   });
+
+  it("Planet could produce ships when have owner", (): void => {
+    const planetName = "A";
+    const planet = new Planet(planetName, testPlayer);
+    expect(planet.production).toBe(10);
+    expect(planet.ships).toBe(10);
+
+    planet.produce();
+    expect(planet.ships).toBe(20);
+    expect(testPlayer.statShipCount).toBe(10);
+  });
+
+  it("Planet could not produce ships without owner", (): void => {
+    const planetName = "A";
+    const planet = new Planet(planetName);
+    planet.produce();
+    expect(planet.ships).toBe(planet.production);
+  });
 });

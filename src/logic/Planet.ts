@@ -36,6 +36,14 @@ export default class Planet {
     this.production = production;
     this.killPercent = killPercent;
   }
+
+  public produce(): void {
+    if (this.owner) {
+      this.ships += this.production;
+      // increase produced ship count
+      this.owner.statShipCount += this.production;
+    }
+  }
 }
 
 export interface PlanetMap {

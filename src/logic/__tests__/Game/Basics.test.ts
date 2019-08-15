@@ -51,4 +51,54 @@ describe("Main game", (): void => {
       });
     }).toThrow();
   });
+
+  it("Able to mark player dead and ignore it for next one", (): void => {
+    const player3 = new Player("player3");
+    const game = new ConquestGame({
+      fieldHeight: 4,
+      fieldWidth: 4,
+      neutralPlanetCount: 1,
+      players: [player1, player2, player3]
+    });
+    const assaultPlayer2 = (): void => {
+      game.addPlayerTurnData({
+        player: player1,
+        orders: [
+          {
+            amount: 10,
+            origin: "A",
+            destination: "B"
+          }
+        ]
+      });
+      game.addPlayerTurnData({
+        player: player2,
+        orders: []
+      });
+      game.addPlayerTurnData({
+        player: player3,
+        orders: [
+          {
+            amount: 10,
+            origin: "C",
+            destination: "B"
+          }
+        ]
+      });
+    };
+    assaultPlayer2();
+    // at this point turn should be complete
+    // player2 dead and we are waiting for player1
+    expect(game.waitingForPlayer).toBe(0);
+    if (!player2.isDead) {
+      assaultPlayer2();
+    }
+    expect(player2.isDead).toBe(true);
+    game.addPlayerTurnData({
+      player: player1,
+      orders: []
+    });
+    // we should skip player2 because of dead status
+    expect(game.waitingForPlayer).toBe(2);
+  });
 });

@@ -1,4 +1,4 @@
-import ConquestGame, { GameStatus } from "../../Game";
+import ConquestGame, { GameStatus, TurnStatus } from "../../Game";
 import Player from "../../Player";
 
 const player1 = new Player("player1");
@@ -31,38 +31,37 @@ describe("Could have a game", (): void => {
 
   // strategy here -
   // player2 just sitting on own planet accumulating ships
-  // player 1 - waiting 2 turns and capturing neutral planet and sitting for a while accumulating ships
+  // player 1 - waiting 3 turns and capturing neutral planet and sitting for a while accumulating ships
   // then when enough produced - combining fleets at neutral
   // and attacking player 2 capturing their planet
 
   it("Trows error when passing invalid turn", (): void => {
-    expect((): void => {
-      game.addPlayerTurnData({
-        player: player1,
-        orders: [
-          {
-            origin: "Z",
-            destination: "D",
-            amount: 10
-          }
-        ]
-      });
-    }).toThrow();
+    const result = game.addPlayerTurnData({
+      player: player1,
+      orders: [
+        {
+          origin: "Z",
+          destination: "D",
+          amount: 10
+        }
+      ]
+    });
+    expect(result).toBe(TurnStatus.INVALID);
   });
 
   it("Does not let player 2 take turn before player 1", (): void => {
-    expect((): void => {
-      game.addPlayerTurnData({
-        player: player2,
-        orders: [
-          {
-            origin: "B",
-            destination: "D",
-            amount: 10
-          }
-        ]
-      });
-    }).toThrowError("We are waiting for other player to make a move");
+    const result = game.addPlayerTurnData({
+      player: player2,
+      orders: [
+        {
+          origin: "B",
+          destination: "D",
+          amount: 10
+        }
+      ]
+    });
+    expect(result).toBe(TurnStatus.INVALID);
+    expect(game.waitingForPlayer).toBe(0);
   });
 
   it("Does accept player 1 turn", (): void => {
@@ -73,18 +72,18 @@ describe("Could have a game", (): void => {
   });
 
   it("Does not accept player 1 turn for second time", (): void => {
-    expect((): void => {
-      game.addPlayerTurnData({
-        player: player1,
-        orders: [
-          {
-            origin: "A",
-            destination: "C",
-            amount: 10
-          }
-        ]
-      });
-    }).toThrowError("We are waiting for other player to make a move");
+    expect(game.waitingForPlayer).toBe(1);
+    const result = game.addPlayerTurnData({
+      player: player1,
+      orders: [
+        {
+          origin: "A",
+          destination: "C",
+          amount: 10
+        }
+      ]
+    });
+    expect(result).toBe(TurnStatus.INVALID);
   });
 
   it("Does accept player 2 turn", (): void => {
@@ -93,8 +92,10 @@ describe("Could have a game", (): void => {
     }).not.toThrow();
   });
 
-  it("Takes player turns in orders", (): void => {
-    // wait one more turn to be sure
+  it("Capable of conducting simple battle", (): void => {
+    // wait two more turns to be sure
+    makeIdlePlayer1Turn(game);
+    makeIdlePlayer2Turn(game);
     makeIdlePlayer1Turn(game);
     makeIdlePlayer2Turn(game);
     // let player 1 capture neutral planet
@@ -110,8 +111,8 @@ describe("Could have a game", (): void => {
       ]
     });
     makeIdlePlayer2Turn(game);
-    // sitting here, waiting for 10 turns
-    for (let i = 0; i < 10; i++) {
+    // sitting here, waiting for 20 turns
+    for (let i = 0; i < 20; i++) {
       makeIdlePlayer1Turn(game);
       makeIdlePlayer2Turn(game);
     }
@@ -150,4 +151,11 @@ describe("Could have a game", (): void => {
   });
 
   // now game should not accept new turns
+  it("Does not accept any player turns after game completion", (): void => {
+    const result = game.addPlayerTurnData({
+      player: player1,
+      orders: []
+    });
+    expect(result).toBe(TurnStatus.IGNORED);
+  });
 });

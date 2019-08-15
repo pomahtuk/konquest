@@ -23,6 +23,12 @@ export enum GameStatus {
   "COMPLETED" = "completed"
 }
 
+export enum TurnStatus {
+  "VALID" = "valid",
+  "IGNORED" = "ignored",
+  "INVALID" = "invalid"
+}
+
 // making fields truly private
 const addPlayers = Symbol("addPlayers");
 const addNeutralPlanets = Symbol("addNeutralPlanets");
@@ -40,6 +46,7 @@ const turns = Symbol("turns");
 const status = Symbol("status");
 const winner = Symbol("winner");
 const findWinner = Symbol("findWinner");
+const findNextValidPlayer = Symbol("findNextValidPlayer");
 
 class ConquestGame {
   public static maxSize: number = 20;
@@ -66,6 +73,10 @@ class ConquestGame {
 
   public get height(): number {
     return this[fieldHeight];
+  }
+
+  public get waitingForPlayer(): number {
+    return this[waitingForPlayer];
   }
 
   public get status(): GameStatus {
@@ -99,21 +110,20 @@ class ConquestGame {
     });
   }
 
-  public addPlayerTurnData(data: PlayerTurn): void {
+  public addPlayerTurnData(data: PlayerTurn): TurnStatus {
     // do not accept any turns for completed game
     if (this[status] === GameStatus.COMPLETED) {
-      return;
+      return TurnStatus.IGNORED;
     }
     const { player } = data;
     const playerWeAreWaitingFor = this[players][this[waitingForPlayer]];
     if (player.id !== playerWeAreWaitingFor.id) {
-      throw new Error("We are waiting for other player to make a move");
+      return TurnStatus.INVALID;
     }
     // this will throw if data is invalid
     const result = validateTurnData(data, this[planets]);
     if (!result.valid) {
-      // TODO: not sure throwing is a best approach here
-      throw new Error(result.error);
+      return TurnStatus.INVALID;
     }
     // mark game as in progress if it is not started yet
     if (this.status === GameStatus.NOT_STARTED) {
@@ -127,13 +137,8 @@ class ConquestGame {
     turn.push(data);
     this[turns][this[currentTurn]] = turn;
     // update pointer to player we are waiting for
-    this[waitingForPlayer] += 1;
-    if (this[waitingForPlayer] >= this[players].length) {
-      // if we made full circle - start anew
-      this[waitingForPlayer] = 0;
-      // and process current turn
-      this[processTurn]();
-    }
+    this[findNextValidPlayer]();
+    return TurnStatus.VALID;
   }
 
   public getPlayers(): Player[] {
@@ -149,6 +154,20 @@ class ConquestGame {
   public getTurns(): PlayerTurn[][] {
     // returning deep copy of an object to prevent modification by pointer
     return JSON.parse(JSON.stringify(this[turns]));
+  }
+
+  private [findNextValidPlayer](): void {
+    this[waitingForPlayer] += 1;
+    if (this[waitingForPlayer] >= this[players].length) {
+      // if we made full circle - start anew
+      this[waitingForPlayer] = 0;
+      // and process current turn
+      this[processTurn]();
+    }
+    const nextPlayer = this[players][this[waitingForPlayer]];
+    if (nextPlayer.isDead) {
+      this[findNextValidPlayer]();
+    }
   }
 
   private [processTurn](): void {
@@ -192,16 +211,8 @@ class ConquestGame {
       }
     }
     // do production only for captured planets
-    Object.keys(this[planets])
-      .map((planetName): Planet => this[planets][planetName])
-      .filter((planet): boolean => !!planet.owner)
-      .forEach((planet): void => {
-        planet.ships += planet.production;
-        if (planet.owner) {
-          // increase produced ship count
-          planet.owner.statShipCount += 1;
-        }
-      });
+    Object.keys(this[planets]).forEach((planetName): void => this[planets][planetName].produce());
+
     // mark turn complete
     this[completedTurns][this[currentTurn]] = true;
     // mark dead players
