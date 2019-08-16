@@ -26,7 +26,8 @@
     "no-console": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "@typescript-eslint/member-ordering": "warn"
+    "@typescript-eslint/member-ordering": "warn",
+    "@typescript-eslint/ban-ts-ignore": "off"
   },
   "overrides": [
     {

@@ -49,20 +49,20 @@ const findWinner = Symbol("findWinner");
 const findNextValidPlayer = Symbol("findNextValidPlayer");
 
 class ConquestGame {
-  public static maxSize: number = 20;
-  public static minSize: number = 4;
-  public static minPlayers: number = 2;
-  public static maxPlayers: number = 4;
+  public static maxSize = 20;
+  public static minSize = 4;
+  public static minPlayers = 2;
+  public static maxPlayers = 4;
 
   private [fieldHeight]: number;
   private [fieldWidth]: number;
   private [turns]: PlayerTurn[][] = [];
   private [planets]: PlanetMap = {};
   private [players]: Player[] = [];
-  private [planetCount]: number = 0;
-  private [currentTurn]: number = 0;
+  private [planetCount] = 0;
+  private [currentTurn] = 0;
   private [completedTurns]: boolean[] = [];
-  private [waitingForPlayer]: number = 0;
+  private [waitingForPlayer] = 0;
   private [fleetTimeline]: Fleet[][] = [];
   private [status]: GameStatus = GameStatus.NOT_STARTED;
   private [winner]: Player | null = null;
@@ -172,6 +172,7 @@ class ConquestGame {
 
   private [processTurn](): void {
     // do not process processed turn
+    /* istanbul ignore next */
     if (this[completedTurns][this[currentTurn]]) {
       return;
     }

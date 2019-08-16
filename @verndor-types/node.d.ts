@@ -9,9 +9,9 @@ declare namespace NodeJS {
   type Variables = Partial<Record<OptionalVariables, string>> & Record<CompulsoryVariables, string>;
 
   interface Global {
-    __APOLLO_STATE__: any;
     window: Window & {
       env: Variables;
+      __PRELOADED_STATE__: any;
     };
   }
 
@@ -21,4 +21,8 @@ declare namespace NodeJS {
     env: ProcessEnv;
     browser?: boolean;
   }
+}
+
+interface Window {
+  __PRELOADED_STATE__: any;
 }

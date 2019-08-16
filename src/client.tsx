@@ -5,20 +5,28 @@ import { hydrate } from "react-dom";
 
 import { Client as Styletron } from "styletron-engine-atomic";
 import { Provider as StyletronProvider } from "styletron-react";
-import { LightTheme, BaseProvider } from "baseui";
-
 const engine = new Styletron();
+
+import { Provider } from "react-redux";
+import storeCreator from "./client/stores/game.store";
+import { GameState } from "./client/reducers/game.reducers";
+// Grab the state from a global variable injected into the server-generated HTML
+const preloadedState = window.__PRELOADED_STATE__;
+// Allow the passed state to be garbage-collected
+delete window.__PRELOADED_STATE__;
+const store = storeCreator(preloadedState as GameState);
+
 const el = document.getElementById("root");
 
 function main({ node }: { node: typeof el }): void {
   hydrate(
-    <StyletronProvider value={engine}>
-      <BaseProvider theme={LightTheme}>
+    <Provider store={store}>
+      <StyletronProvider value={engine}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </BaseProvider>
-    </StyletronProvider>,
+      </StyletronProvider>
+    </Provider>,
     node
   );
 }

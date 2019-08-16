@@ -1,9 +1,25 @@
 import React, { ReactElement } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 
 import ConquestGame from "../../logic/Game";
 import Planet from "../../logic/Planet";
+import { GameState } from "../reducers/game.reducers";
 
-const GameField = ({ game }: { game: ConquestGame }): ReactElement => {
+interface GameFieldStoreSlice {
+  game?: ConquestGame;
+}
+
+const selectorFunction = (state: GameState): GameFieldStoreSlice => ({
+  game: state.game
+});
+
+const GameField = (): ReactElement | null => {
+  const { game }: GameFieldStoreSlice = useSelector(selectorFunction, shallowEqual);
+
+  if (!game) {
+    return null;
+  }
+
   const { height, width } = game;
   const planets = game.getPlanets();
 
@@ -17,7 +33,7 @@ const GameField = ({ game }: { game: ConquestGame }): ReactElement => {
   });
 
   return (
-    <table style={{ width: 40 * width, height: 40 * height, tableLayout: "fixed" }}>
+    <table style={{ width: 40 * width, height: 40 * height, tableLayout: "fixed" }} data-testid="gamefield">
       <tbody>
         {field.map(
           (row: (Planet | undefined)[], index): ReactElement => (

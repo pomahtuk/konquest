@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-jsx-remove-data-test-id",
+      {
+        "attributes": "data-testid"
+      }
+    ]
+  ]
+}

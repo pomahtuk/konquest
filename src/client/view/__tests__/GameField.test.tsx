@@ -1,24 +1,31 @@
 import React from "react";
-import { mount } from "enzyme";
+import { render } from "@testing-library/react";
 
+import wrapWithReduxAndStyle, { CurrentStore } from "../testHelpers/wrapWithReduxAndStyle";
 import GameField from "../GameField";
-
-import ConquestGame from "../../../logic/Game";
+import { addPlayer, setGameOptions, startGame } from "../../actions/game.actions";
 import Player from "../../../logic/Player";
-
-const player1 = new Player("player1");
-const player2 = new Player("player2");
-
-const game = new ConquestGame({
-  fieldHeight: 10,
-  fieldWidth: 10,
-  neutralPlanetCount: 5,
-  players: [player1, player2]
-});
 
 describe("<GameField />", (): void => {
   it("renders <GameField /> component", (): void => {
-    const wrapper = mount(<GameField game={game} />);
+    const wrapper = render(wrapWithReduxAndStyle(<GameField />));
     expect(wrapper).toBeDefined();
+  });
+
+  it("Renders game withing <GameField /> component", (): void => {
+    // first - start the game
+    CurrentStore.dispatch(addPlayer(new Player("1")));
+    CurrentStore.dispatch(addPlayer(new Player("2")));
+    CurrentStore.dispatch(
+      setGameOptions({
+        fieldSize: 4,
+        neutralPlanetCount: 1
+      })
+    );
+    CurrentStore.dispatch(startGame());
+
+    const { container, getByTestId } = render(wrapWithReduxAndStyle(<GameField />));
+    expect(container).toBeDefined();
+    expect(getByTestId("gamefield")).toBeDefined();
   });
 });

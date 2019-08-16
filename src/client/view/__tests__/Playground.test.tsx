@@ -1,11 +1,12 @@
 import React from "react";
-import { mount } from "enzyme";
+import wrapWithReduxAndStyle from "../testHelpers/wrapWithReduxAndStyle";
+import { render } from "@testing-library/react";
 
 import Playground from "../Playground";
 
 describe("<Playground />", (): void => {
   it("renders three <Playground /> component", (): void => {
-    const wrapper = mount(<Playground />);
-    expect(wrapper).toBeDefined();
+    const { container } = render(wrapWithReduxAndStyle(<Playground />));
+    expect(container).toBeDefined();
   });
 });

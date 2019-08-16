@@ -1,51 +1,73 @@
 import React, { useEffect, ReactElement } from "react";
+import { shallowEqual, useSelector, useDispatch } from "react-redux";
 
-import { Slider } from "baseui/slider";
-import { Button } from "baseui/button";
-import { FormControl } from "baseui/form-control";
+import { FormGroup, Button, Slider } from "@blueprintjs/core";
 
-import ConquestGame, { GameOptions } from "../../logic/Game";
+import ConquestGame from "../../logic/Game";
 import getPlanetLimit from "../../logic/helpers/getPlanetLimit";
 import Player from "../../logic/Player";
 
 import useSlider from "../hooks/useSlider";
+import { StateGameOptions, setGameOptions, startGame, addPlayer } from "../actions/game.actions";
+import { GameState } from "../reducers/game.reducers";
 
-export interface GameSettingsProps {
-  onChange: (options: GameOptions) => void;
+interface SettingsStoreSlice {
+  gameOptions: StateGameOptions;
+  players: Player[];
 }
 
-const GameSettings = ({ onChange }: GameSettingsProps): ReactElement => {
-  const fieldSizeInput = useSlider(8, true);
-  const neutralPlanetsInput = useSlider(5, true);
+const selectorFunction = (state: GameState): SettingsStoreSlice => ({
+  gameOptions: state.gameOptions,
+  players: state.players
+});
 
-  const defaultPlayers = [new Player("One"), new Player("Two")];
-  const maxPlanets = getPlanetLimit(fieldSizeInput.value[0] ** 2, defaultPlayers.length);
+const GameSettings = (): ReactElement => {
+  const dispatch = useDispatch();
+  // get data from redux
+  const {
+    gameOptions: { fieldSize, neutralPlanetCount },
+    players
+  }: SettingsStoreSlice = useSelector(selectorFunction, shallowEqual);
+
+  // use it for inputs
+  const fieldSizeInput = useSlider(fieldSize);
+  const neutralPlanetsInput = useSlider(neutralPlanetCount);
+
+  //
+  const maxPlanets = getPlanetLimit(fieldSizeInput.value ** 2, players.length);
 
   useEffect((): void => {
-    const currentValue = neutralPlanetsInput.value[0];
+    const currentValue = neutralPlanetsInput.value;
     if (currentValue > maxPlanets) {
-      neutralPlanetsInput.onChange({ value: [maxPlanets] });
+      neutralPlanetsInput.onChange(maxPlanets);
     }
   });
 
   const changeSettings = (): void => {
-    onChange({
-      fieldHeight: fieldSizeInput.value[0],
-      fieldWidth: fieldSizeInput.value[0],
-      neutralPlanetCount: neutralPlanetsInput.value[0],
-      players: defaultPlayers
-    });
+    if (players.length < 2) {
+      dispatch(addPlayer(new Player("One")));
+      dispatch(addPlayer(new Player("Two")));
+    }
+    dispatch(
+      setGameOptions({
+        fieldSize: fieldSizeInput.value,
+        neutralPlanetCount: neutralPlanetsInput.value
+      })
+    );
+    dispatch(startGame());
   };
 
   return (
     <React.Fragment>
-      <FormControl label="Field Side size">
-        <Slider {...fieldSizeInput} min={ConquestGame.minSize} max={ConquestGame.maxSize} />
-      </FormControl>
-      <FormControl label={`Neutral planets (max: ${maxPlanets})`}>
-        <Slider {...neutralPlanetsInput} min={0} max={maxPlanets} />
-      </FormControl>
-      <Button onClick={changeSettings}>Start Game</Button>
+      <FormGroup label="Field size">
+        <Slider {...fieldSizeInput} min={ConquestGame.minSize} max={ConquestGame.maxSize} stepSize={1} labelStepSize={1} />
+      </FormGroup>
+      <FormGroup label="Neutral planets">
+        <Slider {...neutralPlanetsInput} min={0} max={maxPlanets} stepSize={1} labelStepSize={maxPlanets} />
+      </FormGroup>
+      <Button intent="primary" onClick={changeSettings}>
+        Start Game
+      </Button>
     </React.Fragment>
   );
 };
