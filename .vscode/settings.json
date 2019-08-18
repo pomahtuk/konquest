@@ -1,13 +1,5 @@
 {
-  "cSpell.words": [
-    "baseui",
-    "blueprintjs",
-    "crossorigin",
-    "gamefield",
-    "konquest",
-    "razzle",
-    "styletron",
-    "testid"
-  ],
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
+  "cSpell.words": ["baseui", "blueprintjs", "crossorigin", "gamefield", "konquest", "razzle", "styletron", "testid"],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "editor.formatOnSave": true
 }

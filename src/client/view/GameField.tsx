@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useSelector, useDispatch } from "react-redux";
 
 import ConquestGame from "../../logic/Game";
 import Planet from "../../logic/Planet";
 import { GameState } from "../reducers/game.reducers";
+import { startGame } from "../actions/game.actions";
 
 interface GameFieldStoreSlice {
   game?: ConquestGame;
@@ -14,6 +15,7 @@ const selectorFunction = (state: GameState): GameFieldStoreSlice => ({
 });
 
 const GameField = (): ReactElement | null => {
+  const dispatch = useDispatch();
   const { game }: GameFieldStoreSlice = useSelector(selectorFunction, shallowEqual);
 
   if (!game) {
@@ -32,24 +34,31 @@ const GameField = (): ReactElement | null => {
     field[y][x] = planet;
   });
 
+  const onRestartGame = (): void => {
+    dispatch(startGame());
+  };
+
   return (
-    <table style={{ width: 40 * width, height: 40 * height, tableLayout: "fixed" }} data-testid="gamefield">
-      <tbody>
-        {field.map(
-          (row: (Planet | undefined)[], index): ReactElement => (
-            <tr key={index}>
-              {row.map(
-                (cell: Planet, index): ReactElement => (
-                  <td key={cell ? cell.name : index} style={{ color: cell && cell.owner ? "red" : "inherit" }}>
-                    {cell ? cell.name : "·"}
-                  </td>
-                )
-              )}
-            </tr>
-          )
-        )}
-      </tbody>
-    </table>
+    <div>
+      <table style={{ width: 40 * width, height: 40 * height, tableLayout: "fixed" }} data-testid="gamefield">
+        <tbody>
+          {field.map(
+            (row: (Planet | undefined)[], index): ReactElement => (
+              <tr key={index}>
+                {row.map(
+                  (cell: Planet, index): ReactElement => (
+                    <td key={cell ? cell.name : index} style={{ color: cell && cell.owner ? "red" : "inherit" }}>
+                      {cell ? cell.name : "·"}
+                    </td>
+                  )
+                )}
+              </tr>
+            )
+          )}
+        </tbody>
+      </table>
+      <button onClick={onRestartGame}>Restart game</button>
+    </div>
   );
 };
 

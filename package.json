@@ -12,7 +12,6 @@
     "prettier": "prettier --write './src/**/*.{js,ts,tsx}'"
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.18.0",
     "@types/react-dom": "^16.8.5",
     "express": "^4.17.1",
     "razzle": "^3.0.0",

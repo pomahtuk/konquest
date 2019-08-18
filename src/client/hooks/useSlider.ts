@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 
 interface UseSliderHookReturn {
   value: number;
-  onChange: (value: number) => void;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  setValue: (value: number) => void;
 }
 
 const useSlider = (initialState: number): UseSliderHookReturn => {
   const [value, setValue] = useState<number>(initialState);
 
-  const onChange = (value: number): void => setValue(value);
+  const onChange = (event: ChangeEvent<HTMLInputElement>): void => setValue(parseInt(event.target.value, 10));
 
   return {
     value,
-    onChange
+    onChange,
+    setValue
   };
 };
 
