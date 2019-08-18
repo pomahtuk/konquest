@@ -4,10 +4,12 @@ import {
   StartGameAction,
   AddPlayerTurnAction,
   SetGameOptionsAction,
-  AddPlayerAction
+  AddPlayerAction,
+  SetPlanetAction
 } from "../actions/game.actions";
 import ConquestGame, { GameStatus, TurnStatus } from "../../logic/Game";
 import Player from "../../logic/Player";
+import Planet from "../../logic/Planet";
 
 export interface GameState {
   isStarted?: boolean;
@@ -20,6 +22,8 @@ export interface GameState {
   gameStartError: boolean;
   turnError: boolean;
   errorText?: string;
+  originPlanet?: Planet;
+  destinationPlanet?: Planet;
 }
 
 const defaultState: GameState = {
@@ -37,7 +41,7 @@ const defaultState: GameState = {
 
 function konquestGame(
   state: GameState = defaultState,
-  action: StartGameAction | AddPlayerTurnAction | SetGameOptionsAction | AddPlayerAction
+  action: StartGameAction | AddPlayerTurnAction | SetGameOptionsAction | AddPlayerAction | SetPlanetAction
 ): GameState {
   let game: ConquestGame;
   let turnStatus: TurnStatus;
@@ -106,6 +110,16 @@ function konquestGame(
           errorText: "Game not started"
         };
       }
+    case GameActionTypes.SET_ORIGIN_PLANET:
+      return {
+        ...state,
+        originPlanet: action.planet
+      };
+    case GameActionTypes.SET_DESTINATION_PLANET:
+      return {
+        ...state,
+        destinationPlanet: action.planet
+      };
     default:
       return state;
   }

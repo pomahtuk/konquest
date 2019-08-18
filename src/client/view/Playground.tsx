@@ -5,6 +5,7 @@ import GameField from "./GameField";
 import GameSettings from "./GameSettings";
 import PlayerSettings from "./PlayerSettings";
 import { GameState } from "../reducers/game.reducers";
+import PlayerTurn from "./PlayerTurn";
 
 interface PlaygroundStoreSlice {
   isStarted?: boolean;
@@ -18,11 +19,13 @@ const Playground = (): ReactElement => {
   const { isStarted }: PlaygroundStoreSlice = useSelector(selectorFunction);
   return (
     <div>
-      {!isStarted && (
+      {!isStarted ? (
         <React.Fragment>
           <PlayerSettings />
           <GameSettings />
         </React.Fragment>
+      ) : (
+        <PlayerTurn />
       )}
       <GameField />
     </div>

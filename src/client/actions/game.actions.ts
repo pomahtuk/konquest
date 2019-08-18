@@ -1,4 +1,5 @@
 import Player, { PlayerTurn } from "../../logic/Player";
+import Planet from "../../logic/Planet";
 
 /*
  * action types
@@ -7,7 +8,9 @@ export enum GameActionTypes {
   START_GAME = "START_GAME",
   SET_GAME_OPTIONS = "SET_GAME_OPTIONS",
   ADD_PLAYER_TURN = "ADD_PLAYER_TURN",
-  ADD_PLAYER = "ADD_PLAYER"
+  ADD_PLAYER = "ADD_PLAYER",
+  SET_ORIGIN_PLANET = "SET_ORIGIN_PLANET",
+  SET_DESTINATION_PLANET = "SET_DESTINATION_PLANET"
 }
 
 export interface StateGameOptions {
@@ -34,6 +37,11 @@ export interface AddPlayerAction {
   player: Player;
 }
 
+export interface SetPlanetAction {
+  type: typeof GameActionTypes.SET_ORIGIN_PLANET | typeof GameActionTypes.SET_DESTINATION_PLANET;
+  planet?: Planet;
+}
+
 /*
  * action creators
  */
@@ -51,4 +59,12 @@ export function addPlayerTurn(turnData: PlayerTurn): AddPlayerTurnAction {
 
 export function addPlayer(player: Player): AddPlayerAction {
   return { type: GameActionTypes.ADD_PLAYER, player };
+}
+
+export function setOriginPlanet(planet?: Planet): SetPlanetAction {
+  return { type: GameActionTypes.SET_ORIGIN_PLANET, planet };
+}
+
+export function setDestinationPlanet(planet?: Planet): SetPlanetAction {
+  return { type: GameActionTypes.SET_DESTINATION_PLANET, planet };
 }
