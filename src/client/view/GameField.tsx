@@ -1,39 +1,45 @@
 import React, { ReactElement } from "react";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
 
-import ConquestGame from "../../logic/Game";
-import Planet from "../../logic/Planet";
+import Planet, { PlanetMap } from "../../logic/Planet";
 import { GameState } from "../reducers/game.reducers";
 import { startGame, setDestinationPlanet, setOriginPlanet } from "../actions/game.actions";
 import Player from "../../logic/Player";
+import PlanetElement from "./Planet";
 
 interface GameFieldStoreSlice {
-  game?: ConquestGame;
   activePlayer: Player;
   originPlanet?: Planet;
   destinationPlanet?: Planet;
+  isStarted: boolean;
+  fieldSize: number;
+  planets: PlanetMap;
+  currentShipsModifier: { [key: string]: number };
 }
 
 const selectorFunction = (state: GameState): GameFieldStoreSlice => ({
-  game: state.game,
   activePlayer: state.activePlayer as Player,
   originPlanet: state.originPlanet,
-  destinationPlanet: state.destinationPlanet
+  destinationPlanet: state.destinationPlanet,
+  isStarted: state.isStarted,
+  fieldSize: state.gameOptions.fieldSize,
+  planets: state.planets,
+  currentShipsModifier: state.currentShipsModifier
 });
 
 const GameField = (): ReactElement | null => {
   const dispatch = useDispatch();
-  const { game, originPlanet, activePlayer, destinationPlanet }: GameFieldStoreSlice = useSelector(selectorFunction, shallowEqual);
+  const { isStarted, originPlanet, activePlayer, destinationPlanet, fieldSize, planets, currentShipsModifier }: GameFieldStoreSlice = useSelector(
+    selectorFunction,
+    shallowEqual
+  );
 
-  if (!game) {
+  if (!isStarted) {
     return null;
   }
 
-  const { height, width } = game;
-  const planets = game.getPlanets();
-
   // prepare matrix
-  const field: (Planet | undefined)[][] = new Array(height).fill(undefined).map((): Planet[] => new Array(width).fill(undefined));
+  const field: (Planet | undefined)[][] = new Array(fieldSize).fill(undefined).map((): Planet[] => new Array(fieldSize).fill(undefined));
   // place planets on field
   Object.keys(planets).forEach((planetName): void => {
     const planet = planets[planetName];
@@ -61,7 +67,7 @@ const GameField = (): ReactElement | null => {
 
   return (
     <div>
-      <table style={{ width: 40 * width, height: 40 * height, tableLayout: "fixed" }} data-testid="gamefield">
+      <table style={{ width: 40 * fieldSize, height: 40 * fieldSize, tableLayout: "fixed" }} data-testid="gamefield">
         <tbody>
           {field.map(
             (row: (Planet | undefined)[], index): ReactElement => (
@@ -69,26 +75,13 @@ const GameField = (): ReactElement | null => {
                 {row.map(
                   (cell: Planet, index): ReactElement => (
                     <td key={cell ? cell.name : index}>
-                      {cell ? (
-                        <span
-                          style={{
-                            color: cell.owner
-                              ? "red"
-                              : originPlanet && cell.name === originPlanet.name
-                              ? "blue"
-                              : destinationPlanet && cell.name === destinationPlanet.name
-                              ? "green"
-                              : "inherit"
-                          }}
-                          onClick={(): void => onPlanetSelect(cell)}
-                        >
-                          {cell.name}
-                          <br />
-                          {cell.ships}
-                        </span>
-                      ) : (
-                        "·"
-                      )}
+                      <PlanetElement
+                        planet={cell}
+                        isOrigin={(originPlanet && cell && cell.name === originPlanet.name) || false}
+                        isDestination={(destinationPlanet && cell && cell.name === destinationPlanet.name) || false}
+                        onSelect={onPlanetSelect}
+                        modifier={cell ? currentShipsModifier[cell.name] : 0}
+                      />
                     </td>
                   )
                 )}

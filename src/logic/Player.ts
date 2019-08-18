@@ -9,6 +9,9 @@ export default class Player {
   public constructor(name: string) {
     this.id = Math.floor(Math.random() * 1000);
     this.screenName = name;
+    this.statEnemyShipsDestroyed = 0;
+    this.statEnemyFleetsDestroyed = 0;
+    this.statShipCount = 0;
   }
 }
 

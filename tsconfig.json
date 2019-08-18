@@ -2,7 +2,7 @@
   "types": ["node"],
   "compilerOptions": {
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types/", "./@verndor-types"],
+    "typeRoots": ["./node_modules/@types/", "./@vendor-types"],
     "outDir": "build/dist",
     "module": "esnext",
     "target": "es5",

@@ -5,25 +5,28 @@ import {
   AddPlayerTurnAction,
   SetGameOptionsAction,
   AddPlayerAction,
-  SetPlanetAction
+  SetPlanetAction,
+  AddPlayerTurnOrderAction
 } from "../actions/game.actions";
 import ConquestGame, { GameStatus, TurnStatus } from "../../logic/Game";
-import Player from "../../logic/Player";
-import Planet from "../../logic/Planet";
+import Player, { PlayerTurnOrder } from "../../logic/Player";
+import Planet, { PlanetMap } from "../../logic/Planet";
 
 export interface GameState {
-  isStarted?: boolean;
-  status?: GameStatus;
+  isStarted: boolean;
+  status: GameStatus;
   winner: Player | null;
   activePlayer?: Player;
   players: Player[];
+  planets: PlanetMap;
   gameOptions: StateGameOptions;
-  game?: ConquestGame;
   gameStartError: boolean;
   turnError: boolean;
   errorText?: string;
   originPlanet?: Planet;
   destinationPlanet?: Planet;
+  currentPlayerOrders: PlayerTurnOrder[];
+  currentShipsModifier: { [key: string]: number };
 }
 
 const defaultState: GameState = {
@@ -31,19 +34,23 @@ const defaultState: GameState = {
   status: GameStatus.NOT_STARTED,
   winner: null,
   players: [],
+  planets: {},
   gameOptions: {
     fieldSize: 10,
     neutralPlanetCount: 4
   },
   gameStartError: false,
-  turnError: false
+  turnError: false,
+  currentPlayerOrders: [],
+  currentShipsModifier: {}
 };
+
+let game: ConquestGame;
 
 function konquestGame(
   state: GameState = defaultState,
-  action: StartGameAction | AddPlayerTurnAction | SetGameOptionsAction | AddPlayerAction | SetPlanetAction
+  action: StartGameAction | AddPlayerTurnAction | SetGameOptionsAction | AddPlayerAction | SetPlanetAction | AddPlayerTurnOrderAction
 ): GameState {
-  let game: ConquestGame;
   let turnStatus: TurnStatus;
   switch (action.type) {
     case GameActionTypes.SET_GAME_OPTIONS:
@@ -65,17 +72,20 @@ function konquestGame(
           fieldHeight: state.gameOptions.fieldSize,
           fieldWidth: state.gameOptions.fieldSize,
           neutralPlanetCount: state.gameOptions.neutralPlanetCount,
-          players: state.players
+          players: state.players.map((p) => new Player(p.screenName))
         });
         return {
           ...state,
-          game,
           isStarted: true,
           gameStartError: false,
           status: game.status,
           winner: game.winner,
+          players: game.getPlayers(),
           activePlayer: game.getPlayers()[game.waitingForPlayer],
-          errorText: undefined
+          planets: game.getPlanets(),
+          errorText: undefined,
+          currentPlayerOrders: [],
+          currentShipsModifier: {}
         };
       } catch (e) {
         return {
@@ -84,17 +94,30 @@ function konquestGame(
           errorText: e.message
         };
       }
+    case GameActionTypes.ADD_PLAYER_TURN_ORDER:
+      return {
+        ...state,
+        currentPlayerOrders: [...state.currentPlayerOrders, action.order],
+        currentShipsModifier: [...state.currentPlayerOrders, action.order].reduce((acc, order): { [key: string]: number } => {
+          acc[order.origin] = (acc[order.origin] || 0) + order.amount;
+          return acc;
+        }, {})
+      };
     case GameActionTypes.ADD_PLAYER_TURN:
-      if (state.game && state.isStarted === true) {
-        turnStatus = state.game.addPlayerTurnData(action.turnData);
+      if (game && state.isStarted === true) {
+        turnStatus = game.addPlayerTurnData(action.turnData);
         if (turnStatus !== TurnStatus.INVALID) {
           return {
             ...state,
-            status: state.game.status,
-            winner: state.game.winner,
-            activePlayer: state.game.getPlayers()[state.game.waitingForPlayer],
+            status: game.status,
+            winner: game.winner,
+            players: game.getPlayers(),
+            activePlayer: game.getPlayers()[game.waitingForPlayer],
+            planets: game.getPlanets(),
             turnError: false,
-            errorText: undefined
+            errorText: undefined,
+            currentPlayerOrders: [],
+            currentShipsModifier: {}
           };
         } else {
           return {

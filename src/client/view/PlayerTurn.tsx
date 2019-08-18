@@ -3,26 +3,29 @@ import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
 import { GameState } from "../reducers/game.reducers";
 import Player, { PlayerTurnOrder } from "../../logic/Player";
-import { addPlayerTurn, setDestinationPlanet, setOriginPlanet } from "../actions/game.actions";
+import { addPlayerTurn, setDestinationPlanet, setOriginPlanet, addPlayerTurnOrder } from "../actions/game.actions";
 import Planet from "../../logic/Planet";
+import AddPlayerTurn from "./AddPlayerTurn";
+import OrderList from "./OrderList";
 
 interface PlayerTurnStoreSlice {
   activePlayer: Player;
   originPlanet?: Planet;
   destinationPlanet?: Planet;
+  orders: PlayerTurnOrder[];
 }
 
 const selectorFunction = (state: GameState): PlayerTurnStoreSlice => ({
   activePlayer: state.activePlayer as Player,
   originPlanet: state.originPlanet,
-  destinationPlanet: state.destinationPlanet
+  destinationPlanet: state.destinationPlanet,
+  orders: state.currentPlayerOrders
 });
 
 const PlayerTurn = (): ReactElement => {
   const dispatch = useDispatch();
-  const [orders, setOrders] = useState<PlayerTurnOrder[]>([]);
+  const { orders, activePlayer, originPlanet, destinationPlanet }: PlayerTurnStoreSlice = useSelector(selectorFunction, shallowEqual);
   const [newOrderAmount, setNewOrderAmount] = useState(0);
-  const { activePlayer, originPlanet, destinationPlanet }: PlayerTurnStoreSlice = useSelector(selectorFunction, shallowEqual);
 
   const onOrderAmountChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setNewOrderAmount(parseInt(event.target.value, 10));
@@ -36,14 +39,13 @@ const PlayerTurn = (): ReactElement => {
   const onAddOrder = (): void => {
     originPlanet &&
       destinationPlanet &&
-      setOrders([
-        ...orders,
-        {
-          amount: newOrderAmount,
+      dispatch(
+        addPlayerTurnOrder({
           origin: originPlanet.name,
-          destination: destinationPlanet.name
-        }
-      ]);
+          destination: destinationPlanet.name,
+          amount: newOrderAmount
+        })
+      );
     cleanUpPlanets();
   };
 
@@ -54,37 +56,23 @@ const PlayerTurn = (): ReactElement => {
         orders
       })
     );
-    // cleanup orders
-    setOrders([]);
-    setNewOrderAmount(0);
     // clean up planet selection
     cleanUpPlanets();
   };
 
   return (
     <div>
-      <h2>{activePlayer.screenName} turn</h2>
-      {!originPlanet && <div>Please select origin planet</div>}
-      {originPlanet && !destinationPlanet && <div>Please select destination planet</div>}
-      {originPlanet && destinationPlanet && (
-        <div>
-          Sending fleet from {originPlanet.name} to {destinationPlanet.name}. Select amount:
-          <input type="number" value={newOrderAmount} onChange={onOrderAmountChange} />
-          <button onClick={onAddOrder}>Add order</button>
-        </div>
-      )}
+      <AddPlayerTurn
+        activePlayer={activePlayer}
+        amount={newOrderAmount}
+        originPlanet={originPlanet}
+        destinationPlanet={destinationPlanet}
+        onOrderAmountChange={onOrderAmountChange}
+        onAddOrder={onAddOrder}
+      />
 
-      {orders && orders.length > 0 ? (
-        <ul>
-          {orders.map((order) => (
-            <li key={`${order.amount}${order.origin}${order.destination}`}>
-              Send fleet({order.amount}) from {order.origin} to {order.destination}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        "No orders"
-      )}
+      <OrderList orders={orders} />
+
       <button onClick={onCompleteTurn}>Complete turn</button>
     </div>
   );

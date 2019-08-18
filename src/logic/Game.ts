@@ -36,7 +36,6 @@ const processTurn = Symbol("processTurn");
 const fleetTimeline = Symbol("fleetTimeline");
 const waitingForPlayer = Symbol("waitingForPlayer");
 const currentTurn = Symbol("currentTurn");
-const completedTurns = Symbol("completedTurns");
 const players = Symbol("players");
 const planets = Symbol("planets");
 const planetCount = Symbol("planetCount");
@@ -61,7 +60,6 @@ class ConquestGame {
   private [players]: Player[] = [];
   private [planetCount] = 0;
   private [currentTurn] = 0;
-  private [completedTurns]: boolean[] = [];
   private [waitingForPlayer] = 0;
   private [fleetTimeline]: Fleet[][] = [];
   private [status]: GameStatus = GameStatus.NOT_STARTED;
@@ -171,11 +169,6 @@ class ConquestGame {
   }
 
   private [processTurn](): void {
-    // do not process processed turn
-    /* istanbul ignore next */
-    if (this[completedTurns][this[currentTurn]]) {
-      return;
-    }
     // send fleets
     const currentTurns = this[turns][this[currentTurn]];
     for (const turn of currentTurns) {
@@ -213,9 +206,6 @@ class ConquestGame {
     }
     // do production only for captured planets
     Object.keys(this[planets]).forEach((planetName): void => this[planets][planetName].produce());
-
-    // mark turn complete
-    this[completedTurns][this[currentTurn]] = true;
     // mark dead players
     markDeadPlayers({
       players: this[players],
