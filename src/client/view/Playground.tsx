@@ -6,6 +6,7 @@ import GameSettings from "./GameSettings";
 import PlayerSettings from "./PlayerSettings";
 import { GameState } from "../reducers/game.reducers";
 import PlayerTurn from "./PlayerTurn";
+import ArrivingFleets from "./ArrivingFleets";
 
 interface PlaygroundStoreSlice {
   isStarted?: boolean;
@@ -31,7 +32,14 @@ const Playground = (): ReactElement => {
       ) : (
         <PlayerTurn />
       )}
-      <GameField />
+      <div className="pure-g">
+        <div className="pure-u-2-3">
+          <GameField />
+        </div>
+        <div className="pure-u-1-3">
+          <ArrivingFleets />
+        </div>
+      </div>
     </div>
   );
 };

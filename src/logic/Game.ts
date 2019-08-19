@@ -154,6 +154,10 @@ class ConquestGame {
     return JSON.parse(JSON.stringify(this[turns]));
   }
 
+  public getFleets(): Fleet[][] {
+    return JSON.parse(JSON.stringify(this[fleetTimeline].slice(this[currentTurn])));
+  }
+
   private [findNextValidPlayer](): void {
     this[waitingForPlayer] += 1;
     if (this[waitingForPlayer] >= this[players].length) {
