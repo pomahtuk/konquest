@@ -3,6 +3,8 @@ import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import Player from "../../logic/Player";
 import { GameState } from "../reducers/game.reducers";
 import { addPlayer } from "../actions/game.actions";
+import PlayersList from "./PlayersList";
+import AddPlayer from "./AddPlayer";
 
 interface PlayerSettingsStoreSlice {
   players: Player[];
@@ -17,7 +19,7 @@ const PlayerSettings = (): ReactElement => {
   const dispatch = useDispatch();
   // get data from redux
   const { players }: PlayerSettingsStoreSlice = useSelector(selectorFunction, shallowEqual);
-
+  // setup handlers
   const onNameChange = (event: ChangeEvent<HTMLInputElement>): void => setNewPlayerName(event.target.value);
   const onAddPlayer = (): void => {
     dispatch(addPlayer(new Player(newPlayerName)));
@@ -27,19 +29,8 @@ const PlayerSettings = (): ReactElement => {
   return (
     <div>
       <h1>Players:</h1>
-      {players ? (
-        <ul>
-          {players.map(
-            (player): ReactElement => (
-              <li key={player.id}>{player.screenName}</li>
-            )
-          )}
-        </ul>
-      ) : null}
-      <div>
-        <input type="text" value={newPlayerName} onChange={onNameChange}></input>
-        <button onClick={onAddPlayer}>Add player</button>
-      </div>
+      <PlayersList players={players} />
+      <AddPlayer newPlayerName={newPlayerName} onNameChange={onNameChange} onAddPlayer={onAddPlayer} />
     </div>
   );
 };

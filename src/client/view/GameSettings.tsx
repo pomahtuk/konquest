@@ -51,21 +51,32 @@ const GameSettings = (): ReactElement => {
   };
 
   return (
-    <React.Fragment>
-      <label>
-        Field size
-        <br />
-        <input type="number" value={fieldSizeValue} onChange={changeFieldSize} min={ConquestGame.minSize} max={ConquestGame.maxSize} />
-      </label>
-      <br />
-      <label>
-        Neutral planets
-        <br />
-        <input type="number" value={neutralPlanetsValue} onChange={changeNeutral} min={0} max={maxPlanets} />
-      </label>
-      <br />
-      <button onClick={changeSettings}>Start Game</button>
-    </React.Fragment>
+    <form className="pure-form pure-form-aligned">
+      <fieldset>
+        <div className="pure-control-group">
+          <label htmlFor="fieldSize">Field size</label>
+          <input
+            id="fieldSize"
+            type="number"
+            value={fieldSizeValue}
+            onChange={changeFieldSize}
+            min={ConquestGame.minSize}
+            max={ConquestGame.maxSize}
+            required
+          />
+        </div>
+        <div className="pure-control-group">
+          <label htmlFor="neutralPlanets">Neutral planets</label>
+          <input id="neutralPlanets" type="number" value={neutralPlanetsValue} onChange={changeNeutral} min={0} max={maxPlanets} required />
+        </div>
+
+        <div className="pure-controls">
+          <button className="pure-button pure-button-primary" onClick={changeSettings}>
+            Start Game
+          </button>
+        </div>
+      </fieldset>
+    </form>
   );
 };
 

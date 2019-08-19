@@ -31,7 +31,8 @@ const PlayerTurn = (): ReactElement => {
     setNewOrderAmount(parseInt(event.target.value, 10));
   };
 
-  const cleanUpPlanets = (): void => {
+  const cleanUp = (): void => {
+    setNewOrderAmount(0);
     dispatch(setOriginPlanet(undefined));
     dispatch(setDestinationPlanet(undefined));
   };
@@ -46,7 +47,7 @@ const PlayerTurn = (): ReactElement => {
           amount: newOrderAmount
         })
       );
-    cleanUpPlanets();
+    cleanUp();
   };
 
   const onCompleteTurn = (): void => {
@@ -57,7 +58,7 @@ const PlayerTurn = (): ReactElement => {
       })
     );
     // clean up planet selection
-    cleanUpPlanets();
+    cleanUp();
   };
 
   return (
@@ -69,11 +70,14 @@ const PlayerTurn = (): ReactElement => {
         destinationPlanet={destinationPlanet}
         onOrderAmountChange={onOrderAmountChange}
         onAddOrder={onAddOrder}
+        onCancel={cleanUp}
       />
 
       <OrderList orders={orders} />
 
-      <button onClick={onCompleteTurn}>Complete turn</button>
+      <button className="pure-button pure-button-primary" onClick={onCompleteTurn}>
+        Complete turn
+      </button>
     </div>
   );
 };

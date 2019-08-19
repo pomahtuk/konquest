@@ -90,7 +90,9 @@ const GameField = (): ReactElement | null => {
           )}
         </tbody>
       </table>
-      <button onClick={onRestartGame}>Restart game</button>
+      <button className="pure-button" onClick={onRestartGame}>
+        Restart game
+      </button>
     </div>
   );
 };

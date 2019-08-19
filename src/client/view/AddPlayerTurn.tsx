@@ -9,6 +9,7 @@ export interface AddPlayerTurnProps {
   amount: number;
   onOrderAmountChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onAddOrder: () => void;
+  onCancel: () => void;
 }
 
 const AddPlayerTurn = ({
@@ -17,7 +18,8 @@ const AddPlayerTurn = ({
   originPlanet,
   destinationPlanet,
   onOrderAmountChange,
-  onAddOrder
+  onAddOrder,
+  onCancel
 }: AddPlayerTurnProps): ReactElement => {
   return (
     <div>
@@ -25,11 +27,22 @@ const AddPlayerTurn = ({
       {!originPlanet && <div>Please select origin planet</div>}
       {originPlanet && !destinationPlanet && <div>Please select destination planet</div>}
       {originPlanet && destinationPlanet && (
-        <div>
-          Sending fleet from {originPlanet.name} to {destinationPlanet.name}. Select amount:
-          <input type="number" value={amount} onChange={onOrderAmountChange} />
-          <button onClick={onAddOrder}>Add order</button>
-        </div>
+        <form className="pure-form">
+          <fieldset>
+            <legend>
+              Sending fleet from {originPlanet.name} to {destinationPlanet.name}. Select amount:
+            </legend>
+            <input type="number" value={amount} onChange={onOrderAmountChange} />
+            <button className="pure-button pure-button-primary" onClick={onAddOrder}>
+              Add order
+            </button>
+          </fieldset>
+        </form>
+      )}
+      {originPlanet && (
+        <button className="pure-button" onClick={onCancel}>
+          Cancel order
+        </button>
       )}
     </div>
   );

@@ -3,10 +3,12 @@
     "baseui",
     "blueprintjs",
     "crossorigin",
+    "downlevel",
     "esnext",
     "gamefield",
     "interop",
     "konquest",
+    "purecss",
     "razzle",
     "styletron",
     "testid"

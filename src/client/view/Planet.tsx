@@ -13,7 +13,8 @@ const PlanetElement = ({ planet, isDestination, isOrigin, modifier = 0, onSelect
   planet ? (
     <span
       style={{
-        color: planet.owner ? "red" : isOrigin ? "blue" : isDestination ? "green" : "inherit"
+        color: planet.owner ? "red" : isOrigin ? "blue" : isDestination ? "green" : "inherit",
+        cursor: "pointer"
       }}
       onClick={(): void => onSelect(planet)}
     >
