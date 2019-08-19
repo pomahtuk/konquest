@@ -51,32 +51,35 @@ const GameSettings = (): ReactElement => {
   };
 
   return (
-    <form className="pure-form pure-form-aligned">
-      <fieldset>
-        <div className="pure-control-group">
-          <label htmlFor="fieldSize">Field size</label>
-          <input
-            id="fieldSize"
-            type="number"
-            value={fieldSizeValue}
-            onChange={changeFieldSize}
-            min={ConquestGame.minSize}
-            max={ConquestGame.maxSize}
-            required
-          />
-        </div>
-        <div className="pure-control-group">
-          <label htmlFor="neutralPlanets">Neutral planets</label>
-          <input id="neutralPlanets" type="number" value={neutralPlanetsValue} onChange={changeNeutral} min={0} max={maxPlanets} required />
-        </div>
+    <React.Fragment>
+      <h1>Game settings:</h1>
+      <form className="pure-form pure-form-aligned">
+        <fieldset>
+          <div className="pure-control-group">
+            <label htmlFor="fieldSize">Field size</label>
+            <input
+              id="fieldSize"
+              type="number"
+              value={fieldSizeValue}
+              onChange={changeFieldSize}
+              min={ConquestGame.minSize}
+              max={ConquestGame.maxSize}
+              required
+            />
+          </div>
+          <div className="pure-control-group">
+            <label htmlFor="neutralPlanets">Neutral planets</label>
+            <input id="neutralPlanets" type="number" value={neutralPlanetsValue} onChange={changeNeutral} min={0} max={maxPlanets} required />
+          </div>
 
-        <div className="pure-controls">
-          <button className="pure-button pure-button-primary" onClick={changeSettings}>
-            Start Game
-          </button>
-        </div>
-      </fieldset>
-    </form>
+          <div className="pure-controls">
+            <button className="pure-button pure-button-primary" onClick={changeSettings}>
+              Start Game
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </React.Fragment>
   );
 };
 

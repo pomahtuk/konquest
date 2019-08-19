@@ -22,8 +22,10 @@ const PlayerSettings = (): ReactElement => {
   // setup handlers
   const onNameChange = (event: ChangeEvent<HTMLInputElement>): void => setNewPlayerName(event.target.value);
   const onAddPlayer = (): void => {
-    dispatch(addPlayer(new Player(newPlayerName)));
-    setNewPlayerName("");
+    if (newPlayerName && newPlayerName !== "") {
+      dispatch(addPlayer(new Player(newPlayerName)));
+      setNewPlayerName("");
+    }
   };
 
   return (

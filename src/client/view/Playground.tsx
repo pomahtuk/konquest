@@ -20,10 +20,14 @@ const Playground = (): ReactElement => {
   return (
     <div>
       {!isStarted ? (
-        <React.Fragment>
-          <PlayerSettings />
-          <GameSettings />
-        </React.Fragment>
+        <div className="pure-g">
+          <div className="pure-u-1-2">
+            <PlayerSettings />
+          </div>
+          <div className="pure-u-1-2">
+            <GameSettings />
+          </div>
+        </div>
       ) : (
         <PlayerTurn />
       )}
