@@ -8,32 +8,35 @@ import GameSettings from "./GameSettings";
 import PlayerSettings from "./PlayerSettings";
 import PlayerTurn from "./PlayerTurn";
 import ArrivingFleets from "./ArrivingFleets";
+import Container from "./foundations/Container";
+import Grid from "./foundations/Grid";
+import GridColumn from "./foundations/GridColumn";
 
 const Playground = (): ReactElement => {
   const { isStarted }: PlaygroundStoreSlice = useSelector(playgroundSelectorFunction);
   return (
-    <div>
+    <Container centered>
       {!isStarted ? (
-        <div className="pure-g">
-          <div className="pure-u-1-2">
+        <Grid bleed={true}>
+          <GridColumn size="half">
             <PlayerSettings />
-          </div>
-          <div className="pure-u-1-2">
+          </GridColumn>
+          <GridColumn size="half">
             <GameSettings />
-          </div>
-        </div>
+          </GridColumn>
+        </Grid>
       ) : (
         <PlayerTurn />
       )}
-      <div className="pure-g">
-        <div className="pure-u-2-3">
+      <Grid>
+        <GridColumn size={8}>
           <GameField />
-        </div>
-        <div className="pure-u-1-3">
+        </GridColumn>
+        <GridColumn size={4}>
           <ArrivingFleets />
-        </div>
-      </div>
-    </div>
+        </GridColumn>
+      </Grid>
+    </Container>
   );
 };
 

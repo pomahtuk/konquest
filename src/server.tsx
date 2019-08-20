@@ -11,6 +11,8 @@ const engine = new Styletron();
 
 import { Provider } from "react-redux";
 import storeCreator from "./client/stores/game.store";
+import ThemeProvider from "./client/view/themes/ThemeProvider";
+import baseTheme from "./client/view/themes/base.theme";
 const store = storeCreator();
 
 // eslint-disable-next-line
@@ -26,9 +28,11 @@ server
     const markup = renderToString(
       <Provider store={store}>
         <StyletronProvider value={engine}>
-          <StaticRouter context={context} location={req.url}>
-            <App />
-          </StaticRouter>
+          <ThemeProvider theme={baseTheme}>
+            <StaticRouter context={context} location={req.url}>
+              <App />
+            </StaticRouter>
+          </ThemeProvider>
         </StyletronProvider>
       </Provider>
     );

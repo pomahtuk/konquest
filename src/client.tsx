@@ -10,6 +10,8 @@ const engine = new Styletron();
 import { Provider } from "react-redux";
 import storeCreator from "./client/stores/game.store";
 import { GameState } from "./client/reducers/game.reducers";
+import ThemeProvider from "./client/view/themes/ThemeProvider";
+import baseTheme from "./client/view/themes/base.theme";
 // Grab the state from a global variable injected into the server-generated HTML
 const preloadedState = window.__PRELOADED_STATE__;
 // Allow the passed state to be garbage-collected
@@ -22,9 +24,11 @@ function main({ node }: { node: typeof el }): void {
   hydrate(
     <Provider store={store}>
       <StyletronProvider value={engine}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <ThemeProvider theme={baseTheme}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ThemeProvider>
       </StyletronProvider>
     </Provider>,
     node
