@@ -1,23 +1,16 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 
+import playgroundSelectorFunction, { PlaygroundStoreSlice } from "../selectors/playground.selector";
+
 import GameField from "./GameField";
 import GameSettings from "./GameSettings";
 import PlayerSettings from "./PlayerSettings";
-import { GameState } from "../reducers/game.reducers";
 import PlayerTurn from "./PlayerTurn";
 import ArrivingFleets from "./ArrivingFleets";
 
-interface PlaygroundStoreSlice {
-  isStarted?: boolean;
-}
-
-const selectorFunction = (state: GameState): PlaygroundStoreSlice => ({
-  isStarted: state.isStarted
-});
-
 const Playground = (): ReactElement => {
-  const { isStarted }: PlaygroundStoreSlice = useSelector(selectorFunction);
+  const { isStarted }: PlaygroundStoreSlice = useSelector(playgroundSelectorFunction);
   return (
     <div>
       {!isStarted ? (

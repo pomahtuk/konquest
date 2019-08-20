@@ -1,24 +1,19 @@
 import React, { useState, ReactElement, ChangeEvent } from "react";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
-import Player from "../../logic/Player";
-import { GameState } from "../reducers/game.reducers";
+
 import { addPlayer } from "../actions/game.actions";
+import playerSettingsSelectorFunction, { PlayerSettingsStoreSlice } from "../selectors/playerSettings.selector";
+
+import Player from "../../logic/Player";
+
 import PlayersList from "./PlayersList";
 import AddPlayer from "./AddPlayer";
-
-interface PlayerSettingsStoreSlice {
-  players: Player[];
-}
-
-const selectorFunction = (state: GameState): PlayerSettingsStoreSlice => ({
-  players: state.players
-});
 
 const PlayerSettings = (): ReactElement => {
   const [newPlayerName, setNewPlayerName] = useState("");
   const dispatch = useDispatch();
   // get data from redux
-  const { players }: PlayerSettingsStoreSlice = useSelector(selectorFunction, shallowEqual);
+  const { players }: PlayerSettingsStoreSlice = useSelector(playerSettingsSelectorFunction, shallowEqual);
   // setup handlers
   const onNameChange = (event: ChangeEvent<HTMLInputElement>): void => setNewPlayerName(event.target.value);
   const onAddPlayer = (): void => {

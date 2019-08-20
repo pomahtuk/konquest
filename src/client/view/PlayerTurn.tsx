@@ -1,30 +1,15 @@
 import React, { ReactElement, useState, ChangeEvent } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
-import { GameState } from "../reducers/game.reducers";
-import Player, { PlayerTurnOrder } from "../../logic/Player";
 import { addPlayerTurn, setDestinationPlanet, setOriginPlanet, addPlayerTurnOrder } from "../actions/game.actions";
-import Planet from "../../logic/Planet";
+import playerTurnSelectorFunction, { PlayerTurnStoreSlice } from "../selectors/playerTurn.selector";
+
 import AddPlayerTurn from "./AddPlayerTurn";
 import OrderList from "./OrderList";
 
-interface PlayerTurnStoreSlice {
-  activePlayer: Player;
-  originPlanet?: Planet;
-  destinationPlanet?: Planet;
-  orders: PlayerTurnOrder[];
-}
-
-const selectorFunction = (state: GameState): PlayerTurnStoreSlice => ({
-  activePlayer: state.activePlayer as Player,
-  originPlanet: state.originPlanet,
-  destinationPlanet: state.destinationPlanet,
-  orders: state.currentPlayerOrders
-});
-
 const PlayerTurn = (): ReactElement => {
   const dispatch = useDispatch();
-  const { orders, activePlayer, originPlanet, destinationPlanet }: PlayerTurnStoreSlice = useSelector(selectorFunction, shallowEqual);
+  const { orders, activePlayer, originPlanet, destinationPlanet }: PlayerTurnStoreSlice = useSelector(playerTurnSelectorFunction, shallowEqual);
   const [newOrderAmount, setNewOrderAmount] = useState(0);
 
   const onOrderAmountChange = (event: ChangeEvent<HTMLInputElement>): void => {

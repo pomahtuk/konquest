@@ -3,21 +3,11 @@ import { shallowEqual, useSelector, useDispatch } from "react-redux";
 
 import ConquestGame from "../../logic/Game";
 import getPlanetLimit from "../../logic/helpers/getPlanetLimit";
-import Player from "../../logic/Player";
+
+import { setGameOptions, startGame } from "../actions/game.actions";
+import gameSettingsSelectorFunction, { SettingsStoreSlice } from "../selectors/gameSettings.selector";
 
 import useSlider from "../hooks/useSlider";
-import { StateGameOptions, setGameOptions, startGame } from "../actions/game.actions";
-import { GameState } from "../reducers/game.reducers";
-
-interface SettingsStoreSlice {
-  gameOptions: StateGameOptions;
-  players: Player[];
-}
-
-const selectorFunction = (state: GameState): SettingsStoreSlice => ({
-  gameOptions: state.gameOptions,
-  players: state.players
-});
 
 const GameSettings = (): ReactElement => {
   const dispatch = useDispatch();
@@ -25,7 +15,7 @@ const GameSettings = (): ReactElement => {
   const {
     gameOptions: { fieldSize, neutralPlanetCount },
     players
-  }: SettingsStoreSlice = useSelector(selectorFunction, shallowEqual);
+  }: SettingsStoreSlice = useSelector(gameSettingsSelectorFunction, shallowEqual);
 
   // use it for inputs
   const { value: fieldSizeValue, onChange: changeFieldSize } = useSlider(fieldSize);

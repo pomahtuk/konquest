@@ -1,17 +1,10 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
-import { GameState, ArrivingFleet } from "../reducers/game.reducers";
 
-interface ArrivingFleetsStoreSlice {
-  currentPlayerFleets: ArrivingFleet[];
-}
-
-const selectorFunction = (state: GameState): ArrivingFleetsStoreSlice => ({
-  currentPlayerFleets: state.currentPlayerFleets
-});
+import arrivingFleetSelectorFunction, { ArrivingFleetsStoreSlice } from "../selectors/arrivingFleet.selector";
 
 const ArrivingFleets = (): ReactElement | null => {
-  const { currentPlayerFleets }: ArrivingFleetsStoreSlice = useSelector(selectorFunction);
+  const { currentPlayerFleets }: ArrivingFleetsStoreSlice = useSelector(arrivingFleetSelectorFunction);
 
   return currentPlayerFleets && currentPlayerFleets.length > 0 ? (
     <ul>

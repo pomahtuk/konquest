@@ -1,36 +1,16 @@
 import React, { ReactElement } from "react";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
 
-import Planet, { PlanetMap } from "../../logic/Planet";
-import { GameState } from "../reducers/game.reducers";
 import { startGame, setDestinationPlanet, setOriginPlanet } from "../actions/game.actions";
-import Player from "../../logic/Player";
+import gameFieldSelectorFunction, { GameFieldStoreSlice } from "../selectors/gamefield.selector";
+
+import Planet from "../../logic/Planet";
 import PlanetElement from "./Planet";
-
-interface GameFieldStoreSlice {
-  activePlayer: Player;
-  originPlanet?: Planet;
-  destinationPlanet?: Planet;
-  isStarted: boolean;
-  fieldSize: number;
-  planets: PlanetMap;
-  currentShipsModifier: { [key: string]: number };
-}
-
-const selectorFunction = (state: GameState): GameFieldStoreSlice => ({
-  activePlayer: state.activePlayer as Player,
-  originPlanet: state.originPlanet,
-  destinationPlanet: state.destinationPlanet,
-  isStarted: state.isStarted,
-  fieldSize: state.gameOptions.fieldSize,
-  planets: state.planets,
-  currentShipsModifier: state.currentShipsModifier
-});
 
 const GameField = (): ReactElement | null => {
   const dispatch = useDispatch();
   const { isStarted, originPlanet, activePlayer, destinationPlanet, fieldSize, planets, currentShipsModifier }: GameFieldStoreSlice = useSelector(
-    selectorFunction,
+    gameFieldSelectorFunction,
     shallowEqual
   );
 
