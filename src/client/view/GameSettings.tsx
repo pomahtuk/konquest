@@ -9,6 +9,7 @@ import gameSettingsSelectorFunction, { SettingsStoreSlice } from "../selectors/g
 
 import useSlider from "../hooks/useSlider";
 import Button from "./foundations/Button";
+import InputText from "./foundations/InputText";
 
 const GameSettings = (): ReactElement => {
   const dispatch = useDispatch();
@@ -44,30 +45,19 @@ const GameSettings = (): ReactElement => {
   return (
     <React.Fragment>
       <h1>Game settings:</h1>
-      <form className="pure-form pure-form-aligned">
-        <fieldset>
-          <div className="pure-control-group">
-            <label htmlFor="fieldSize">Field size</label>
-            <input
-              id="fieldSize"
-              type="number"
-              value={fieldSizeValue}
-              onChange={changeFieldSize}
-              min={ConquestGame.minSize}
-              max={ConquestGame.maxSize}
-              required
-            />
-          </div>
-          <div className="pure-control-group">
-            <label htmlFor="neutralPlanets">Neutral planets</label>
-            <input id="neutralPlanets" type="number" value={neutralPlanetsValue} onChange={changeNeutral} min={0} max={maxPlanets} required />
-          </div>
+      <InputText
+        type="number"
+        label="Field size"
+        value={fieldSizeValue}
+        onChange={changeFieldSize}
+        min={ConquestGame.minSize}
+        max={ConquestGame.maxSize}
+      />
+      <InputText label="Neutral planets" type="number" value={neutralPlanetsValue} onChange={changeNeutral} min={0} max={maxPlanets} />
 
-          <div className="pure-controls">
-            <Button onClick={changeSettings}>Start Game</Button>
-          </div>
-        </fieldset>
-      </form>
+      <div className="pure-controls">
+        <Button onClick={changeSettings}>Start Game</Button>
+      </div>
     </React.Fragment>
   );
 };

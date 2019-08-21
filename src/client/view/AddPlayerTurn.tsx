@@ -2,6 +2,7 @@ import React, { ReactElement, ChangeEvent } from "react";
 import Planet from "../../logic/Planet";
 import Player from "../../logic/Player";
 import Button from "./foundations/Button";
+import InputText from "./foundations/InputText";
 
 export interface AddPlayerTurnProps {
   activePlayer: Player;
@@ -28,17 +29,15 @@ const AddPlayerTurn = ({
       {!originPlanet && <div>Please select origin planet</div>}
       {originPlanet && !destinationPlanet && <div>Please select destination planet</div>}
       {originPlanet && destinationPlanet && (
-        <form className="pure-form">
-          <fieldset>
-            <legend>
-              Sending fleet from {originPlanet.name} to {destinationPlanet.name}. Select amount:
-            </legend>
-            <input type="number" value={amount} onChange={onOrderAmountChange} />
-            <Button variant="primary" onClick={onAddOrder}>
-              Add order
-            </Button>
-          </fieldset>
-        </form>
+        <React.Fragment>
+          <legend>
+            Sending fleet from {originPlanet.name} to {destinationPlanet.name}. Select amount:
+          </legend>
+          <InputText type="number" value={amount} onChange={onOrderAmountChange} />
+          <Button variant="primary" onClick={onAddOrder}>
+            Add order
+          </Button>
+        </React.Fragment>
       )}
       {originPlanet && (
         <Button variant="secondary" onClick={onCancel}>

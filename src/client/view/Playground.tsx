@@ -17,7 +17,7 @@ const Playground = (): ReactElement => {
   return (
     <Container centered>
       {!isStarted ? (
-        <Grid bleed={true}>
+        <Grid bleed={false}>
           <GridColumn size="full" sizeLarge="half">
             <PlayerSettings />
           </GridColumn>

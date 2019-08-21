@@ -20,6 +20,9 @@ const App = (): ReactElement => {
             line-height: ${theme.lineHeights.medium};
             font-weight: ${theme.fontWeights.normal};
           }
+          * {
+            box-sizing: border-box;
+          }
         `}
       />
       <Switch>
