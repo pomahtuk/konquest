@@ -1,5 +1,5 @@
 import React, { ReactElement, useContext, ReactNode, HTMLAttributes } from "react";
-import { styled } from "styletron-react";
+import styled from "@emotion/styled";
 import { ThemeContext } from "../themes/ThemeProvider";
 
 export type ContainerProps = {
@@ -11,7 +11,7 @@ export type ContainerProps = {
 
 const Container = ({ children, centered, className, attributes }: ContainerProps): ReactElement => {
   const theme = useContext(ThemeContext);
-  const ContainerStyled = styled("div", {
+  const ContainerStyled = styled.div({
     boxSizing: "border-box",
     position: "relative",
     width: "100%",

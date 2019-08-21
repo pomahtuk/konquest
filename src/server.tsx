@@ -4,10 +4,7 @@ import { StaticRouter } from "react-router-dom";
 import { StaticRouterContext } from "react-router";
 import express from "express";
 import { renderToString } from "react-dom/server";
-
-import { Provider as StyletronProvider } from "styletron-react";
-import { Server as Styletron } from "styletron-engine-atomic";
-const engine = new Styletron();
+import { renderStylesToString } from "emotion-server";
 
 import { Provider } from "react-redux";
 import storeCreator from "./client/stores/game.store";
@@ -25,19 +22,18 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR || "/public"))
   .get("/*", (req, res): void => {
     const context: StaticRouterContext = {};
-    const markup = renderToString(
-      <Provider store={store}>
-        <StyletronProvider value={engine}>
+    const markup = renderStylesToString(
+      renderToString(
+        <Provider store={store}>
           <ThemeProvider theme={baseTheme}>
             <StaticRouter context={context} location={req.url}>
               <App />
             </StaticRouter>
           </ThemeProvider>
-        </StyletronProvider>
-      </Provider>
+        </Provider>
+      )
     );
 
-    const styles = engine.getStylesheetsHtml();
     const preloadedState = store.getState();
 
     if (context.url) {
@@ -52,7 +48,6 @@ server
             <title>Welcome to Razzle</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
             ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ""}
-            ${styles}
           </head>
           <body>
             <div id="root">${markup}</div>

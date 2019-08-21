@@ -1,6 +1,7 @@
 import React, { ReactElement, ChangeEvent } from "react";
 import Planet from "../../logic/Planet";
 import Player from "../../logic/Player";
+import Button from "./foundations/Button";
 
 export interface AddPlayerTurnProps {
   activePlayer: Player;
@@ -33,16 +34,16 @@ const AddPlayerTurn = ({
               Sending fleet from {originPlanet.name} to {destinationPlanet.name}. Select amount:
             </legend>
             <input type="number" value={amount} onChange={onOrderAmountChange} />
-            <button className="pure-button pure-button-primary" onClick={onAddOrder}>
+            <Button variant="primary" onClick={onAddOrder}>
               Add order
-            </button>
+            </Button>
           </fieldset>
         </form>
       )}
       {originPlanet && (
-        <button className="pure-button" onClick={onCancel}>
+        <Button variant="secondary" onClick={onCancel}>
           Cancel order
-        </button>
+        </Button>
       )}
     </div>
   );

@@ -109,9 +109,9 @@ const baseTheme: Theme = {
   },
   media: {
     small: "@media screen and (max-width: 575px)",
-    medium: "@media screen and (max-width: 576px)",
-    large: "@media screen and (max-width: 992px)",
-    huge: "@media screen and (max-width: 1200px)"
+    medium: "@media screen and (min-width: 576px)",
+    large: "@media screen and (min-width: 992px)",
+    huge: "@media screen and (min-width: 1200px)"
   },
   colors: {
     destructiveDark: "#A30000",

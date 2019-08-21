@@ -13,7 +13,7 @@
     "prettier/@typescript-eslint",
     "prettier/react"
   ],
-  "plugins": ["@typescript-eslint", "react", "react-hooks"],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "emotion"],
   "settings": {
     "react": {
       "version": "detect"

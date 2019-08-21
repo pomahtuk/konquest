@@ -1,5 +1,5 @@
 import React, { ReactElement, useContext, HTMLAttributes, ReactNode } from "react";
-import { styled } from "styletron-react";
+import styled from "@emotion/styled";
 import { ThemeContext } from "../themes/ThemeProvider";
 import GridColumn from "./GridColumn";
 
@@ -17,9 +17,8 @@ export type GridSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | "half"
 
 const Grid = ({ children, className, align, justify, bleed, reversed, attributes }: GridProps): ReactElement => {
   const theme = useContext(ThemeContext);
-  const GridStyled = styled("div", {
+  const GridStyled = styled.div({
     boxSizing: "border-box",
-    margin: bleed ? "0" : `calc(-1 * ${theme.units.medium}) calc(-1 * ${theme.units.medium}/2) 0 calc(-1 * ${theme.units.medium}/2)`,
     clear: "both" /* Fix for floated elements before the grid, that break due to negative margin */,
     display: "flex",
     flexFlow: "row wrap",
@@ -27,6 +26,9 @@ const Grid = ({ children, className, align, justify, bleed, reversed, attributes
     ...(align ? { alignItems: align !== "center" ? `flex-${align}` : align } : {}),
     ...(justify ? { justifyContent: justify } : {}),
     ...(reversed ? { flexDirection: "row-reverse" } : {}),
+    [theme.media.small]: {
+      margin: bleed ? "0" : `calc(-1 * ${theme.units.medium}) calc(-1 * ${theme.units.medium}/2) 0 calc(-1 * ${theme.units.medium}/2)`
+    },
     [theme.media.medium]: {
       margin: bleed ? "0" : `calc(-1 * ${theme.units.large}) calc(-1 * ${theme.units.large}/2) 0 calc(-1 * v${theme.units.large}/2)`
     },

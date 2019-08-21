@@ -6,6 +6,7 @@ import playerTurnSelectorFunction, { PlayerTurnStoreSlice } from "../selectors/p
 
 import AddPlayerTurn from "./AddPlayerTurn";
 import OrderList from "./OrderList";
+import Button from "./foundations/Button";
 
 const PlayerTurn = (): ReactElement => {
   const dispatch = useDispatch();
@@ -60,9 +61,9 @@ const PlayerTurn = (): ReactElement => {
 
       <OrderList orders={orders} />
 
-      <button className="pure-button pure-button-primary" onClick={onCompleteTurn}>
+      <Button variant="primary" onClick={onCompleteTurn}>
         Complete turn
-      </button>
+      </Button>
     </div>
   );
 };

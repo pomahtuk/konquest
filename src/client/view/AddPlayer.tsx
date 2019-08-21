@@ -1,4 +1,5 @@
 import React, { ReactElement, ChangeEvent } from "react";
+import Button from "./foundations/Button";
 
 export interface AddPlayerProps {
   newPlayerName: string;
@@ -10,9 +11,9 @@ const AddPlayer = ({ newPlayerName, onNameChange, onAddPlayer }: AddPlayerProps)
   <form className="pure-form">
     <fieldset>
       <input type="text" value={newPlayerName} onChange={onNameChange} placeholder="Player name" required />
-      <button className="pure-button pure-button-secondary" onClick={onAddPlayer}>
+      <Button onClick={onAddPlayer} variant="secondary">
         Add player
-      </button>
+      </Button>
     </fieldset>
   </form>
 );

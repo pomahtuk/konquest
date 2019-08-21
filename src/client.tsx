@@ -3,10 +3,6 @@ import { BrowserRouter } from "react-router-dom";
 import React from "react";
 import { hydrate } from "react-dom";
 
-import { Client as Styletron } from "styletron-engine-atomic";
-import { Provider as StyletronProvider } from "styletron-react";
-const engine = new Styletron();
-
 import { Provider } from "react-redux";
 import storeCreator from "./client/stores/game.store";
 import { GameState } from "./client/reducers/game.reducers";
@@ -23,13 +19,11 @@ const el = document.getElementById("root");
 function main({ node }: { node: typeof el }): void {
   hydrate(
     <Provider store={store}>
-      <StyletronProvider value={engine}>
-        <ThemeProvider theme={baseTheme}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ThemeProvider>
-      </StyletronProvider>
+      <ThemeProvider theme={baseTheme}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>,
     node
   );

@@ -8,6 +8,7 @@ import { setGameOptions, startGame } from "../actions/game.actions";
 import gameSettingsSelectorFunction, { SettingsStoreSlice } from "../selectors/gameSettings.selector";
 
 import useSlider from "../hooks/useSlider";
+import Button from "./foundations/Button";
 
 const GameSettings = (): ReactElement => {
   const dispatch = useDispatch();
@@ -63,9 +64,7 @@ const GameSettings = (): ReactElement => {
           </div>
 
           <div className="pure-controls">
-            <button className="pure-button pure-button-primary" onClick={changeSettings}>
-              Start Game
-            </button>
+            <Button onClick={changeSettings}>Start Game</Button>
           </div>
         </fieldset>
       </form>

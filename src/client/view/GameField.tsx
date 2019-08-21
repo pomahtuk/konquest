@@ -6,6 +6,7 @@ import gameFieldSelectorFunction, { GameFieldStoreSlice } from "../selectors/gam
 
 import Planet from "../../logic/Planet";
 import PlanetElement from "./Planet";
+import Button from "./foundations/Button";
 
 const GameField = (): ReactElement | null => {
   const dispatch = useDispatch();
@@ -70,9 +71,9 @@ const GameField = (): ReactElement | null => {
           )}
         </tbody>
       </table>
-      <button className="pure-button" onClick={onRestartGame}>
+      <Button variant="destructive" onClick={onRestartGame}>
         Restart game
-      </button>
+      </Button>
     </div>
   );
 };
