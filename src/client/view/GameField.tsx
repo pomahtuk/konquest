@@ -1,32 +1,55 @@
 import React, { ReactElement } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 import PlanetElement from "./Planet";
-import { useSelector, shallowEqual } from "react-redux";
+import { startGame } from "../actions/game.actions";
 import gameSelectorFunction, { GameStoreSlice } from "../selectors/game.selector";
+import Button from "./foundations/Button";
 
-const GameField = (): ReactElement | null => {
-  const { planets, fieldSize }: GameStoreSlice = useSelector(gameSelectorFunction, shallowEqual);
+export interface DispatchProps {
+  onRestartGame: () => void;
+}
 
-  if (!planets) {
-    return null;
-  }
-
-  console.log("field re-render");
-
-  return (
-    <div
-      style={{
-        width: fieldSize * 60,
-        height: fieldSize * 60,
-        position: "relative"
-      }}
-    >
-      {Object.keys(planets).map((planetName) => {
-        const planet = planets[planetName];
-        return <PlanetElement key={planetName + planet.ships} planet={planet} />;
-      })}
-    </div>
-  );
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => {
+  return {
+    onRestartGame: (): void => {
+      dispatch(startGame());
+    }
+  };
 };
 
-export default GameField;
+class GameField extends React.PureComponent<GameStoreSlice & DispatchProps> {
+  render(): ReactElement | null {
+    const { planets, fieldSize, onRestartGame, isStarted } = this.props;
+
+    if (!planets || !isStarted) {
+      return null;
+    }
+
+    return (
+      <React.Fragment>
+        <div
+          style={{
+            width: fieldSize * 60,
+            height: fieldSize * 60,
+            position: "relative"
+          }}
+        >
+          {Object.keys(planets).map((planetName) => {
+            const planet = planets[planetName];
+            return <PlanetElement key={planetName + planet.ships + JSON.stringify(planet.owner)} planet={planet} />;
+          })}
+        </div>
+        <Button variant="destructive" onClick={onRestartGame}>
+          Restart game
+        </Button>
+      </React.Fragment>
+    );
+  }
+}
+
+export default connect(
+  gameSelectorFunction,
+  mapDispatchToProps
+)(GameField);

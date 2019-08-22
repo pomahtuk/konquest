@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import playgroundSelectorFunction, { PlaygroundStoreSlice } from "../selectors/playground.selector";
 
-import Game from "./Game";
 import GameSettings from "./GameSettings";
 import PlayerSettings from "./PlayerSettings";
 import PlayerTurn from "./PlayerTurn";
@@ -11,10 +10,12 @@ import ArrivingFleets from "./ArrivingFleets";
 import Container from "./foundations/Container";
 import Grid from "./foundations/Grid";
 import GridColumn from "./foundations/GridColumn";
+import GameField from "./GameField";
 
 class PlayGround extends React.PureComponent<PlaygroundStoreSlice> {
   render(): ReactElement {
-    const { isStarted } = this.props;
+    const { isStarted = false } = this.props;
+
     return (
       <Container centered>
         {!isStarted ? (
@@ -31,7 +32,7 @@ class PlayGround extends React.PureComponent<PlaygroundStoreSlice> {
         )}
         <Grid>
           <GridColumn size={8}>
-            <Game />
+            <GameField />
           </GridColumn>
           <GridColumn size={4}>
             <ArrivingFleets />
