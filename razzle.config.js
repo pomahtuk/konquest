@@ -6,6 +6,8 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
 
 const appNodeModules = resolveApp("node_modules");
 
+const { DuplicatesPlugin } = require("inspectpack/plugin");
+
 module.exports = {
   plugins: [
     {
@@ -44,6 +46,15 @@ module.exports = {
       include: [appNodeModules],
       use: loaders
     });
+
+    config.plugins.push(
+      new DuplicatesPlugin({
+        // Emit compilation warning or error? (Default: `false`)
+        emitErrors: false,
+        // Display full duplicates information? (Default: `false`)
+        verbose: false
+      })
+    );
 
     return config;
   }
