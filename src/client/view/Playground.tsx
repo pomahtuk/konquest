@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
-import { useSelector } from "react-redux";
+import { connect } from "react-redux";
 
 import playgroundSelectorFunction, { PlaygroundStoreSlice } from "../selectors/playground.selector";
 
-import GameField from "./GameField";
+import Game from "./Game";
 import GameSettings from "./GameSettings";
 import PlayerSettings from "./PlayerSettings";
 import PlayerTurn from "./PlayerTurn";
@@ -12,32 +12,34 @@ import Container from "./foundations/Container";
 import Grid from "./foundations/Grid";
 import GridColumn from "./foundations/GridColumn";
 
-const Playground = (): ReactElement => {
-  const { isStarted }: PlaygroundStoreSlice = useSelector(playgroundSelectorFunction);
-  return (
-    <Container centered>
-      {!isStarted ? (
-        <Grid bleed={false}>
-          <GridColumn size="full" sizeLarge="half">
-            <PlayerSettings />
+class PlayGround extends React.PureComponent<PlaygroundStoreSlice> {
+  render(): ReactElement {
+    const { isStarted } = this.props;
+    return (
+      <Container centered>
+        {!isStarted ? (
+          <Grid bleed={false}>
+            <GridColumn size="full" sizeLarge="half">
+              <PlayerSettings />
+            </GridColumn>
+            <GridColumn size="full" sizeLarge="half">
+              <GameSettings />
+            </GridColumn>
+          </Grid>
+        ) : (
+          <PlayerTurn />
+        )}
+        <Grid>
+          <GridColumn size={8}>
+            <Game />
           </GridColumn>
-          <GridColumn size="full" sizeLarge="half">
-            <GameSettings />
+          <GridColumn size={4}>
+            <ArrivingFleets />
           </GridColumn>
         </Grid>
-      ) : (
-        <PlayerTurn />
-      )}
-      <Grid>
-        <GridColumn size={8}>
-          <GameField />
-        </GridColumn>
-        <GridColumn size={4}>
-          <ArrivingFleets />
-        </GridColumn>
-      </Grid>
-    </Container>
-  );
-};
+      </Container>
+    );
+  }
+}
 
-export default Playground;
+export default connect(playgroundSelectorFunction)(PlayGround);
