@@ -1,0 +1,52 @@
+{
+  "galaxy_1": {
+    "title": "Hubble views NGC 4522",
+    "credit": "NASA & ESA",
+    "link": "https://www.spacetelescope.org/images/heic0911b/"
+  },
+  "galaxy_2": {
+    "title": "Antennae Galaxies reloaded",
+    "credit": "ESA/Hubble & NASA",
+    "link": "https://www.spacetelescope.org/images/potw1345a/"
+  },
+  "galaxy_3": {
+    "title": "A rose made of galaxies",
+    "credit": "NASA, ESA and the Hubble Heritage Team (STScI/AURA)",
+    "link": "https://www.spacetelescope.org/images/heic1107a/"
+  },
+  "galaxy_4": {
+    "title": "Magnetic monster NGC 1275",
+    "credit": "NASA, ESA and Andy Fabian (University of Cambridge, UK)",
+    "link": "https://www.spacetelescope.org/images/heic0817a/"
+  },
+  "galaxy_5": {
+    "title": "Barred spiral galaxy NGC 6217",
+    "credit": "NASA, ESA and the Hubble SM4 ERO Team",
+    "link": "https://www.spacetelescope.org/images/heic0910s/"
+  },
+  "galaxy_6": {
+    "title": "Stellar nursery in the arms of NGC 1672",
+    "credit": "NASA, ESA",
+    "link": "https://www.spacetelescope.org/images/heic0706a/"
+  },
+  "galaxy_7": {
+    "title": "Crash in progress",
+    "credit": "ESA/Hubble, NASA",
+    "link": "https://www.spacetelescope.org/images/heic1805a/"
+  },
+  "galaxy_8": {
+    "title": "Peculiar galaxy NGC 3256",
+    "credit": "ESA/Hubble, NASA",
+    "link": "https://www.spacetelescope.org/images/heic1811a/"
+  },
+  "galaxy_9": {
+    "title": "The Hockey Stick Galaxy",
+    "credit": "ESA/Hubble & NASA",
+    "link": "https://www.spacetelescope.org/images/heic1811a/"
+  },
+  "galaxy_10": {
+    "title": "Colliding galaxies",
+    "credit": "ESA/Hubble & NASA, A. Adamo et al.",
+    "link": "https://www.spacetelescope.org/images/potw1909a/"
+  }
+}

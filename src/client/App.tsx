@@ -6,7 +6,18 @@ import emotionNormalize from "emotion-normalize";
 import Playground from "./view/Playground";
 import { ThemeContext } from "./view/themes/ThemeProvider";
 
-const App = (): ReactElement => {
+export type GalaxyCredit = {
+  title: string;
+  credit: string;
+  link: string;
+};
+
+export interface AppProps {
+  image: string;
+  credit: GalaxyCredit;
+}
+
+const App = ({ image, credit }: AppProps): ReactElement => {
   const theme = useContext(ThemeContext);
   return (
     <React.Fragment>
@@ -19,6 +30,8 @@ const App = (): ReactElement => {
             font-size: ${theme.fontSizes.medium};
             line-height: ${theme.lineHeights.medium};
             font-weight: ${theme.fontWeights.normal};
+            background-size: cover;
+            background: url(${image}.jpg) no-repeat center center fixed;
           }
           * {
             box-sizing: border-box;
@@ -28,6 +41,7 @@ const App = (): ReactElement => {
       <Switch>
         <Route exact path="/" component={Playground} />
       </Switch>
+      <div>{credit.credit}</div>
     </React.Fragment>
   );
 };

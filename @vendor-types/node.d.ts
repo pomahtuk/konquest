@@ -11,18 +11,22 @@ declare namespace NodeJS {
   interface Global {
     window: Window & {
       env: Variables;
+      // @ts-ignore
       __PRELOADED_STATE__: any;
+      // @ts-ignore
+      __BACKGROUND__: any;
     };
   }
 
-  interface ProcessEnv extends Variables {}
-
   interface Process {
-    env: ProcessEnv;
+    env: Variables;
     browser?: boolean;
   }
 }
 
 interface Window {
+  // @ts-ignore
   __PRELOADED_STATE__: any;
+  // @ts-ignore
+  __BACKGROUND__: any;
 }

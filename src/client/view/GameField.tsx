@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { css } from "emotion";
 
 import PlanetElement from "./Planet";
 import { startGame } from "../actions/game.actions";
@@ -30,11 +31,11 @@ class GameField extends React.PureComponent<GameStoreSlice & DispatchProps> {
     return (
       <React.Fragment>
         <div
-          style={{
-            width: fieldSize * 60,
-            height: fieldSize * 60,
-            position: "relative"
-          }}
+          className={css`
+            width: ${fieldSize * 60}px;
+            height: ${fieldSize * 60}px;
+            position: relative;
+          `}
         >
           {Object.keys(planets).map((planetName) => {
             const planet = planets[planetName];
