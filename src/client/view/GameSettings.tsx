@@ -23,20 +23,19 @@ const GameSettings = (): ReactElement => {
   const { value: fieldSizeValue, onChange: changeFieldSize } = useSlider(fieldSize);
   const { value: neutralPlanetsValue, onChange: changeNeutral, setValue } = useSlider(neutralPlanetCount);
 
-  //
-  const maxPlanets = getPlanetLimit(fieldSizeValue ** 2, players.length);
+  const maxPlanets = getPlanetLimit((fieldSizeValue as number) ** 2, players.length);
 
   useEffect((): void => {
     if (neutralPlanetsValue > maxPlanets) {
       setValue(maxPlanets);
     }
-  });
+  }, [neutralPlanetsValue, maxPlanets, setValue]);
 
   const changeSettings = (): void => {
     dispatch(
       setGameOptions({
-        fieldSize: fieldSizeValue,
-        neutralPlanetCount: neutralPlanetsValue
+        fieldSize: fieldSizeValue as number,
+        neutralPlanetCount: neutralPlanetsValue as number
       })
     );
     dispatch(startGame());

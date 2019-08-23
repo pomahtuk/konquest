@@ -1,14 +1,25 @@
-import React, { ReactElement, ChangeEvent } from "react";
+import React, { ReactElement, ChangeEvent, useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { addPlayer } from "../actions/game.actions";
 import Button from "./foundations/Button";
 import InputText from "./foundations/InputText";
 
-export interface AddPlayerProps {
-  newPlayerName: string;
-  onNameChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onAddPlayer: () => void;
-}
+import Player from "../../logic/Player";
 
-const AddPlayer = ({ newPlayerName, onNameChange, onAddPlayer }: AddPlayerProps): ReactElement => {
+const AddPlayer = (): ReactElement => {
+  const [newPlayerName, setNewPlayerName] = useState("");
+  const dispatch = useDispatch();
+
+  const onNameChange = (event: ChangeEvent<HTMLInputElement>): void => setNewPlayerName(event.target.value);
+
+  const onAddPlayer = (): void => {
+    if (newPlayerName && newPlayerName !== "") {
+      dispatch(addPlayer(new Player(newPlayerName)));
+      setNewPlayerName("");
+    }
+  };
+
   return (
     <React.Fragment>
       <InputText label="Player name" type="text" value={newPlayerName} onChange={onNameChange} placeholder="Player name" />

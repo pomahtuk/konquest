@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, ChangeEvent } from "react";
+import React, { ReactElement } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
 import { addPlayerTurn, setDestinationPlanet, setOriginPlanet, addPlayerTurnOrder } from "../actions/game.actions";
@@ -7,18 +7,15 @@ import playerTurnSelectorFunction, { PlayerTurnStoreSlice } from "../selectors/p
 import AddPlayerTurn from "./AddPlayerTurn";
 import OrderList from "./OrderList";
 import Button from "./foundations/Button";
+import useSlider from "../hooks/useSlider";
 
 const PlayerTurn = (): ReactElement => {
   const dispatch = useDispatch();
   const { orders, activePlayer, originPlanet, destinationPlanet }: PlayerTurnStoreSlice = useSelector(playerTurnSelectorFunction, shallowEqual);
-  const [newOrderAmount, setNewOrderAmount] = useState(0);
-
-  const onOrderAmountChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setNewOrderAmount(parseInt(event.target.value, 10));
-  };
+  const { value, onChange, setValue } = useSlider(0);
 
   const cleanUp = (): void => {
-    setNewOrderAmount(0);
+    setValue(0);
     dispatch(setOriginPlanet(undefined));
     dispatch(setDestinationPlanet(undefined));
   };
@@ -30,7 +27,7 @@ const PlayerTurn = (): ReactElement => {
         addPlayerTurnOrder({
           origin: originPlanet.name,
           destination: destinationPlanet.name,
-          amount: newOrderAmount
+          amount: value as number
         })
       );
     cleanUp();
@@ -51,10 +48,10 @@ const PlayerTurn = (): ReactElement => {
     <div>
       <AddPlayerTurn
         activePlayer={activePlayer}
-        amount={newOrderAmount}
+        amount={value as number}
         originPlanet={originPlanet}
         destinationPlanet={destinationPlanet}
-        onOrderAmountChange={onOrderAmountChange}
+        onOrderAmountChange={onChange}
         onAddOrder={onAddOrder}
         onCancel={cleanUp}
       />

@@ -1,17 +1,21 @@
 import React, { ReactElement } from "react";
-import Player from "../../logic/Player";
+import { useSelector, shallowEqual } from "react-redux";
+import playerSettingsSelectorFunction, { PlayerSettingsStoreSlice } from "../selectors/playerSettings.selector";
 
-export interface PlayersListProps {
-  players: Player[];
-}
+const PlayersList = (): ReactElement | null => {
+  const { players }: PlayerSettingsStoreSlice = useSelector(playerSettingsSelectorFunction, shallowEqual);
 
-const PlayersList = ({ players }: PlayersListProps): ReactElement | null =>
-  players && players.length > 0 ? (
+  if (!players || players.length === 0) {
+    return null;
+  }
+
+  return (
     <ul>
       {players.map((player) => (
         <li key={player.id}>{player.screenName}</li>
       ))}
     </ul>
-  ) : null;
+  );
+};
 
 export default PlayersList;
