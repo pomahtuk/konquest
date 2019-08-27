@@ -9,7 +9,7 @@ import Planet from "../../logic/Planet";
 
 import "react-tippy/dist/tippy.css";
 import planetSelectorFunction, { PlanetStoreSlice } from "../selectors/planet.selector";
-import RandomImage from "./RandomImage";
+import PlanetImage from "./PlanetImage";
 
 export interface PlanetProps {
   planet: Planet;
@@ -73,7 +73,7 @@ const PlanetElement = ({ planet }: PlanetProps): ReactElement => {
         `}
         onClick={onPlanetSelect}
       >
-        <RandomImage imageKey={planet.name}></RandomImage>
+        <PlanetImage></PlanetImage>
         <span
           className={css`
             position: absolute;

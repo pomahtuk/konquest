@@ -1,6 +1,6 @@
 declare namespace NodeJS {
   // These are optional env variables, they may or may not exist on `.env` based on env
-  type OptionalVariables = "PORT" | "HOST" | "HOSTNAME";
+  type OptionalVariables = "PORT" | "HOST" | "HOSTNAME" | "NODE_ENV";
 
   // These env variables we are sure that is going to be defined either by `.env` files
   // or under `kubernette.{env}.yml.
