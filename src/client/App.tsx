@@ -17,7 +17,7 @@ export interface AppProps {
   credit: GalaxyCredit;
 }
 
-const App = ({ image, credit }: AppProps): ReactElement => {
+const App = ({ image = "galaxy_3", credit }: AppProps): ReactElement => {
   const theme = useContext(ThemeContext);
   return (
     <React.Fragment>
@@ -41,7 +41,7 @@ const App = ({ image, credit }: AppProps): ReactElement => {
       <Switch>
         <Route exact path="/" component={Playground} />
       </Switch>
-      <div>{credit.credit}</div>
+      <div>{credit ? credit.credit : ""}</div>
     </React.Fragment>
   );
 };

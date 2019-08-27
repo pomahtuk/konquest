@@ -1,24 +1,21 @@
 import React, { ReactElement, useState } from "react";
 import randomColor from "randomcolor";
 
-const PlanetImage = (): ReactElement => {
-  const [mainColor] = useState(randomColor({ luminosity: "dark" }));
-  const lightColor = "#dddddd";
+const LIGHT_COLOR = "#ccc";
+
+const PlanetImage = ({ radius }: { radius: number }): ReactElement => {
+  const [mainColor] = useState(() => randomColor({ luminosity: "dark" }));
+
   return (
-    <svg width="100%" height="100%">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink">
       <defs>
-        <radialGradient id="circle_shadow" r="0.1" cx="0.75" cy="0.3">
-          <stop stopColor={mainColor} offset="100"></stop>
-          <stop stopColor={lightColor} offset="1"></stop>
-        </radialGradient>
-        <linearGradient id="main_shadow">
-          <stop stopColor={lightColor} offset="0"></stop>
-          <stop stopColor={mainColor} offset="0.7"></stop>
+        <linearGradient id={`main_shadow-${mainColor}`}>
+          <stop stopColor={LIGHT_COLOR} offset="0"></stop>
+          <stop stopColor={mainColor} offset="0.6"></stop>
         </linearGradient>
       </defs>
-      <g transform="matrix(0.5000000000000001,0.8660254037844386,-0.8660254037844386,0.5000000000000001,27.32050807568877,-7.320508075688771)">
-        <circle r="20" cx="20" cy="20" fill="url(#circle_shadow)" opacity="0.9"></circle>
-        <circle r="20" cx="20" cy="20" opacity="0.4" fill="url(#main_shadow)" comp-op="hard-light"></circle>
+      <g transform={`rotate(60, ${radius} ${radius})`}>
+        <circle r={radius} cx={radius} cy={radius} fill={`url(#main_shadow-${mainColor})`}></circle>
       </g>
     </svg>
   );

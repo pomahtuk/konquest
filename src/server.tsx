@@ -42,6 +42,8 @@ server
 
     const preloadedState = store.getState();
 
+    console.log({ credit: galaxyCredit, image: galaxyVariant });
+
     if (context.url) {
       res.redirect(context.url);
     } else {

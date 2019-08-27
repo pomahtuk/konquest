@@ -13,12 +13,15 @@
     "konquest",
     "monospace",
     "purecss",
+    "randomcolor",
     "razzle",
     "roboto",
     "segoe",
     "stackblur",
     "styletron",
-    "testid"
+    "testid",
+    "xlink",
+    "xmlns"
   ],
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "editor.formatOnSave": true

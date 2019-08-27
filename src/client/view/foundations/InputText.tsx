@@ -1,9 +1,7 @@
 import React, { ReactElement, useContext, ChangeEvent } from "react";
 import { css } from "emotion";
 import { ThemeContext } from "../themes/ThemeProvider";
-import hexRgb from "hex-rgb";
-
-const hexToRgba = (hex: string, alpha: string): string => [...hexRgb(hex, { format: "array" }).slice(0, -1), alpha].join(", ");
+import hexToRgba from "../helpers/hexToRgba";
 
 type InputTextProps = {
   id?: string;

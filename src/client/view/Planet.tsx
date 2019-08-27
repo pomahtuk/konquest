@@ -13,11 +13,16 @@ import PlanetImage from "./PlanetImage";
 
 export interface PlanetProps {
   planet: Planet;
+  blockSize: number;
 }
 
-const PlanetElement = ({ planet }: PlanetProps): ReactElement => {
+const PLANET_BORDER_PADDING = 10;
+
+const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
   const { originPlanet, activePlayer, destinationPlanet, currentShipsModifier }: PlanetStoreSlice = useSelector(planetSelectorFunction, shallowEqual);
   const dispatch = useDispatch();
+
+  const imageSize = blockSize - PLANET_BORDER_PADDING * 2;
 
   const isSelected = (originPlanet && originPlanet.name === planet.name) || (destinationPlanet && destinationPlanet.name === planet.name);
 
@@ -51,21 +56,21 @@ const PlanetElement = ({ planet }: PlanetProps): ReactElement => {
       }
       className={css`
         position: absolute;
-        top: ${planet.coordinates.x * 60 - 10}px;
-        left: ${planet.coordinates.y * 60 - 10}px;
-        width: 60px;
-        height: 60px;
+        top: ${planet.coordinates.x * blockSize}px;
+        left: ${planet.coordinates.y * blockSize}px;
+        width: ${blockSize}px;
+        height: ${blockSize}px;
       `}
     >
       <div
         className={css`
           cursor: pointer;
           position: relative;
-          top: 10px;
-          left: 10px;
-          width: 40px;
-          height: 40px;
-          border-radius: 40px;
+          top: ${PLANET_BORDER_PADDING}px;
+          left: ${PLANET_BORDER_PADDING}px;
+          width: ${imageSize}px;
+          height: ${imageSize}px;
+          border-radius: ${blockSize}px;
 
           :hover {
             box-shadow: 0px 0px 3px 2px ${isSelected ? "green" : "magenta"};
@@ -73,12 +78,12 @@ const PlanetElement = ({ planet }: PlanetProps): ReactElement => {
         `}
         onClick={onPlanetSelect}
       >
-        <PlanetImage></PlanetImage>
+        <PlanetImage radius={imageSize / 2} />
         <span
           className={css`
             position: absolute;
-            bottom: 0;
-            right: 0;
+            bottom: 0px;
+            right: 0px;
             z-index: 999;
           `}
         >

@@ -28,16 +28,16 @@ class PlayGround extends React.PureComponent<PlaygroundStoreSlice> {
             </GridColumn>
           </Grid>
         ) : (
-          <PlayerTurn />
+          <Grid>
+            <GridColumn size={8}>
+              <GameField />
+            </GridColumn>
+            <GridColumn size={4}>
+              <PlayerTurn />
+              <ArrivingFleets />
+            </GridColumn>
+          </Grid>
         )}
-        <Grid>
-          <GridColumn size={8}>
-            <GameField />
-          </GridColumn>
-          <GridColumn size={4}>
-            <ArrivingFleets />
-          </GridColumn>
-        </Grid>
       </Container>
     );
   }

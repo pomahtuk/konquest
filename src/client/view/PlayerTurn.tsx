@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
 import { addPlayerTurn, setDestinationPlanet, setOriginPlanet, addPlayerTurnOrder } from "../actions/game.actions";
@@ -13,6 +13,12 @@ const PlayerTurn = (): ReactElement => {
   const dispatch = useDispatch();
   const { orders, activePlayer, originPlanet, destinationPlanet }: PlayerTurnStoreSlice = useSelector(playerTurnSelectorFunction, shallowEqual);
   const { value, onChange, setValue } = useSlider(0);
+
+  useEffect(() => {
+    if (originPlanet) {
+      setValue(originPlanet.ships);
+    }
+  }, [setValue, originPlanet]);
 
   const cleanUp = (): void => {
     setValue(0);

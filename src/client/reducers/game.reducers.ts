@@ -14,6 +14,7 @@ import Planet, { PlanetMap } from "../../logic/Planet";
 import Fleet from "../../logic/Fleet";
 
 export interface GameState {
+  iteration: number;
   isStarted: boolean;
   status: GameStatus;
   winner: Player | null;
@@ -39,13 +40,14 @@ export interface ArrivingFleet {
 }
 
 const defaultState: GameState = {
+  iteration: 0,
   isStarted: false,
   status: GameStatus.NOT_STARTED,
   winner: null,
-  players: [],
+  players: [new Player("1"), new Player("2")],
   planets: {},
   gameOptions: {
-    fieldSize: 10,
+    fieldSize: 5,
     neutralPlanetCount: 4
   },
   gameStartError: false,
@@ -103,6 +105,7 @@ function konquestGame(
         });
         return {
           ...state,
+          iteration: state.iteration + 1,
           isStarted: true,
           gameStartError: false,
           status: game.status,
