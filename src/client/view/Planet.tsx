@@ -16,13 +16,12 @@ export interface PlanetProps {
   blockSize: number;
 }
 
-const PLANET_BORDER_PADDING = 10;
-
 const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
   const { originPlanet, activePlayer, destinationPlanet, currentShipsModifier }: PlanetStoreSlice = useSelector(planetSelectorFunction, shallowEqual);
   const dispatch = useDispatch();
 
-  const imageSize = blockSize - PLANET_BORDER_PADDING * 2;
+  const planetBorderSize = Math.floor(blockSize * 0.15);
+  const imageSize = blockSize - planetBorderSize * 2;
 
   const isSelected = (originPlanet && originPlanet.name === planet.name) || (destinationPlanet && destinationPlanet.name === planet.name);
 
@@ -66,8 +65,8 @@ const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
         className={css`
           cursor: pointer;
           position: relative;
-          top: ${PLANET_BORDER_PADDING}px;
-          left: ${PLANET_BORDER_PADDING}px;
+          top: ${planetBorderSize}px;
+          left: ${planetBorderSize}px;
           width: ${imageSize}px;
           height: ${imageSize}px;
           border-radius: ${blockSize}px;
