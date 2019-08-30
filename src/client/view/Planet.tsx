@@ -10,6 +10,8 @@ import Planet from "../../logic/Planet";
 import "react-tippy/dist/tippy.css";
 import planetSelectorFunction, { PlanetStoreSlice } from "../selectors/planet.selector";
 import PlanetImage from "./PlanetImage";
+import PlanetTooltipContent from "./PlanetTooltipContent";
+import hexToRgba from "./helpers/hexToRgba";
 
 export interface PlanetProps {
   planet: Planet;
@@ -23,7 +25,9 @@ const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
   const planetBorderSize = Math.floor(blockSize * 0.15);
   const imageSize = blockSize - planetBorderSize * 2;
 
-  const isSelected = (originPlanet && originPlanet.name === planet.name) || (destinationPlanet && destinationPlanet.name === planet.name);
+  const isPlayerPlanet = planet.owner && planet.owner.id === activePlayer.id;
+  const isOriginPlanet = originPlanet && originPlanet.name === planet.name;
+  const isDestinationPlanet = destinationPlanet && destinationPlanet.name === planet.name;
 
   const onPlanetSelect = (): void => {
     if (!originPlanet && (!planet.owner || planet.owner.id !== activePlayer.id)) {
@@ -40,42 +44,42 @@ const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
   };
 
   return (
-    <Tooltip
-      position="top"
-      animation="fade"
-      arrow="true"
-      animateFill="false"
-      html={
-        <div>
-          <div>Owner: {planet.owner ? planet.owner.screenName : "none"}</div>
-          <div>Production: {planet.production}</div>
-          <div>Kill percent: {planet.killPercent}</div>
-          <div>Ships: {planet.ships - (currentShipsModifier[planet.name] || 0)}</div>
-        </div>
-      }
+    <div
       className={css`
         position: absolute;
-        top: ${planet.coordinates.x * blockSize}px;
+        cursor: pointer;
+        top: ${planet.coordinates.x * blockSize - 1}px;
         left: ${planet.coordinates.y * blockSize}px;
-        width: ${blockSize}px;
-        height: ${blockSize}px;
+        width: ${blockSize - 1}px;
+        height: ${blockSize - 1}px;
+        background: ${isDestinationPlanet
+          ? `rgba(${hexToRgba("#0000ff", "0.3")})`
+          : isOriginPlanet
+          ? `rgba(${hexToRgba("#00ff00", "0.3")})`
+          : isPlayerPlanet
+          ? `rgba(${hexToRgba("#ff0000", "0.3")})`
+          : "none"};
+
+        :hover {
+          background: rgba(${hexToRgba(isOriginPlanet ? "#00ff00" : originPlanet ? "#0000ff" : isPlayerPlanet ? "#ff0000" : "#fff", "0.3")});
+        }
       `}
+      onClick={onPlanetSelect}
     >
-      <div
+      <Tooltip
+        position="top"
+        animation="fade"
+        arrow="true"
+        animateFill="false"
+        html={<PlanetTooltipContent planet={planet} modifier={currentShipsModifier[planet.name]} />}
         className={css`
-          cursor: pointer;
-          position: relative;
+          position: absolute;
           top: ${planetBorderSize}px;
           left: ${planetBorderSize}px;
           width: ${imageSize}px;
           height: ${imageSize}px;
           border-radius: ${blockSize}px;
-
-          :hover {
-            box-shadow: 0px 0px 3px 2px ${isSelected ? "green" : "magenta"};
-          }
         `}
-        onClick={onPlanetSelect}
       >
         <PlanetImage radius={imageSize / 2} />
         <span
@@ -88,9 +92,8 @@ const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
         >
           {planet.name}
         </span>
-        <br />
-      </div>
-    </Tooltip>
+      </Tooltip>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useContext } from "react";
+import React, { ReactElement, useState, useContext, useRef, useEffect } from "react";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { css } from "emotion";
 
@@ -10,12 +10,17 @@ import { ThemeContext } from "./themes/ThemeProvider";
 import hexToRgba from "./helpers/hexToRgba";
 
 const GameField = (): ReactElement | null => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const theme = useContext(ThemeContext);
   const dispatch = useDispatch();
+  const [blockSize, setBlockSize] = useState(60);
   const { isStarted, iteration, planets, fieldSize }: GameStoreSlice = useSelector(gameSelectorFunction, shallowEqual);
 
-  // TODO: calculate relative size
-  const [blockSize] = useState(document ? Math.floor((document.body.clientWidth * 0.5) / fieldSize) : 60);
+  useEffect(() => {
+    if (wrapperRef.current) {
+      setBlockSize(Math.floor(wrapperRef.current.clientWidth / fieldSize));
+    }
+  }, [wrapperRef, fieldSize]);
 
   if (!planets || !isStarted) {
     return null;
@@ -24,7 +29,7 @@ const GameField = (): ReactElement | null => {
   const fillColor = hexToRgba(theme.colors.white, "0.3");
 
   return (
-    <React.Fragment>
+    <div ref={wrapperRef}>
       <div
         className={css`
           width: ${fieldSize * blockSize}px;
@@ -55,7 +60,7 @@ const GameField = (): ReactElement | null => {
       <Button variant="destructive" onClick={(): StartGameAction => dispatch(startGame())}>
         Restart game
       </Button>
-    </React.Fragment>
+    </div>
   );
 };
 

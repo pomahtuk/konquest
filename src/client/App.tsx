@@ -5,6 +5,7 @@ import emotionNormalize from "emotion-normalize";
 
 import Playground from "./view/Playground";
 import { ThemeContext } from "./view/themes/ThemeProvider";
+import ImageCredentials from "./view/ImageCredentials";
 
 export type GalaxyCredit = {
   title: string;
@@ -24,14 +25,24 @@ const App = ({ image = "galaxy_3", credit }: AppProps): ReactElement => {
       <Global
         styles={css`
           ${emotionNormalize};
+          html {
+            height: 100%;
+            width: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
           html,
           body {
             font-family: ${theme.fontStacks.sans};
             font-size: ${theme.fontSizes.medium};
             line-height: ${theme.lineHeights.medium};
             font-weight: ${theme.fontWeights.normal};
-            background-size: cover;
+          }
+          body {
             background: url(${image}.jpg) no-repeat center center fixed;
+            background-size: cover;
+            min-width: 100%;
+            min-height: 100%;
           }
           * {
             box-sizing: border-box;
@@ -41,7 +52,7 @@ const App = ({ image = "galaxy_3", credit }: AppProps): ReactElement => {
       <Switch>
         <Route exact path="/" component={Playground} />
       </Switch>
-      <div>{credit ? credit.credit : ""}</div>
+      <ImageCredentials credit={credit} />
     </React.Fragment>
   );
 };

@@ -1,5 +1,6 @@
-import React, { ReactElement } from "react";
-import { connect } from "react-redux";
+import React, { ReactElement, useContext } from "react";
+import { useSelector, shallowEqual } from "react-redux";
+import { css } from "emotion";
 
 import playgroundSelectorFunction, { PlaygroundStoreSlice } from "../selectors/playground.selector";
 
@@ -11,36 +12,58 @@ import Container from "./foundations/Container";
 import Grid from "./foundations/Grid";
 import GridColumn from "./foundations/GridColumn";
 import GameField from "./GameField";
+import { ThemeContext } from "./themes/ThemeProvider";
+import hexToRgba from "./helpers/hexToRgba";
 
-class PlayGround extends React.PureComponent<PlaygroundStoreSlice> {
-  render(): ReactElement {
-    const { isStarted = false } = this.props;
+const PlayGround = (): ReactElement => {
+  const { isStarted = false }: PlaygroundStoreSlice = useSelector(playgroundSelectorFunction, shallowEqual);
+  const theme = useContext(ThemeContext);
 
-    return (
-      <Container centered>
-        {!isStarted ? (
-          <Grid bleed={false}>
-            <GridColumn size="full" sizeLarge="half">
-              <PlayerSettings />
-            </GridColumn>
-            <GridColumn size="full" sizeLarge="half">
-              <GameSettings />
-            </GridColumn>
-          </Grid>
-        ) : (
-          <Grid>
-            <GridColumn size={8}>
-              <GameField />
-            </GridColumn>
-            <GridColumn size={4}>
+  const VerticalCenterParent = css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  `;
+
+  const settingsGrid = css`
+    background: rgba(${hexToRgba(theme.colors.white, "0.3")});
+    border-radius: ${theme.units.small};
+    padding: 0 0 ${theme.units.largest} 0;
+  `;
+
+  const turnContainer = css`
+    background: rgba(${hexToRgba(theme.colors.white, "0.3")});
+    border-radius: ${theme.units.small};
+    padding: ${theme.units.medium};
+  `;
+
+  return (
+    <Container centered className={VerticalCenterParent}>
+      {!isStarted ? (
+        <Grid className={settingsGrid}>
+          <GridColumn size="full" sizeLarge="half">
+            <PlayerSettings />
+          </GridColumn>
+          <GridColumn size="full" sizeLarge="half">
+            <GameSettings />
+          </GridColumn>
+        </Grid>
+      ) : (
+        <Grid>
+          <GridColumn size={8} sizeMedium={8}>
+            <GameField />
+          </GridColumn>
+          <GridColumn size={4} sizeMedium={4}>
+            <div className={turnContainer}>
               <PlayerTurn />
               <ArrivingFleets />
-            </GridColumn>
-          </Grid>
-        )}
-      </Container>
-    );
-  }
-}
+            </div>
+          </GridColumn>
+        </Grid>
+      )}
+    </Container>
+  );
+};
 
-export default connect(playgroundSelectorFunction)(PlayGround);
+export default PlayGround;

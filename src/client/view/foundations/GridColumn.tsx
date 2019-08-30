@@ -45,16 +45,15 @@ const GridColumn = ({
   const realOffsetMedium = toRealValue(offsetMedium);
   const realOffsetLarge = toRealValue(offsetLarge);
   const realOffsetHuge = toRealValue(offsetHuge);
+
   // prepare styled component
   const GridColumnStyled = styled.div({
     boxSizing: "border-box",
-    [theme.media.small]: {
-      padding: bleed ? "0" : `${theme.units.medium} calc(${theme.units.medium}/2) 0 calc(${theme.units.medium}/2)`,
-      flexBasis: `calc(100% / (12/${realSize}))`,
-      width: `calc(100% / (12/${realSize}))`,
-      maxWidth: `calc(100% / (12/${realSize}))`,
-      ...(realOffset ? { marginLeft: `calc(100% / (12/${realOffset}))` } : {})
-    },
+    padding: bleed ? "0" : `${theme.units.medium} calc(${theme.units.medium}/2) 0 calc(${theme.units.medium}/2)`,
+    flexBasis: `calc(100% / (12/${realSize}))`,
+    width: `calc(100% / (12/${realSize}))`,
+    maxWidth: `calc(100% / (12/${realSize}))`,
+    ...(realOffset ? { marginLeft: `calc(100% / (12/${realOffset}))` } : {}),
     [theme.media.medium]: {
       padding: bleed ? "0" : `${theme.units.large} calc(${theme.units.large}/2) 0 calc(${theme.units.large}/2)`,
       ...(realSizeMedium

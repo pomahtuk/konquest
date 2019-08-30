@@ -43,7 +43,7 @@ const GameSettings = (): ReactElement => {
 
   return (
     <React.Fragment>
-      <h1>Game settings:</h1>
+      <h1 style={{ marginTop: 0 }}>Game settings:</h1>
       <InputText
         type="number"
         label="Field size"

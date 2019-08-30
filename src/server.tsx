@@ -12,6 +12,7 @@ import ThemeProvider from "./client/view/themes/ThemeProvider";
 import baseTheme from "./client/view/themes/base.theme";
 const store = storeCreator();
 
+// @ts-ignore
 import credits from "../public/credits.json";
 import { randomInt } from "./client/proceduralGeneration/random";
 
@@ -41,8 +42,6 @@ server
     );
 
     const preloadedState = store.getState();
-
-    console.log({ credit: galaxyCredit, image: galaxyVariant });
 
     if (context.url) {
       res.redirect(context.url);

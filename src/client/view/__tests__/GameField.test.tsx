@@ -26,6 +26,5 @@ describe("<GameField />", (): void => {
 
     const { container } = render(wrapWithReduxAndStyle(<GameField />));
     expect(container).toBeDefined();
-    // expect(getByTestId("gamefield")).toBeDefined();
   });
 });

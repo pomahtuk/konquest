@@ -6,7 +6,7 @@ import AddPlayer from "./AddPlayer";
 const PlayerSettings = (): ReactElement => {
   return (
     <div>
-      <h1>Players:</h1>
+      <h1 style={{ marginTop: 0 }}>Players:</h1>
       <PlayersList />
       <AddPlayer />
     </div>
