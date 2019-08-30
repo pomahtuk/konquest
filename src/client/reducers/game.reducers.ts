@@ -44,7 +44,7 @@ const defaultState: GameState = {
   isStarted: false,
   status: GameStatus.NOT_STARTED,
   winner: null,
-  players: [new Player("1"), new Player("2")],
+  players: [new Player("Player One"), new Player("Player Two")],
   planets: {},
   gameOptions: {
     fieldSize: 5,

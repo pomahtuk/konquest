@@ -1,11 +1,11 @@
 {
   "plugins": [
-    "emotion",
-    [
-      "babel-plugin-jsx-remove-data-test-id",
-      {
-        "attributes": "data-testid"
-      }
-    ]
+    "emotion"
+    // [
+    //   "babel-plugin-jsx-remove-data-test-id",
+    //   {
+    //     "attributes": "data-testid"
+    //   }
+    // ]
   ]
 }

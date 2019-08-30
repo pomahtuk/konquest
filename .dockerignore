@@ -1,0 +1,15 @@
+.vscode
+.prettier*
+README.md
+*.log
+*.test.ts
+*.test.tsx
+coverage
+node_modules
+!node_modules/@types
+*.log
+.idea
+.deploy
+.git
+Dockerfile
+build

@@ -2,11 +2,10 @@
   "types": ["node"],
   "compilerOptions": {
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types/", "./@vendor-types"],
     "outDir": "build/dist",
     "module": "esnext",
     "resolveJsonModule": true,
-    "target": "es5",
+    "target": "esnext",
     "lib": ["es2017", "es6", "dom"],
     "sourceMap": true,
     "jsx": "react",
