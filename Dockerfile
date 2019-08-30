@@ -1,7 +1,5 @@
 # builder container
-FROM node:10.16.3-alpine as builder
-
-ENV NODE_ENV=production
+FROM node:current-alpine as builder
 
 WORKDIR /builder
 
@@ -9,8 +7,6 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --non-interactive
 COPY public ./public
 COPY src ./src
-# TODO: while installing modules inside container @types for some reason are incomplete. This is temp fix
-COPY node_modules/@types node_modules/@types
 COPY @vendor-types ./@vendor-types
 COPY .babelrc tsconfig.json tslint.json .env* razzle.config.js ./
 
