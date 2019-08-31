@@ -1,3 +1,5 @@
+import path from "path";
+
 import App, { GalaxyCredit } from "./client/App";
 import React from "react";
 import { StaticRouter } from "react-router-dom";
@@ -23,7 +25,7 @@ const server = express();
 
 server
   .disable("x-powered-by")
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR || "/public"))
+  .use(express.static(path.resolve(process.env.RAZZLE_PUBLIC_DIR || "/public")))
   .get("/*", (req, res): void => {
     const galaxyVariant = `galaxy_${randomInt(1, 10)}`;
     const galaxyCredit: GalaxyCredit = credits[galaxyVariant];

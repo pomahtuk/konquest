@@ -1,7 +1,7 @@
 # builder container
 FROM node:current-alpine as builder
 
-WORKDIR /builder
+WORKDIR /app
 
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --non-interactive
@@ -15,6 +15,8 @@ RUN yarn build
 # main container part
 FROM node:current-alpine
 
+WORKDIR /app
+
 ENV NODE_ENV=production
 COPY package.json yarn.lock ./
 
@@ -22,8 +24,8 @@ COPY package.json yarn.lock ./
 RUN yarn install --prod --frozen-lockfile --non-interactive
 
 # From "builder" (step above) copy only the compiled app.
-COPY --from=builder /builder/build ./build
+COPY --from=builder /app/build ./build
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["yarn", "start:prod"]
