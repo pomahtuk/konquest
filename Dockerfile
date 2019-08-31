@@ -10,8 +10,6 @@ COPY src ./src
 COPY @vendor-types ./@vendor-types
 COPY .babelrc tsconfig.json tslint.json .env* razzle.config.js ./
 
-RUN ls -la node_modules/@types
-
 RUN yarn build
 
 # main container part
