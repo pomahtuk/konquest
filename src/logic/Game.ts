@@ -46,6 +46,7 @@ const status = Symbol("status");
 const winner = Symbol("winner");
 const findWinner = Symbol("findWinner");
 const findNextValidPlayer = Symbol("findNextValidPlayer");
+const addDataToTurn = Symbol("addDataToTurn");
 
 class ConquestGame {
   public static maxSize = 20;
@@ -64,14 +65,6 @@ class ConquestGame {
   private [fleetTimeline]: Fleet[][] = [];
   private [status]: GameStatus = GameStatus.NOT_STARTED;
   private [winner]: Player | null = null;
-
-  public get width(): number {
-    return this[fieldWidth];
-  }
-
-  public get height(): number {
-    return this[fieldHeight];
-  }
 
   public get waitingForPlayer(): number {
     return this[waitingForPlayer];
@@ -128,12 +121,7 @@ class ConquestGame {
       this[status] = GameStatus.IN_PROGRESS;
     }
     // check if we already have some data for this turn
-    let turn = this[turns][this[currentTurn]];
-    if (!turn) {
-      turn = [];
-    }
-    turn.push(data);
-    this[turns][this[currentTurn]] = turn;
+    this[addDataToTurn](data);
     // update pointer to player we are waiting for
     this[findNextValidPlayer]();
     return TurnStatus.VALID;
@@ -158,6 +146,16 @@ class ConquestGame {
     return JSON.parse(JSON.stringify(this[fleetTimeline].slice(this[currentTurn])));
   }
 
+  private [addDataToTurn](data: PlayerTurn): void {
+    // check if we already have some data for this turn
+    let turn = this[turns][this[currentTurn]];
+    if (!turn) {
+      turn = [];
+    }
+    turn.push(data);
+    this[turns][this[currentTurn]] = turn;
+  }
+
   private [findNextValidPlayer](): void {
     this[waitingForPlayer] += 1;
     if (this[waitingForPlayer] >= this[players].length) {
@@ -168,6 +166,21 @@ class ConquestGame {
     }
     const nextPlayer = this[players][this[waitingForPlayer]];
     if (nextPlayer.isDead) {
+      this[findNextValidPlayer]();
+    }
+    // moving computer turn processing here for now, but make sure not to make a turn once game completed
+    if (nextPlayer.isComputer && this[status] !== GameStatus.COMPLETED) {
+      const orders = nextPlayer.takeTurn(
+        this[planets],
+        this[fleetTimeline].slice(this[currentTurn]).reduce((acc, fleetList) => {
+          acc.concat(fleetList.filter((fleet) => fleet.owner.id === nextPlayer.id));
+          return acc;
+        }, [])
+      );
+      this[addDataToTurn]({
+        player: nextPlayer,
+        orders
+      });
       this[findNextValidPlayer]();
     }
   }

@@ -1,8 +1,8 @@
 import React from "react";
 import wrapWithReduxAndStyle, { CurrentStore } from "../testHelpers/wrapWithReduxAndStyle";
 import { render, fireEvent } from "@testing-library/react";
-import { addPlayer } from "../../actions/game.actions";
-import Player from "../../../logic/Player";
+// import { addPlayer } from "../../actions/game.actions";
+// import Player from "../../../logic/Player";
 
 import GameSettings from "../GameSettings";
 
@@ -16,8 +16,8 @@ describe("<GameSettings />", (): void => {
     const { container, getByText } = render(wrapWithReduxAndStyle(<GameSettings />));
     expect(container).toBeDefined();
 
-    CurrentStore.dispatch(addPlayer(new Player("one")));
-    CurrentStore.dispatch(addPlayer(new Player("two")));
+    // CurrentStore.dispatch(addPlayer(new Player("one")));
+    // CurrentStore.dispatch(addPlayer(new Player("two")));
 
     const button = getByText("Start Game");
     fireEvent.click(button);
