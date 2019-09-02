@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Button /> renders <Button /> component 1`] = `
+.emotion-0 {
+  border: 1px solid #0071C2;
+  border-radius: 2px;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  vertical-align: middle;
+  position: relative;
+  background-color: #0071C2;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.emotion-0:hover,
+.emotion-0:active {
+  background-color: #005C9D;
+  border-color: #005C9D;
+}
+
+.emotion-0 [disabled],
+.emotion-0 [disabled]:hover {
+  background-color: #6B6B6B;
+  border-color: #6B6B6B;
+  cursor: not-allowed;
+}
+
+<div>
+  <button
+    class="emotion-0"
+    type="button"
+  />
+</div>
+`;
