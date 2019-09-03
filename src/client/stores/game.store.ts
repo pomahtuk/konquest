@@ -4,15 +4,18 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import konquestGame, { GameState } from "../reducers/game.reducers";
 import players from "../reducers/players.reducers";
 import Player from "../../logic/Player";
+import turn, { TurnStoreData } from "../reducers/turn.reducers";
 
 export interface StoreData {
   game: GameState;
   players: Player[];
+  turn: TurnStoreData;
 }
 
 const reducer = combineReducers({
   game: konquestGame,
-  players: players
+  players: players,
+  turn: turn
 });
 
 const storeCreator = (storeState?: StoreData): Store =>

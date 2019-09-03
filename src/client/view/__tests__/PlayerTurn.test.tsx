@@ -6,7 +6,8 @@ expect.extend(matchers);
 
 import wrapWithReduxAndStyle, { CurrentStore } from "../testHelpers/wrapWithReduxAndStyle";
 import PlayerTurn from "../PlayerTurn";
-import { startGame, setOriginPlanet, setDestinationPlanet, setGameOptions } from "../../actions/game.actions";
+import { startGame, setGameOptions } from "../../actions/game.actions";
+import { setOriginPlanet, setDestinationPlanet } from "../../actions/turn.actions";
 import Player from "../../../logic/Player";
 
 const selectPlanets = (): void => {
@@ -49,7 +50,7 @@ describe("<PlayerTurn />", (): void => {
     const addOrderButton = getByText("Add order");
     fireEvent.click(addOrderButton);
     const {
-      game: { currentPlayerOrders }
+      turn: { currentPlayerOrders }
     } = CurrentStore.getState();
     expect(currentPlayerOrders).toHaveLength(1);
     // now we let's re-select planets
@@ -58,7 +59,7 @@ describe("<PlayerTurn />", (): void => {
     const cancelOrderButton = getByText("Cancel order");
     fireEvent.click(cancelOrderButton);
     const {
-      game: { originPlanet, destinationPlanet }
+      turn: { originPlanet, destinationPlanet }
     } = CurrentStore.getState();
     expect(originPlanet).not.toBeDefined();
     expect(destinationPlanet).not.toBeDefined();

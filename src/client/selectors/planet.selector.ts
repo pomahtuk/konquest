@@ -4,6 +4,8 @@ import Player from "../../logic/Player";
 import { GameState } from "../reducers/game.reducers";
 import Planet from "../../logic/Planet";
 import rootGameSelector from "./root.game.selector";
+import rootTurnSelector from "./root.turn.selector";
+import { TurnStoreData } from "../reducers/turn.reducers";
 
 export interface PlanetStoreSlice {
   originPlanet?: Planet;
@@ -14,15 +16,16 @@ export interface PlanetStoreSlice {
   };
 }
 
-const planetSelectorFunction = (game: GameState): PlanetStoreSlice => ({
-  originPlanet: game.originPlanet,
+const planetSelectorFunction = (game: GameState, turn: TurnStoreData): PlanetStoreSlice => ({
+  originPlanet: turn.originPlanet,
   activePlayer: game.activePlayer as Player,
-  destinationPlanet: game.destinationPlanet,
-  currentShipsModifier: game.currentShipsModifier
+  destinationPlanet: turn.destinationPlanet,
+  currentShipsModifier: turn.currentShipsModifier
 });
 
 const planetSelector = createSelector(
   rootGameSelector,
+  rootTurnSelector,
   planetSelectorFunction
 );
 

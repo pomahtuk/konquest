@@ -3,7 +3,7 @@ import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { Tooltip } from "react-tippy";
 import { css } from "emotion";
 
-import { setDestinationPlanet, setOriginPlanet } from "../actions/game.actions";
+import { setDestinationPlanet, setOriginPlanet } from "../actions/turn.actions";
 
 import Planet from "../../logic/Planet";
 

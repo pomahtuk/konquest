@@ -1,7 +1,8 @@
 import React, { ReactElement, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
-import { addPlayerTurn, setDestinationPlanet, setOriginPlanet, addPlayerTurnOrder } from "../actions/game.actions";
+import { addPlayerTurn } from "../actions/game.actions";
+import { addPlayerTurnOrder, clearTurnData, unsetPlanets } from "../actions/turn.actions";
 import playerTurnSelector, { PlayerTurnStoreSlice } from "../selectors/playerTurn.selector";
 
 import AddPlayerTurn from "./AddPlayerTurn";
@@ -22,8 +23,7 @@ const PlayerTurn = (): ReactElement => {
 
   const cleanUp = (): void => {
     setValue(0);
-    dispatch(setOriginPlanet(undefined));
-    dispatch(setDestinationPlanet(undefined));
+    dispatch(unsetPlanets());
   };
 
   const onAddOrder = (): void => {
@@ -47,7 +47,8 @@ const PlayerTurn = (): ReactElement => {
       })
     );
     // clean up planet selection
-    cleanUp();
+    setValue(0);
+    dispatch(clearTurnData());
   };
 
   return (
