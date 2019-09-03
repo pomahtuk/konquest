@@ -33,7 +33,7 @@ const AddPlayerTurn = ({
           <legend>
             Sending fleet from {originPlanet.name} to {destinationPlanet.name}. Select amount:
           </legend>
-          <InputText type="number" value={amount} onChange={onOrderAmountChange} />
+          <InputText type="number" value={amount} onChange={onOrderAmountChange} data-testid="order-amount" />
           <Button variant="primary" onClick={onAddOrder}>
             Add order
           </Button>

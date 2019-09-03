@@ -13,4 +13,9 @@ describe("Player", (): void => {
     expect(player.statEnemyFleetsDestroyed).toBe(0);
     expect(player.statShipCount).toBe(0);
   });
+
+  it("Exposes takeTurn mock function returning an empty array", (): void => {
+    const player = new Player("test");
+    expect(player.takeTurn({}, [])).toHaveLength(0);
+  });
 });

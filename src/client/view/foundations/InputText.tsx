@@ -3,21 +3,19 @@ import { css } from "emotion";
 import { ThemeContext } from "../themes/ThemeProvider";
 import hexToRgba from "../helpers/hexToRgba";
 
-type InputTextProps = {
-  id?: string;
-  label?: React.ReactNode;
+interface InputTextProps extends React.HTMLProps<HTMLInputElement> {
+  label?: string;
   value?: string | number;
   type?: string;
   disabled?: boolean;
-  // error?: string;
   placeholder?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   min?: number;
   max?: number;
-};
+}
 
-const InputText = ({ disabled, type, placeholder, label, value, onChange, min, max }: InputTextProps): ReactElement => {
+const InputText = ({ disabled, type, placeholder, label, value, onChange, min, max, ...rest }: InputTextProps): ReactElement => {
   const theme = useContext(ThemeContext);
 
   const wrapperClass = css`
@@ -64,6 +62,7 @@ const InputText = ({ disabled, type, placeholder, label, value, onChange, min, m
     <div className={wrapperClass}>
       {label && <label className={labelClass}>{label}</label>}
       <input
+        {...rest}
         className={inputClass}
         disabled={disabled}
         type={type}

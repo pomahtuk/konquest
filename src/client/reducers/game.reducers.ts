@@ -48,7 +48,7 @@ const defaultState: GameState = {
   planets: {},
   gameOptions: {
     fieldSize: 5,
-    neutralPlanetCount: 4
+    neutralPlanetCount: 3
   },
   gameStartError: false,
   turnError: false,

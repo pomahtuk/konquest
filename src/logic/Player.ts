@@ -1,3 +1,6 @@
+import Fleet from "./Fleet";
+import { PlanetMap } from "./Planet";
+
 export interface PlayerTurnOrder {
   origin: string;
   destination: string;

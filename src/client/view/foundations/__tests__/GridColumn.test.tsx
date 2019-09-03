@@ -6,7 +6,6 @@ expect.extend(matchers);
 
 import wrapWithReduxAndStyle from "../../testHelpers/wrapWithReduxAndStyle";
 import GridColumn from "../GridColumn";
-import baseTheme from "../../themes/base.theme";
 
 const gridColumnText = "column";
 

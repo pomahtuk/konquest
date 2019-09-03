@@ -122,7 +122,9 @@
       "!src/server.tsx",
       "!src/index.ts"
     ],
-    "snapshotSerializers": ["jest-emotion"],
+    "snapshotSerializers": [
+      "jest-emotion"
+    ],
     "coverageThreshold": {
       "global": {
         "branches": 70,
