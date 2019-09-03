@@ -12,6 +12,7 @@ import ConquestGame, { GameStatus, TurnStatus } from "../../logic/Game";
 import Player, { PlayerTurnOrder } from "../../logic/Player";
 import Planet, { PlanetMap } from "../../logic/Planet";
 import Fleet from "../../logic/Fleet";
+import ComputerPlayerEasy from "../../logic/ComputerPlayerEasy";
 
 export interface GameState {
   iteration: number;
@@ -44,6 +45,7 @@ const defaultState: GameState = {
   isStarted: false,
   status: GameStatus.NOT_STARTED,
   winner: null,
+  // players: [new Player("Player One"), new ComputerPlayerEasy("Easy Computer")],
   players: [new Player("Player One"), new Player("Player Two")],
   planets: {},
   gameOptions: {
@@ -101,7 +103,7 @@ function konquestGame(
           fieldHeight: state.gameOptions.fieldSize,
           fieldWidth: state.gameOptions.fieldSize,
           neutralPlanetCount: state.gameOptions.neutralPlanetCount,
-          players: state.players.map((p) => new Player(p.screenName))
+          players: state.players.map((p) => (p.isComputer ? new ComputerPlayerEasy(p.screenName) : new Player(p.screenName)))
         });
         return {
           ...state,

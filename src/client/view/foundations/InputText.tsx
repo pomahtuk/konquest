@@ -1,9 +1,9 @@
-import React, { ReactElement, useContext, ChangeEvent } from "react";
+import React, { HTMLProps, ReactElement, useContext, ChangeEvent } from "react";
 import { css } from "emotion";
 import { ThemeContext } from "../themes/ThemeProvider";
 import hexToRgba from "../helpers/hexToRgba";
 
-interface InputTextProps extends React.HTMLProps<HTMLInputElement> {
+interface InputTextProps extends HTMLProps<HTMLInputElement> {
   label?: string;
   value?: string | number;
   type?: string;

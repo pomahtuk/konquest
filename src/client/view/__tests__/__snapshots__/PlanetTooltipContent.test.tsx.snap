@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlanetTooltipContent /> renders <PlanetTooltipContent /> component for neutral planet 1`] = `
+.emotion-0 {
+  padding-right: 8px;
+}
+
+.emotion-1 {
+  text-align: right;
+}
+
+.emotion-8 {
+  text-align: left;
+}
+
+<div>
+  <table
+    class="emotion-8"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Owner:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          none
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Production:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          10
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Kill percent:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          0.5
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Ships:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          10
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`<PlanetTooltipContent /> renders <PlanetTooltipContent /> component for player planet 1`] = `
+.emotion-0 {
+  padding-right: 8px;
+}
+
+.emotion-1 {
+  text-align: right;
+}
+
+.emotion-8 {
+  text-align: left;
+}
+
+<div>
+  <table
+    class="emotion-8"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Owner:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          test
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Production:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          10
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Kill percent:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          0.5
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Ships:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          10
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`<PlanetTooltipContent /> renders <PlanetTooltipContent /> component for player planet and ships modifier 1`] = `
+.emotion-0 {
+  padding-right: 8px;
+}
+
+.emotion-1 {
+  text-align: right;
+}
+
+.emotion-8 {
+  text-align: left;
+}
+
+<div>
+  <table
+    class="emotion-8"
+  >
+    <tbody>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Owner:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          test
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Production:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          10
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Kill percent:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          0.5
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="emotion-0"
+        >
+          Ships:
+        </td>
+        <td
+          class="emotion-1"
+        >
+          0
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
