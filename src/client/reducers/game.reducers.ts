@@ -4,7 +4,6 @@ import {
   StartGameAction,
   AddPlayerTurnAction,
   SetGameOptionsAction,
-  AddPlayerAction,
   SetPlanetAction,
   AddPlayerTurnOrderAction
 } from "../actions/game.actions";
@@ -20,7 +19,6 @@ export interface GameState {
   status: GameStatus;
   winner: Player | null;
   activePlayer?: Player;
-  players: Player[];
   planets: PlanetMap;
   gameOptions: StateGameOptions;
   gameStartError: boolean;
@@ -45,12 +43,11 @@ const defaultState: GameState = {
   isStarted: false,
   status: GameStatus.NOT_STARTED,
   winner: null,
-  // players: [new Player("Player One"), new ComputerPlayerEasy("Easy Computer")],
-  players: [new Player("Player One"), new Player("Player Two")],
   planets: {},
   gameOptions: {
     fieldSize: 5,
-    neutralPlanetCount: 3
+    neutralPlanetCount: 3,
+    players: []
   },
   gameStartError: false,
   turnError: false,
@@ -80,7 +77,7 @@ let activePlayer: Player;
 
 function konquestGame(
   state: GameState = defaultState,
-  action: StartGameAction | AddPlayerTurnAction | SetGameOptionsAction | AddPlayerAction | SetPlanetAction | AddPlayerTurnOrderAction
+  action: StartGameAction | AddPlayerTurnAction | SetGameOptionsAction | SetPlanetAction | AddPlayerTurnOrderAction
 ): GameState {
   let turnStatus: TurnStatus;
   switch (action.type) {
@@ -92,18 +89,13 @@ function konquestGame(
           ...action.gameOptions
         }
       };
-    case GameActionTypes.ADD_PLAYER:
-      return {
-        ...state,
-        players: [...state.players, action.player]
-      };
     case GameActionTypes.START_GAME:
       try {
         game = new ConquestGame({
           fieldHeight: state.gameOptions.fieldSize,
           fieldWidth: state.gameOptions.fieldSize,
           neutralPlanetCount: state.gameOptions.neutralPlanetCount,
-          players: state.players.map((p) => (p.isComputer ? new ComputerPlayerEasy(p.screenName) : new Player(p.screenName)))
+          players: state.gameOptions.players.map((p) => (p.isComputer ? new ComputerPlayerEasy(p.screenName) : new Player(p.screenName)))
         });
         return {
           ...state,
@@ -112,7 +104,6 @@ function konquestGame(
           gameStartError: false,
           status: game.status,
           winner: game.winner,
-          players: game.getPlayers(),
           activePlayer: game.getPlayers()[game.waitingForPlayer],
           planets: game.getPlanets(),
           errorText: undefined,
@@ -144,7 +135,6 @@ function konquestGame(
             ...state,
             status: game.status,
             winner: game.winner,
-            players: game.getPlayers(),
             activePlayer,
             planets: game.getPlanets(),
             turnError: false,

@@ -3,9 +3,8 @@ import { render, fireEvent } from "@testing-library/react";
 
 import wrapWithReduxAndStyle, { CurrentStore } from "../testHelpers/wrapWithReduxAndStyle";
 import GameField from "../GameField";
-import { addPlayer, setGameOptions, startGame } from "../../actions/game.actions";
+import { setGameOptions, startGame } from "../../actions/game.actions";
 import Player from "../../../logic/Player";
-
 describe("<GameField />", (): void => {
   it("renders <GameField /> component", (): void => {
     const wrapper = render(wrapWithReduxAndStyle(<GameField />));
@@ -14,12 +13,11 @@ describe("<GameField />", (): void => {
 
   it("Renders game within <GameField /> component", (): void => {
     // first - start the game
-    CurrentStore.dispatch(addPlayer(new Player("1")));
-    CurrentStore.dispatch(addPlayer(new Player("2")));
     CurrentStore.dispatch(
       setGameOptions({
         fieldSize: 6,
-        neutralPlanetCount: 1
+        neutralPlanetCount: 1,
+        players: [new Player("1"), new Player("2")]
       })
     );
     CurrentStore.dispatch(startGame());
@@ -38,7 +36,9 @@ describe("<GameField />", (): void => {
     const restartButton = getByText("Restart game");
     fireEvent.click(restartButton);
     // get current iteration
-    const { iteration: currentIteration } = CurrentStore.getState();
+    const {
+      game: { iteration: currentIteration }
+    } = CurrentStore.getState();
     // should be different
     expect(startIteration).not.toBe(currentIteration);
   });

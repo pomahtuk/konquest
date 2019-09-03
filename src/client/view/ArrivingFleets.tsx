@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 
-import arrivingFleetSelectorFunction, { ArrivingFleetsStoreSlice } from "../selectors/arrivingFleet.selector";
+import arrivingFleetSelector, { ArrivingFleetsStoreSlice } from "../selectors/arrivingFleet.selector";
 
 const ArrivingFleets = (): ReactElement | null => {
-  const { currentPlayerFleets }: ArrivingFleetsStoreSlice = useSelector(arrivingFleetSelectorFunction);
+  const { currentPlayerFleets }: ArrivingFleetsStoreSlice = useSelector(arrivingFleetSelector);
 
   return currentPlayerFleets && currentPlayerFleets.length > 0 ? (
     <ul>

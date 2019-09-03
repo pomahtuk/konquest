@@ -8,7 +8,7 @@ import { setDestinationPlanet, setOriginPlanet } from "../actions/game.actions";
 import Planet from "../../logic/Planet";
 
 import "react-tippy/dist/tippy.css";
-import planetSelectorFunction, { PlanetStoreSlice } from "../selectors/planet.selector";
+import planetSelector, { PlanetStoreSlice } from "../selectors/planet.selector";
 import PlanetImage from "./PlanetImage";
 import PlanetTooltipContent from "./PlanetTooltipContent";
 import hexToRgba from "./helpers/hexToRgba";
@@ -19,7 +19,7 @@ export interface PlanetProps {
 }
 
 const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
-  const { originPlanet, activePlayer, destinationPlanet, currentShipsModifier }: PlanetStoreSlice = useSelector(planetSelectorFunction, shallowEqual);
+  const { originPlanet, activePlayer, destinationPlanet, currentShipsModifier }: PlanetStoreSlice = useSelector(planetSelector, shallowEqual);
   const dispatch = useDispatch();
 
   const planetBorderSize = Math.floor(blockSize * 0.15);

@@ -5,7 +5,7 @@ import ConquestGame from "../../logic/Game";
 import getPlanetLimit from "../../logic/helpers/getPlanetLimit";
 
 import { setGameOptions, startGame } from "../actions/game.actions";
-import gameSettingsSelectorFunction, { SettingsStoreSlice } from "../selectors/gameSettings.selector";
+import gameSettingsSelector, { SettingsStoreSlice } from "../selectors/gameSettings.selector";
 
 import useSlider from "../hooks/useSlider";
 import Button from "./foundations/Button";
@@ -17,7 +17,7 @@ const GameSettings = (): ReactElement => {
   const {
     gameOptions: { fieldSize, neutralPlanetCount },
     players
-  }: SettingsStoreSlice = useSelector(gameSettingsSelectorFunction, shallowEqual);
+  }: SettingsStoreSlice = useSelector(gameSettingsSelector, shallowEqual);
 
   // use it for inputs
   const { value: fieldSizeValue, onChange: changeFieldSize } = useSlider(fieldSize);
@@ -35,7 +35,8 @@ const GameSettings = (): ReactElement => {
     dispatch(
       setGameOptions({
         fieldSize: fieldSizeValue as number,
-        neutralPlanetCount: neutralPlanetsValue as number
+        neutralPlanetCount: neutralPlanetsValue as number,
+        players
       })
     );
     dispatch(startGame());

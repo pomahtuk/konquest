@@ -48,7 +48,7 @@ exports[`<PlayerTurn /> renders <PlayerTurn /> component at the beginning of pla
   <div>
     <div>
       <h2>
-        Player One
+        1
          turn
       </h2>
       <div>

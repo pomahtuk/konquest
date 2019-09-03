@@ -1,13 +1,13 @@
 import React, { ReactElement, ChangeEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { addPlayer } from "../actions/game.actions";
 import Button from "./foundations/Button";
 import InputText from "./foundations/InputText";
 
 import Player from "../../logic/Player";
 import InputSelect from "./foundations/InputSelect";
 import ComputerPlayerEasy from "../../logic/ComputerPlayerEasy";
+import { addPlayer } from "../actions/players.actions";
 
 type PlayerTypeVariant = "normal" | "computer";
 

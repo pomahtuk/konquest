@@ -2,7 +2,7 @@ import React, { ReactElement, useContext } from "react";
 import { useSelector, shallowEqual } from "react-redux";
 import { css } from "emotion";
 
-import playgroundSelectorFunction, { PlaygroundStoreSlice } from "../selectors/playground.selector";
+import playgroundSelector, { PlaygroundStoreSlice } from "../selectors/playground.selector";
 
 import GameSettings from "./GameSettings";
 import PlayerSettings from "./PlayerSettings";
@@ -16,7 +16,7 @@ import { ThemeContext } from "./themes/ThemeProvider";
 import hexToRgba from "./helpers/hexToRgba";
 
 const PlayGround = (): ReactElement => {
-  const { isStarted = false }: PlaygroundStoreSlice = useSelector(playgroundSelectorFunction, shallowEqual);
+  const { isStarted = false }: PlaygroundStoreSlice = useSelector(playgroundSelector, shallowEqual);
   const theme = useContext(ThemeContext);
 
   const VerticalCenterParent = css`

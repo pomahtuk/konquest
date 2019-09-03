@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
 import { useSelector, shallowEqual } from "react-redux";
-import playerSettingsSelectorFunction, { PlayerSettingsStoreSlice } from "../selectors/playerSettings.selector";
+import rootPlayersSelector from "../selectors/root.players.selector";
+import Player from "../../logic/Player";
 
 const PlayersList = (): ReactElement | null => {
-  const { players }: PlayerSettingsStoreSlice = useSelector(playerSettingsSelectorFunction, shallowEqual);
+  const players: Player[] = useSelector(rootPlayersSelector, shallowEqual);
 
   if (!players || players.length === 0) {
     return null;

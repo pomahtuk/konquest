@@ -1,6 +1,9 @@
+import { createSelector } from "reselect";
+
 import { GameState } from "../reducers/game.reducers";
 import Player, { PlayerTurnOrder } from "../../logic/Player";
 import Planet from "../../logic/Planet";
+import rootGameSelector from "./root.game.selector";
 
 export interface PlayerTurnStoreSlice {
   activePlayer: Player;
@@ -9,11 +12,16 @@ export interface PlayerTurnStoreSlice {
   orders: PlayerTurnOrder[];
 }
 
-const playerTurnSelectorFunction = (state: GameState): PlayerTurnStoreSlice => ({
-  activePlayer: state.activePlayer as Player,
-  originPlanet: state.originPlanet,
-  destinationPlanet: state.destinationPlanet,
-  orders: state.currentPlayerOrders
+const playerTurnSelectorFunction = (game: GameState): PlayerTurnStoreSlice => ({
+  activePlayer: game.activePlayer as Player,
+  originPlanet: game.originPlanet,
+  destinationPlanet: game.destinationPlanet,
+  orders: game.currentPlayerOrders
 });
 
-export default playerTurnSelectorFunction;
+const playerTurnSelector = createSelector(
+  rootGameSelector,
+  playerTurnSelectorFunction
+);
+
+export default playerTurnSelector;

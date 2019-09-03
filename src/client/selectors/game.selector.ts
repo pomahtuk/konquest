@@ -1,5 +1,8 @@
+import { createSelector } from "reselect";
+
 import { GameState } from "../reducers/game.reducers";
 import { PlanetMap } from "../../logic/Planet";
+import rootGameSelector from "./root.game.selector";
 
 export interface GameStoreSlice {
   isStarted: boolean;
@@ -7,11 +10,16 @@ export interface GameStoreSlice {
   planets?: PlanetMap;
   iteration: number;
 }
-const gameSelectorFunction = (state: GameState): GameStoreSlice => ({
-  isStarted: state.isStarted,
-  fieldSize: state.gameOptions.fieldSize,
-  iteration: state.iteration,
-  planets: state.planets
+const gameSelectorFunction = (game: GameState): GameStoreSlice => ({
+  isStarted: game.isStarted,
+  fieldSize: game.gameOptions.fieldSize,
+  iteration: game.iteration,
+  planets: game.planets
 });
 
-export default gameSelectorFunction;
+const gameSelector = createSelector(
+  rootGameSelector,
+  gameSelectorFunction
+);
+
+export default gameSelector;

@@ -4,7 +4,7 @@ import { css } from "emotion";
 
 import PlanetElement from "./Planet";
 import { startGame, StartGameAction } from "../actions/game.actions";
-import gameSelectorFunction, { GameStoreSlice } from "../selectors/game.selector";
+import gameSelector, { GameStoreSlice } from "../selectors/game.selector";
 import Button from "./foundations/Button";
 import { ThemeContext } from "./themes/ThemeProvider";
 import hexToRgba from "./helpers/hexToRgba";
@@ -14,7 +14,7 @@ const GameField = (): ReactElement | null => {
   const theme = useContext(ThemeContext);
   const dispatch = useDispatch();
   const [blockSize, setBlockSize] = useState(60);
-  const { isStarted, iteration, planets, fieldSize }: GameStoreSlice = useSelector(gameSelectorFunction, shallowEqual);
+  const { isStarted, iteration, planets, fieldSize }: GameStoreSlice = useSelector(gameSelector, shallowEqual);
 
   useEffect(() => {
     if (wrapperRef.current) {

@@ -8,7 +8,6 @@ export enum GameActionTypes {
   START_GAME = "START_GAME",
   SET_GAME_OPTIONS = "SET_GAME_OPTIONS",
   ADD_PLAYER_TURN = "ADD_PLAYER_TURN",
-  ADD_PLAYER = "ADD_PLAYER",
   SET_ORIGIN_PLANET = "SET_ORIGIN_PLANET",
   SET_DESTINATION_PLANET = "SET_DESTINATION_PLANET",
   ADD_PLAYER_TURN_ORDER = "ADD_PLAYER_TURN_ORDER"
@@ -17,6 +16,7 @@ export enum GameActionTypes {
 export interface StateGameOptions {
   fieldSize: number;
   neutralPlanetCount: number;
+  players: Player[];
 }
 
 export interface StartGameAction {
@@ -31,11 +31,6 @@ export interface SetGameOptionsAction {
 export interface AddPlayerTurnAction {
   type: typeof GameActionTypes.ADD_PLAYER_TURN;
   turnData: PlayerTurn;
-}
-
-export interface AddPlayerAction {
-  type: typeof GameActionTypes.ADD_PLAYER;
-  player: Player;
 }
 
 export interface SetPlanetAction {
@@ -61,10 +56,6 @@ export function setGameOptions(gameOptions: StateGameOptions): SetGameOptionsAct
 
 export function addPlayerTurn(turnData: PlayerTurn): AddPlayerTurnAction {
   return { type: GameActionTypes.ADD_PLAYER_TURN, turnData };
-}
-
-export function addPlayer(player: Player): AddPlayerAction {
-  return { type: GameActionTypes.ADD_PLAYER, player };
 }
 
 export function setOriginPlanet(planet?: Planet): SetPlanetAction {
