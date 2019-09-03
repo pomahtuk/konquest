@@ -12,7 +12,9 @@ const PlayersList = (): ReactElement | null => {
   return (
     <ul>
       {players.map((player) => (
-        <li key={player.id}>{player.screenName}</li>
+        <li key={player.id}>
+          {player.isComputer ? "🤖" : "👨‍🚀"} {player.screenName}
+        </li>
       ))}
     </ul>
   );

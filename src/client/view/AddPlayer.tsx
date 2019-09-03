@@ -42,6 +42,7 @@ const AddPlayer = (): ReactElement => {
     <React.Fragment>
       <InputText label="Player name" type="text" value={newPlayerName} onChange={onNameChange} placeholder="Player name" />
       <InputSelect label="Player type" value={newPlayerType} onChange={onTypeChange} options={playerTypeOptions} />
+
       <Button onClick={onAddPlayer} variant="secondary">
         Add player
       </Button>
