@@ -1,4 +1,4 @@
-import { createStore, Store, combineReducers } from "redux";
+import { createStore, Store, combineReducers, StoreEnhancer } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import konquestGame, { GameState } from "../reducers/game.reducers";
@@ -18,8 +18,12 @@ const reducer = combineReducers({
   turn: turn
 });
 
-const storeCreator = (storeState?: StoreData): Store =>
-  /* istanbul ignore next */
-  createStore(reducer, storeState, process.browser && process.env.NODE_ENV !== "production" ? composeWithDevTools() : undefined);
+let composer: StoreEnhancer<{}, {}> | undefined = undefined;
+/* istanbul ignore next */
+if (process.browser && process.env.NODE_ENV !== "production") {
+  composer = composeWithDevTools();
+}
+
+const storeCreator = (storeState?: StoreData): Store => createStore(reducer, storeState, composer);
 
 export default storeCreator;
