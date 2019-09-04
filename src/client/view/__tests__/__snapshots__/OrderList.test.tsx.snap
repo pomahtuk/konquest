@@ -1,15 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<OrderList /> renders <OrderList /> component with order 1`] = `
+.emotion-0 {
+  cursor: pointer;
+  margin: 0 0 0 8px;
+  font-size: 10px;
+}
+
 <div>
   <ul>
     <li>
-      Send fleet(
-      10
-      ) from 
-      A
-       to 
-      B
+      <span>
+        Send fleet(
+        10
+        ) from 
+        A
+         to 
+        B
+      </span>
+      <span
+        class="emotion-0"
+        data-testid="remove"
+      >
+        ❌
+      </span>
     </li>
   </ul>
 </div>

@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect } from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
 import { addPlayerTurn } from "../actions/game.actions";
-import { addPlayerTurnOrder, clearTurnData, unsetPlanets } from "../actions/turn.actions";
+import { addPlayerTurnOrder, clearTurnData, unsetPlanets, removePlayerTurnOrder } from "../actions/turn.actions";
 import playerTurnSelector, { PlayerTurnStoreSlice } from "../selectors/playerTurn.selector";
 
 import AddPlayerTurn from "./AddPlayerTurn";
@@ -63,7 +63,7 @@ const PlayerTurn = (): ReactElement => {
         onCancel={cleanUp}
       />
 
-      <OrderList orders={orders} />
+      <OrderList orders={orders} removeOrder={(index: number) => dispatch(removePlayerTurnOrder(index))} />
 
       <Button variant="primary" onClick={onCompleteTurn}>
         Complete turn
