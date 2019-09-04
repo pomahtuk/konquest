@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlayersList /> renders <PlayersList /> component without any players 1`] = `<div />`;
+
+exports[`<PlayersList /> renders <PlayersList /> component without both type of players 1`] = `
+.emotion-0 {
+  cursor: pointer;
+  margin: 0 0 0 8px;
+  font-size: 10px;
+}
+
+<div>
+  <ul>
+    <li>
+      <span>
+        👨‍🚀
+         
+        test player
+      </span>
+      <span
+        class="emotion-0"
+        data-testid="remove"
+      >
+        ❌
+      </span>
+    </li>
+    <li>
+      <span>
+        🤖
+         
+        test computer
+      </span>
+      <span
+        class="emotion-0"
+        data-testid="remove"
+      >
+        ❌
+      </span>
+    </li>
+  </ul>
+</div>
+`;

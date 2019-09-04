@@ -1,4 +1,4 @@
-type Sizes = "smaller" | "small" | "medium" | "large" | "larger" | "largest";
+type Sizes = "smallest" | "smaller" | "small" | "medium" | "large" | "larger" | "largest";
 
 type Colors =
   | "destructiveDark"
@@ -75,6 +75,7 @@ export interface Theme {
 
 const baseTheme: Theme = {
   fontSizes: {
+    smallest: "10px",
     smaller: "12px",
     small: "14px",
     medium: "16px",
@@ -83,6 +84,7 @@ const baseTheme: Theme = {
     largest: "32px"
   },
   lineHeights: {
+    smallest: "16px",
     smaller: "18px",
     small: "20px",
     medium: "24px",
@@ -159,6 +161,7 @@ const baseTheme: Theme = {
     actionLighter: "#E4F4FF"
   },
   units: {
+    smallest: "0px",
     smaller: "2px",
     small: "4px",
     medium: "8px",
