@@ -16,9 +16,17 @@ describe("ComputerPlayer", (): void => {
     const computer = new ComputerPlayer("test", ComputerPlayerType.EASY);
     const shouldNot = computer.shouldSkipPlanet("A", [], []);
     expect(shouldNot).toBe(false);
-    const shouldDueToOrders = computer.shouldSkipPlanet("A", [{ origin: "B", destination: "A", amount: 10 }], []);
+    const shouldDueToOrders = computer.shouldSkipPlanet(
+      "A",
+      [{ origin: "B", destination: "A", amount: 10 }, { origin: "A", destination: "B", amount: 10 }],
+      []
+    );
     expect(shouldDueToOrders).toBe(true);
-    const shouldDueToFleets = computer.shouldSkipPlanet("A", [], [{ owner: computer, destination: "A", amount: 10, killPercent: 0.5 }]);
+    const shouldDueToFleets = computer.shouldSkipPlanet(
+      "A",
+      [],
+      [{ owner: computer, destination: "A", amount: 10, killPercent: 0.5 }, { owner: computer, destination: "B", amount: 10, killPercent: 0.5 }]
+    );
     expect(shouldDueToFleets).toBe(true);
   });
 

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ArrivingFleets /> renders <ArrivingFleets /> component without any orders 1`] = `<div />`;
+
+exports[`<ArrivingFleets /> renders <OrderList /> component with fleet 1`] = `
+<div>
+  <ul>
+    <li>
+      Fleet(
+      10
+      ) arriving to 
+      B
+       in 
+      0
+       turns
+    </li>
+  </ul>
+</div>
+`;

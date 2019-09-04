@@ -7,7 +7,6 @@ import playgroundSelector, { PlaygroundStoreSlice } from "../selectors/playgroun
 import GameSettings from "./GameSettings";
 import PlayerSettings from "./PlayerSettings";
 import PlayerTurn from "./PlayerTurn";
-import ArrivingFleets from "./ArrivingFleets";
 import Container from "./foundations/Container";
 import Grid from "./foundations/Grid";
 import GridColumn from "./foundations/GridColumn";
@@ -16,7 +15,7 @@ import { ThemeContext } from "./themes/ThemeProvider";
 import hexToRgba from "./helpers/hexToRgba";
 
 const PlayGround = (): ReactElement => {
-  const { isStarted = false }: PlaygroundStoreSlice = useSelector(playgroundSelector, shallowEqual);
+  const { isStarted }: PlaygroundStoreSlice = useSelector(playgroundSelector, shallowEqual);
   const theme = useContext(ThemeContext);
 
   const VerticalCenterParent = css`
@@ -54,11 +53,8 @@ const PlayGround = (): ReactElement => {
           <GridColumn size={8} sizeMedium={8}>
             <GameField />
           </GridColumn>
-          <GridColumn size={4} sizeMedium={4}>
-            <div className={turnContainer}>
-              <PlayerTurn />
-              <ArrivingFleets />
-            </div>
+          <GridColumn size={4} sizeMedium={4} className={turnContainer}>
+            <PlayerTurn />
           </GridColumn>
         </Grid>
       )}

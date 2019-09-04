@@ -9,10 +9,14 @@ import AddPlayerTurn from "./AddPlayerTurn";
 import OrderList from "./OrderList";
 import Button from "./foundations/Button";
 import useSlider from "../hooks/useSlider";
+import ArrivingFleets from "./ArrivingFleets";
 
 const PlayerTurn = (): ReactElement => {
   const dispatch = useDispatch();
-  const { orders, activePlayer, originPlanet, destinationPlanet }: PlayerTurnStoreSlice = useSelector(playerTurnSelector, shallowEqual);
+  const { orders, activePlayer, originPlanet, destinationPlanet, currentPlayerFleets }: PlayerTurnStoreSlice = useSelector(
+    playerTurnSelector,
+    shallowEqual
+  );
   const { value, onChange, setValue } = useSlider(0);
 
   useEffect(() => {
@@ -63,11 +67,18 @@ const PlayerTurn = (): ReactElement => {
         onCancel={cleanUp}
       />
 
-      <OrderList orders={orders} removeOrder={(index: number) => dispatch(removePlayerTurnOrder(index))} />
+      <OrderList
+        orders={orders}
+        removeOrder={(index: number): void => {
+          dispatch(removePlayerTurnOrder(index));
+        }}
+      />
 
       <Button variant="primary" onClick={onCompleteTurn}>
         Complete turn
       </Button>
+
+      <ArrivingFleets fleets={currentPlayerFleets} />
     </div>
   );
 };

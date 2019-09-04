@@ -52,8 +52,17 @@ const GameSettings = (): ReactElement => {
         onChange={changeFieldSize}
         min={ConquestGame.minSize}
         max={ConquestGame.maxSize}
+        data-testid="fieldSize"
       />
-      <InputText label="Neutral planets" type="number" value={neutralPlanetsValue} onChange={changeNeutral} min={0} max={maxPlanets} />
+      <InputText
+        label="Neutral planets"
+        type="number"
+        value={neutralPlanetsValue}
+        onChange={changeNeutral}
+        min={0}
+        max={maxPlanets}
+        data-testid="neutralPlanets"
+      />
 
       <Button onClick={changeSettings}>Start Game</Button>
     </React.Fragment>

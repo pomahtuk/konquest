@@ -72,4 +72,23 @@ describe("<PlayerTurn />", (): void => {
     } = CurrentStore.getState();
     expect(startingPlayer).not.toMatchObject(currentPlayer);
   });
+
+  it("<PlayerTurn /> capable of removing already added turn order", (): void => {
+    const { getByText, getByTestId } = render(wrapWithReduxAndStyle(<PlayerTurn />));
+    // now let's set selected planets
+    selectPlanets();
+    // at this point we should be able to add order
+    const addOrderButton = getByText("Add order");
+    fireEvent.click(addOrderButton);
+
+    // order added, should be able to remove
+    const removeButton = getByTestId("remove");
+    expect(removeButton).toBeDefined();
+    fireEvent.click(removeButton);
+
+    const {
+      turn: { currentPlayerOrders }
+    } = CurrentStore.getState();
+    expect(currentPlayerOrders).toHaveLength(0);
+  });
 });

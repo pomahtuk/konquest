@@ -18,7 +18,7 @@ export interface AppProps {
   credit: GalaxyCredit;
 }
 
-const App = ({ image = "galaxy_3", credit }: AppProps): ReactElement => {
+const App = ({ image, credit }: AppProps): ReactElement => {
   const theme = useContext(ThemeContext);
   return (
     <React.Fragment>

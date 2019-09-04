@@ -1,14 +1,14 @@
 import React, { ReactElement } from "react";
-import { useSelector } from "react-redux";
+import { ArrivingFleet } from "../reducers/game.reducers";
 
-import arrivingFleetSelector, { ArrivingFleetsStoreSlice } from "../selectors/arrivingFleet.selector";
+export interface ArrivingFleetsProps {
+  fleets: ArrivingFleet[];
+}
 
-const ArrivingFleets = (): ReactElement | null => {
-  const { currentPlayerFleets }: ArrivingFleetsStoreSlice = useSelector(arrivingFleetSelector);
-
-  return currentPlayerFleets && currentPlayerFleets.length > 0 ? (
+const ArrivingFleets = ({ fleets }: ArrivingFleetsProps): ReactElement | null => {
+  return fleets && fleets.length > 0 ? (
     <ul>
-      {currentPlayerFleets.map((fleet) => (
+      {fleets.map((fleet) => (
         <li key={`${fleet.amount}-${fleet.destination}-${fleet.arrivingIn}`}>
           Fleet({fleet.amount}) arriving to {fleet.destination} in {fleet.arrivingIn} turns
         </li>
