@@ -25,7 +25,7 @@ export interface ArrivingFleet {
   amount: number;
 }
 
-const defaultState: GameState = {
+export const defaultState: GameState = {
   iteration: 0,
   isStarted: false,
   status: GameStatus.NOT_STARTED,
@@ -40,8 +40,8 @@ const defaultState: GameState = {
   currentPlayerFleets: []
 };
 
-const getArrivingPlayerFleets = (game: ConquestGame, activePlayer: Player): ArrivingFleet[] => {
-  return game.getFleets().reduce((acc: ArrivingFleet[], fleetList: Fleet[], index: number): ArrivingFleet[] => {
+export const getArrivingPlayerFleets = (fleets: Fleet[][], activePlayer: Player): ArrivingFleet[] => {
+  return fleets.reduce((acc: ArrivingFleet[], fleetList: Fleet[], index: number): ArrivingFleet[] => {
     fleetList.forEach((fleet: Fleet): void => {
       if (fleet.owner.id === activePlayer.id) {
         acc.push({
@@ -108,7 +108,7 @@ function konquestGame(state: GameState = defaultState, action: StartGameAction |
             activePlayer,
             planets: game.getPlanets(),
             errorText: undefined,
-            currentPlayerFleets: getArrivingPlayerFleets(game, activePlayer)
+            currentPlayerFleets: getArrivingPlayerFleets(game.getFleets(), activePlayer)
           };
         } else {
           return {
