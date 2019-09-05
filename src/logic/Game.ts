@@ -35,7 +35,6 @@ const addNeutralPlanets = Symbol("addNeutralPlanets");
 const processTurn = Symbol("processTurn");
 const fleetTimeline = Symbol("fleetTimeline");
 const waitingForPlayer = Symbol("waitingForPlayer");
-const currentTurn = Symbol("currentTurn");
 const players = Symbol("players");
 const planets = Symbol("planets");
 const planetCount = Symbol("planetCount");
@@ -56,11 +55,10 @@ class ConquestGame {
 
   private [fieldHeight]: number;
   private [fieldWidth]: number;
-  private [turns]: PlayerTurn[][] = [];
+  private [turns]: PlayerTurn[] = [];
   private [planets]: PlanetMap = {};
   private [players]: Player[] = [];
   private [planetCount] = 0;
-  private [currentTurn] = 0;
   private [waitingForPlayer] = 0;
   private [fleetTimeline]: Fleet[][] = [];
   private [status]: GameStatus = GameStatus.NOT_STARTED;
@@ -137,23 +135,19 @@ class ConquestGame {
     return JSON.parse(JSON.stringify(this[planets]));
   }
 
-  public getTurns(): PlayerTurn[][] {
+  public getTurns(): PlayerTurn[] {
     // returning deep copy of an object to prevent modification by pointer
     return JSON.parse(JSON.stringify(this[turns]));
   }
 
   public getFleets(): Fleet[][] {
-    return JSON.parse(JSON.stringify(this[fleetTimeline].slice(this[currentTurn])));
+    return JSON.parse(JSON.stringify(this[fleetTimeline]));
   }
 
   private [addDataToTurn](data: PlayerTurn): void {
     // check if we already have some data for this turn
-    let turn = this[turns][this[currentTurn]];
-    if (!turn) {
-      turn = [];
-    }
+    const turn = this[turns];
     turn.push(data);
-    this[turns][this[currentTurn]] = turn;
   }
 
   private [findNextValidPlayer](): void {
@@ -172,7 +166,7 @@ class ConquestGame {
     if (nextPlayer.isComputer && this[status] !== GameStatus.COMPLETED) {
       const orders = nextPlayer.takeTurn(
         this[planets],
-        this[fleetTimeline].slice(this[currentTurn]).reduce((acc, fleetList) => {
+        this[fleetTimeline].reduce((acc, fleetList) => {
           acc.concat(fleetList.filter((fleet) => fleet.owner.id === nextPlayer.id));
           return acc;
         }, [])
@@ -187,13 +181,13 @@ class ConquestGame {
 
   private [processTurn](): void {
     // send fleets
-    const currentTurns = this[turns][this[currentTurn]];
+    const currentTurns = this[turns];
     for (const turn of currentTurns) {
       for (const order of turn.orders) {
         const originPlanet = this[planets][order.origin];
         const destinationPlanet = this[planets][order.destination];
         const fleetTravelTime = getDistanceBetweenPoints(originPlanet.coordinates, destinationPlanet.coordinates);
-        const fleetTimelineIndex = this[currentTurn] + fleetTravelTime;
+        const fleetTimelineIndex = fleetTravelTime;
         const fleetTimelinePoint = this[fleetTimeline][fleetTimelineIndex] || [];
         fleetTimelinePoint.push(
           new Fleet({
@@ -207,8 +201,9 @@ class ConquestGame {
         originPlanet.ships -= order.amount;
       }
     }
+
     // check arrival
-    const arrivingFleets = this[fleetTimeline][this[currentTurn]] || [];
+    const arrivingFleets = this[fleetTimeline].shift() || [];
     for (const fleet of arrivingFleets) {
       const destinationPlanet = this[planets][fleet.destination];
       if (destinationPlanet.owner && destinationPlanet.owner.id === fleet.owner.id) {
@@ -221,16 +216,19 @@ class ConquestGame {
         });
       }
     }
+
     // do production only for captured planets
     Object.keys(this[planets]).forEach((planetName): void => this[planets][planetName].produce());
     // mark dead players
     markDeadPlayers({
       players: this[players],
       planets: this[planets],
-      remainingTimeline: this[fleetTimeline].slice(this[currentTurn])
+      remainingTimeline: this[fleetTimeline]
     });
-    // advance turn
-    this[currentTurn] += 1;
+
+    // clean turn data
+    this[turns] = [];
+
     // check if someone won
     this[findWinner]();
   }

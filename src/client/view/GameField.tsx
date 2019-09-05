@@ -8,6 +8,7 @@ import gameSelector, { GameStoreSlice } from "../selectors/game.selector";
 import Button from "./foundations/Button";
 import { ThemeContext } from "./themes/ThemeProvider";
 import hexToRgba from "./helpers/hexToRgba";
+import { clearTurnData } from "../actions/turn.actions";
 
 const GameField = (): ReactElement | null => {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,13 @@ const GameField = (): ReactElement | null => {
           return <PlanetElement key={planetName + iteration} planet={planet} blockSize={blockSize} />;
         })}
       </div>
-      <Button variant="destructive" onClick={(): StartGameAction => dispatch(startGame())}>
+      <Button
+        variant="destructive"
+        onClick={(): void => {
+          dispatch(clearTurnData());
+          dispatch(startGame());
+        }}
+      >
         Restart game
       </Button>
     </div>
