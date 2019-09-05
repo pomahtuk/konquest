@@ -46,6 +46,16 @@ export default class Planet {
   }
 }
 
+type BasePlanet = Omit<Planet, "owner">;
+
+export interface SerializedPlanet extends BasePlanet {
+  ownerId: string;
+}
+
+export interface SerializedPlanetMap {
+  [key: string]: SerializedPlanet;
+}
+
 export interface PlanetMap {
   [key: string]: Planet;
 }

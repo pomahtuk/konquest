@@ -1,8 +1,16 @@
 import ConquestGame from "../../Game";
-import Player from "../../Player";
+import Player, { PlayerTurnOrder } from "../../Player";
+import getPlanetName from "../../helpers/getPlanetName";
 
 const player1 = new Player("player1");
 const player2 = new Player("player2");
+
+const generateMaxOrders = (startPlanetIndex: number): PlayerTurnOrder[] =>
+  [...Array(10)].map((_, index) => ({
+    origin: getPlanetName(startPlanetIndex),
+    destination: getPlanetName(startPlanetIndex + index + 1),
+    amount: 1
+  }));
 
 describe("Main game", (): void => {
   it("Exposing maximum and minimum parameters", (): void => {
@@ -39,6 +47,79 @@ describe("Main game", (): void => {
 
     // now make sure we don't have turns from start
     expect(game.getTurns().length).toBe(0);
+  });
+
+  it("Can serialize and de-serialize game", (): void => {
+    const player3 = new Player("player3");
+    const player4 = new Player("player4");
+    const originalGame = new ConquestGame({
+      fieldHeight: 20,
+      fieldWidth: 20,
+      neutralPlanetCount: 22,
+      players: [player1, player2, player3, player4]
+    });
+    // create some turns
+    originalGame.addPlayerTurnData({
+      player: player1,
+      orders: generateMaxOrders(0)
+    });
+    originalGame.addPlayerTurnData({
+      player: player2,
+      orders: generateMaxOrders(1)
+    });
+    const midTurnRestoredGame = ConquestGame.deSerialize(originalGame.serialize()) as ConquestGame;
+    expect(midTurnRestoredGame).toBeDefined();
+    midTurnRestoredGame.addPlayerTurnData({
+      player: player3,
+      orders: generateMaxOrders(2)
+    });
+    midTurnRestoredGame.addPlayerTurnData({
+      player: player4,
+      orders: generateMaxOrders(3)
+    });
+    // get data from original
+    const playersBefore = midTurnRestoredGame.getPlayers();
+    const planetsBefore = midTurnRestoredGame.getPlanets();
+    const fleetsBefore = midTurnRestoredGame.getFleets();
+    const serializedString = midTurnRestoredGame.serialize();
+    const bufferSize = Buffer.byteLength(serializedString, "utf8");
+    console.log(bufferSize + "\n\n\n");
+    // max size of a cookie per domain
+    expect(bufferSize).toBeLessThanOrEqual(4095);
+    // restore game
+    const restoredGame = ConquestGame.deSerialize(serializedString) as ConquestGame;
+    expect(restoredGame).toBeDefined();
+    // and compare restored data
+    const planetsAfter = restoredGame.getPlanets();
+    const fleetsAfter = restoredGame.getFleets();
+    const playersAfter = restoredGame.getPlayers();
+    expect(planetsBefore).toMatchObject(planetsAfter);
+    expect(playersBefore).toMatchObject(playersAfter);
+    expect(fleetsBefore).toMatchObject(fleetsAfter);
+  });
+
+  it("Creates a new game with persister provided", (): void => {
+    const persister = jest.fn();
+    const game = new ConquestGame(
+      {
+        fieldHeight: 10,
+        fieldWidth: 10,
+        neutralPlanetCount: 5,
+        players: [player1, player2]
+      },
+      persister
+    );
+
+    expect(game).toBeDefined();
+
+    const serializedGame = game.serialize();
+    expect(persister).toHaveBeenCalledWith(serializedGame);
+    game.addPlayerTurnData({
+      player: player1,
+      orders: []
+    });
+    const newSerializedGame = game.serialize();
+    expect(persister).toHaveBeenCalledWith(newSerializedGame);
   });
 
   it("Trows error when passing invalid params", (): void => {

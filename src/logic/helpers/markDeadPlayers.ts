@@ -10,7 +10,7 @@ export interface MarkDeadPlayersOptions {
 
 const markDeadPlayers = ({ players, planets, remainingTimeline }: MarkDeadPlayersOptions): void => {
   // dead - no planets owned and no fleets in future timeline
-  const foundPlayerIds: Set<number> = new Set();
+  const foundPlayerIds: Set<string> = new Set();
   Object.keys(planets)
     .map((planetName): Planet => planets[planetName])
     .forEach((planet): void => {

@@ -1,5 +1,4 @@
 import Player, { PlayerTurnOrder } from "./Player";
-import { PlanetMap } from "./Planet";
 import Fleet from "./Fleet";
 
 export enum ComputerPlayerType {
@@ -31,10 +30,6 @@ class ComputerPlayer extends Player {
     }
 
     return false;
-  }
-
-  public takeTurn(planets: PlanetMap, fleets: Fleet[]): PlayerTurnOrder[] {
-    return [];
   }
 }
 

@@ -23,16 +23,24 @@ const PlayersList = (): ReactElement | null => {
 
   return (
     <ul>
-      {players.map((player) => (
-        <li key={player.id}>
-          <span>
-            {player.isComputer ? "🤖" : "👨‍🚀"} {player.screenName}
-          </span>
-          <span className={spanStyle} onClick={() => dispatch(removePlayer(player))} data-testid="remove">
-            ❌
-          </span>
-        </li>
-      ))}
+      {players.map(
+        (player): ReactElement => (
+          <li key={player.id}>
+            <span>
+              {player.isComputer ? "🤖" : "👨‍🚀"} {player.screenName}
+            </span>
+            <span
+              className={spanStyle}
+              onClick={(): void => {
+                dispatch(removePlayer(player));
+              }}
+              data-testid="remove"
+            >
+              ❌
+            </span>
+          </li>
+        )
+      )}
     </ul>
   );
 };

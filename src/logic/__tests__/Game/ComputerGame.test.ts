@@ -80,6 +80,6 @@ describe("Could have a game with Computer player", (): void => {
     // now Computer player won the game!
     expect(game.status).toBe(GameStatus.COMPLETED);
     expect(game.winner).toBeDefined();
-    expect(game.winner!.id).toBe(computer.id);
+    expect((game.winner as Player).id).toBe(computer.id);
   });
 });

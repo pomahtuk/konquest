@@ -3,7 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { css } from "emotion";
 
 import PlanetElement from "./Planet";
-import { startGame, StartGameAction } from "../actions/game.actions";
+import { startGame } from "../actions/game.actions";
 import gameSelector, { GameStoreSlice } from "../selectors/game.selector";
 import Button from "./foundations/Button";
 import { ThemeContext } from "./themes/ThemeProvider";

@@ -79,6 +79,7 @@ describe("<AddPlayerTurn />", (): void => {
     const input = getByTestId("order-amount") as HTMLInputElement;
     const changeEvent = { target: { value: "0" } };
     // seems like issue with types
+    // eslint-disable-next-line
     Simulate.change(input, changeEvent as any);
     expect(amountChange.mock.calls.length).toBe(1);
     expect(amountChange.mock.calls[0][0]).toMatchObject(changeEvent);

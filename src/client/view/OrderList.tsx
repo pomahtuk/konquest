@@ -23,16 +23,18 @@ const OrderList = ({ orders, removeOrder }: OrderListProps): ReactElement | null
 
   return (
     <ul>
-      {orders.map((order, index) => (
-        <li key={`${order.amount}${order.origin}${order.destination}`}>
-          <span>
-            Send fleet({order.amount}) from {order.origin} to {order.destination}
-          </span>
-          <span className={spanStyle} onClick={() => removeOrder(index)} data-testid="remove">
-            ❌
-          </span>
-        </li>
-      ))}
+      {orders.map(
+        (order, index): ReactElement => (
+          <li key={`${order.amount}${order.origin}${order.destination}`}>
+            <span>
+              Send fleet({order.amount}) from {order.origin} to {order.destination}
+            </span>
+            <span className={spanStyle} onClick={(): void => removeOrder(index)} data-testid="remove">
+              ❌
+            </span>
+          </li>
+        )
+      )}
     </ul>
   );
 };
