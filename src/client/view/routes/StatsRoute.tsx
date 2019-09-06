@@ -10,11 +10,16 @@ const StatsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
   const statusContainer = css`
     background: rgba(${hexToRgba(theme.colors.white, "0.3")});
     border-radius: ${theme.units.small};
-    padding: 0 0 ${theme.units.largest} 0;
+    padding: ${theme.units.medium} 0;
   `;
 
   const tableClass = css`
     width: 100%;
+    text-align: center;
+
+    tr {
+      padding: ${theme.units.small};
+    }
   `;
 
   return (
@@ -28,12 +33,18 @@ const StatsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
             <th>Enemy fleets destroyed</th>
           </tr>
         </thead>
-        <tbody className={tableClass}>
+        <tbody>
           <tr>
             <td>Player one</td>
             <td>120</td>
             <td>60</td>
             <td>2</td>
+          </tr>
+          <tr>
+            <td>Player two</td>
+            <td>80</td>
+            <td>30</td>
+            <td>1</td>
           </tr>
         </tbody>
       </table>
