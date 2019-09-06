@@ -4,7 +4,7 @@ import Player from "../../logic/Player";
 import { PlanetMap } from "../../logic/Planet";
 import Fleet from "../../logic/Fleet";
 import ComputerPlayerEasy from "../../logic/ComputerPlayerEasy";
-import { saveToCookies, readFromCookies } from "../persisters/cookies.persister";
+import { saveToCookies, readFromCookies, clearCookie } from "../persisters/cookies.persister";
 import { RestoreGameAction, SharedActionTypes } from "../actions/shared.actions";
 
 export interface GameState {
@@ -41,6 +41,7 @@ export const defaultState: GameState = {
   },
   gameStartError: false,
   gameRestoreError: false,
+  errorText: undefined,
   currentPlayerFleets: []
 };
 
@@ -61,17 +62,18 @@ export const getArrivingPlayerFleets = (fleets: Fleet[][], activePlayer: Player)
 };
 
 let game: ConquestGame;
-let activePlayer: Player;
-let planets: PlanetMap;
-let players: Player[];
-let gameStateSerialized: string | undefined;
-let newGame: ConquestGame | undefined;
 
 function konquestGame(
   state: GameState = defaultState,
   action: StartGameAction | AddPlayerTurnAction | SetGameOptionsAction | RestoreGameAction
 ): GameState {
   let turnStatus: TurnStatus;
+  let activePlayer: Player;
+  let planets: PlanetMap;
+  let players: Player[];
+  let gameStateSerialized: string | undefined;
+  let newGame: ConquestGame | undefined;
+
   switch (action.type) {
     case GameActionTypes.SET_GAME_OPTIONS:
       return {
@@ -82,17 +84,19 @@ function konquestGame(
         }
       };
     case SharedActionTypes.RESTORE_GAME:
-      gameStateSerialized = readFromCookies();
+      gameStateSerialized = action.storedGame || readFromCookies();
       if (!gameStateSerialized) {
         return {
           ...state,
+          gameRestoreError: true,
           errorText: "Game was not stored, could not get value from storage"
         };
       }
-      newGame = ConquestGame.deSerialize(gameStateSerialized);
+      newGame = ConquestGame.deSerialize(gameStateSerialized, saveToCookies);
       if (!newGame) {
         return {
           ...state,
+          gameRestoreError: true,
           errorText: "Failed to de-serialize game from stored value"
         };
       }
@@ -102,6 +106,7 @@ function konquestGame(
       planets = game.getPlanets();
       return {
         ...state,
+        isStarted: true,
         gameOptions: {
           ...state.gameOptions,
           fieldSize: game.fieldSize[0],
@@ -118,6 +123,7 @@ function konquestGame(
       };
     case GameActionTypes.START_GAME:
       try {
+        clearCookie();
         game = new ConquestGame(
           {
             fieldHeight: state.gameOptions.fieldSize,
@@ -132,11 +138,13 @@ function konquestGame(
           iteration: state.iteration + 1,
           isStarted: true,
           gameStartError: false,
+          errorText: undefined,
+          gameRestoreError: false,
           status: game.status,
           winner: game.winner,
           activePlayer: game.getPlayers()[game.waitingForPlayer],
-          planets: game.getPlanets(),
-          errorText: undefined
+          currentPlayerFleets: [],
+          planets: game.getPlanets()
         };
       } catch (e) {
         return {

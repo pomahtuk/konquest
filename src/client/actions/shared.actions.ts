@@ -4,8 +4,9 @@ export enum SharedActionTypes {
 
 export interface RestoreGameAction {
   type: typeof SharedActionTypes.RESTORE_GAME;
+  storedGame?: string;
 }
 
-export function restoreGame(): RestoreGameAction {
-  return { type: SharedActionTypes.RESTORE_GAME };
+export function restoreGame(storedGame?: string): RestoreGameAction {
+  return { type: SharedActionTypes.RESTORE_GAME, storedGame };
 }

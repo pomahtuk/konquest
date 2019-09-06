@@ -8,6 +8,9 @@ export const saveToCookies = (serializedGame: string): void => {
 
 export const readFromCookies = (): string | undefined => {
   const data = Cookies.get(COOKIE_NAME);
-  Cookies.remove(COOKIE_NAME);
   return data;
+};
+
+export const clearCookie = (): void => {
+  Cookies.remove(COOKIE_NAME);
 };

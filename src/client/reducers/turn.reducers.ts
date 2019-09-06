@@ -9,6 +9,7 @@ import {
   RemovePlayerTurnOrderAction,
   UnsetPlanetsAction
 } from "../actions/turn.actions";
+import { SharedActionTypes, RestoreGameAction } from "../actions/shared.actions";
 
 export interface TurnStoreData {
   originPlanet?: Planet;
@@ -34,7 +35,7 @@ const calculateShipModifiers = (orderList: PlayerTurnOrder[]): { [key: string]: 
 
 function turn(
   state: TurnStoreData = defaultState,
-  action: SetPlanetAction | AddPlayerTurnOrderAction | ClearTurnDataAction | RemovePlayerTurnOrderAction | UnsetPlanetsAction
+  action: SetPlanetAction | AddPlayerTurnOrderAction | ClearTurnDataAction | RemovePlayerTurnOrderAction | UnsetPlanetsAction | RestoreGameAction
 ): TurnStoreData {
   let orderList = [];
   switch (action.type) {
@@ -63,6 +64,7 @@ function turn(
         currentShipsModifier: calculateShipModifiers(orderList)
       };
     case TurnActionTypes.CLEAR_TURN_DATA:
+    case SharedActionTypes.RESTORE_GAME:
       return { ...defaultState };
     case TurnActionTypes.UNSET_PLANETS:
       return {

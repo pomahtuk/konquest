@@ -4,7 +4,7 @@ import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import ConquestGame from "../../logic/Game";
 import getPlanetLimit from "../../logic/helpers/getPlanetLimit";
 
-import { setGameOptions } from "../actions/game.actions";
+import { setGameOptions, startGame } from "../actions/game.actions";
 import gameSettingsSelector, { SettingsStoreSlice } from "../selectors/gameSettings.selector";
 
 import useSlider from "../hooks/useSlider";
@@ -12,7 +12,7 @@ import Button from "./foundations/Button";
 import InputText from "./foundations/InputText";
 
 export interface GameSettingsProps {
-  onStart: () => void;
+  onStart?: () => void;
 }
 
 const GameSettings = ({ onStart }: GameSettingsProps): ReactElement => {
@@ -43,6 +43,7 @@ const GameSettings = ({ onStart }: GameSettingsProps): ReactElement => {
         players
       })
     );
+    dispatch(startGame());
     if (onStart) {
       onStart();
     }

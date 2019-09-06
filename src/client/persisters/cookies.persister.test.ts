@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-import { saveToCookies, readFromCookies, COOKIE_NAME } from "./cookies.persister";
+import { saveToCookies, readFromCookies, COOKIE_NAME, clearCookie } from "./cookies.persister";
 
 const testData = "i am test data";
 
@@ -11,10 +11,15 @@ describe("cookies persister", (): void => {
     expect(saved).toBe(testData);
   });
 
-  it("could retrieve data from cookies and delete it", (): void => {
+  it("could retrieve data from cookies ", (): void => {
     const savedData = readFromCookies();
     expect(savedData).toBe(testData);
-    const whatLeft = Cookies.get(COOKIE_NAME);
-    expect(whatLeft).toBeUndefined();
+  });
+
+  it("could delete data from cookies", (): void => {
+    saveToCookies(testData);
+    clearCookie();
+    const savedData = readFromCookies();
+    expect(savedData).toBeUndefined();
   });
 });

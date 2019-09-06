@@ -9,6 +9,9 @@ import { ThemeContext } from "./view/themes/ThemeProvider";
 import ImageCredentials from "./view/ImageCredentials";
 import SettingsRoute from "./view/routes/SettingsRoute";
 import Container from "./view/foundations/Container";
+import GameRoute from "./view/routes/GameRoute";
+import { SETTINGS, PLAY, STATS } from "./routeNames";
+import StatsRoute from "./view/routes/StatsRoute";
 
 export type GalaxyCredit = {
   title: string;
@@ -19,9 +22,10 @@ export type GalaxyCredit = {
 export interface AppProps {
   image: string;
   credit: GalaxyCredit;
+  storedGame?: string;
 }
 
-const App = ({ image, credit }: AppProps): ReactElement => {
+const App = ({ image, credit, storedGame }: AppProps): ReactElement => {
   const theme = useContext(ThemeContext);
 
   const VerticalCenterParent = emotionCss`
@@ -62,8 +66,11 @@ const App = ({ image, credit }: AppProps): ReactElement => {
       />
       <Container centered className={VerticalCenterParent}>
         <Router>
-          <SettingsRoute path="/" />
-          <Playground path="/game" />
+          <SettingsRoute path={SETTINGS} default />
+          <GameRoute path={PLAY} storedGame={storedGame} />
+          <StatsRoute path={STATS} />
+          {/* legacy */}
+          <Playground path="/playground" />
         </Router>
       </Container>
       <ImageCredentials credit={credit} />

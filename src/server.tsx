@@ -3,7 +3,8 @@ import path from "path";
 import App, { GalaxyCredit } from "./client/App";
 import React from "react";
 import { ServerLocation, isRedirect } from "@reach/router";
-import express from "express";
+import express, { Request, Response } from "express";
+import cookieParser from "cookie-parser";
 import { renderToString } from "react-dom/server";
 import { renderStylesToString } from "emotion-server";
 
@@ -16,18 +17,25 @@ const store = storeCreator();
 // @ts-ignore
 import credits from "../public/credits.json";
 import { randomInt } from "./client/proceduralGeneration/random";
-
+import { COOKIE_NAME } from "./client/persisters/cookies.persister";
 // eslint-disable-next-line
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const server = express();
 
+interface RequestWithCookies extends Request {
+  cookies: { [key: string]: string };
+}
+
 server
+  .use(cookieParser())
   .disable("x-powered-by")
   .use(express.static(path.resolve(process.env.RAZZLE_PUBLIC_DIR || "/public")))
-  .get("/*", (req, res): void => {
+  .get("/*", (req: RequestWithCookies, res: Response): void => {
     const galaxyVariant = `galaxy_${randomInt(1, 10)}`;
     const galaxyCredit: GalaxyCredit = credits[galaxyVariant];
+
+    const storedGame = req.cookies[COOKIE_NAME];
 
     let markup = "";
     try {
@@ -36,7 +44,7 @@ server
           <Provider store={store}>
             <ThemeProvider theme={baseTheme}>
               <ServerLocation url={req.url}>
-                <App image={galaxyVariant} credit={galaxyCredit} />
+                <App image={galaxyVariant} credit={galaxyCredit} storedGame={storedGame} />
               </ServerLocation>
             </ThemeProvider>
           </Provider>
@@ -45,6 +53,7 @@ server
     } catch (error) {
       if (isRedirect(error)) {
         res.redirect(error.uri);
+        return;
       }
     }
 

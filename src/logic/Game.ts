@@ -132,7 +132,7 @@ class ConquestGame {
     }
   }
 
-  public static deSerialize(serializedGame: string): ConquestGame | undefined {
+  public static deSerialize(serializedGame: string, persister?: GamePersister): ConquestGame | undefined {
     const { gameOptions, gameData }: { gameOptions: GameOptions; gameData: GameData } = JSON.parse(
       lzString.decompressFromEncodedURIComponent(serializedGame)
     );
@@ -193,6 +193,9 @@ class ConquestGame {
       }
       game[SymbolMapForSerializer[dataKey]] = data;
     });
+
+    // only add persister once restored
+    game.persister = persister;
 
     return game;
   }
