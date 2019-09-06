@@ -1,6 +1,7 @@
 import React, { ReactElement, useContext } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { css } from "emotion";
+import { RouteComponentProps } from "@reach/router";
 
 import playgroundSelector, { PlaygroundStoreSlice } from "../selectors/playground.selector";
 
@@ -13,9 +14,11 @@ import GridColumn from "./foundations/GridColumn";
 import GameField from "./GameField";
 import { ThemeContext } from "./themes/ThemeProvider";
 import hexToRgba from "./helpers/hexToRgba";
+import { startGame } from "../actions/game.actions";
 
-const PlayGround = (): ReactElement => {
+const PlayGround: React.SFC<RouteComponentProps> = (): ReactElement => {
   const { isStarted }: PlaygroundStoreSlice = useSelector(playgroundSelector, shallowEqual);
+  const dispatch = useDispatch();
   const theme = useContext(ThemeContext);
 
   const VerticalCenterParent = css`
@@ -45,7 +48,11 @@ const PlayGround = (): ReactElement => {
             <PlayerSettings />
           </GridColumn>
           <GridColumn size="full" sizeLarge="half">
-            <GameSettings />
+            <GameSettings
+              onStart={(): void => {
+                dispatch(startGame());
+              }}
+            />
           </GridColumn>
         </Grid>
       ) : (

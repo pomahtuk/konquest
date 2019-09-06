@@ -1,11 +1,14 @@
 import React, { ReactElement, useContext } from "react";
-import { Route, Switch } from "react-router-dom";
 import { Global, css } from "@emotion/core";
+import { css as emotionCss } from "emotion";
 import emotionNormalize from "emotion-normalize";
+import { Router } from "@reach/router";
 
 import Playground from "./view/Playground";
 import { ThemeContext } from "./view/themes/ThemeProvider";
 import ImageCredentials from "./view/ImageCredentials";
+import SettingsRoute from "./view/routes/SettingsRoute";
+import Container from "./view/foundations/Container";
 
 export type GalaxyCredit = {
   title: string;
@@ -20,6 +23,14 @@ export interface AppProps {
 
 const App = ({ image, credit }: AppProps): ReactElement => {
   const theme = useContext(ThemeContext);
+
+  const VerticalCenterParent = emotionCss`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+  `;
+
   return (
     <React.Fragment>
       <Global
@@ -49,9 +60,12 @@ const App = ({ image, credit }: AppProps): ReactElement => {
           }
         `}
       />
-      <Switch>
-        <Route exact path="/" component={Playground} />
-      </Switch>
+      <Container centered className={VerticalCenterParent}>
+        <Router>
+          <SettingsRoute path="/" />
+          <Playground path="/game" />
+        </Router>
+      </Container>
       <ImageCredentials credit={credit} />
     </React.Fragment>
   );

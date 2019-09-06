@@ -101,6 +101,10 @@ class ConquestGame {
     return this[winner];
   }
 
+  public get fieldSize(): [number, number] {
+    return [this[fieldHeight], this[fieldWidth]];
+  }
+
   public constructor({ fieldHeight: height, fieldWidth: width, neutralPlanetCount, players: newPlayers }: GameOptions, persister?: GamePersister) {
     const result = validateGameParams({ fieldHeight: height, fieldWidth: width, neutralPlanetCount, players: newPlayers });
     if (!result.valid) {

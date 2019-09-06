@@ -1,9 +1,9 @@
-import App, { AppProps } from "./client/App";
-import { BrowserRouter } from "react-router-dom";
 import React from "react";
 import { hydrate } from "react-dom";
-
 import { Provider } from "react-redux";
+
+import App, { AppProps } from "./client/App";
+
 import storeCreator, { StoreData } from "./client/stores/game.store";
 import ThemeProvider from "./client/view/themes/ThemeProvider";
 import baseTheme from "./client/view/themes/base.theme";
@@ -21,9 +21,7 @@ function main({ node }: { node: typeof el }): void {
   hydrate(
     <Provider store={store}>
       <ThemeProvider theme={baseTheme}>
-        <BrowserRouter>
-          <App {...backgroundData} />
-        </BrowserRouter>
+        <App {...backgroundData} />
       </ThemeProvider>
     </Provider>,
     node

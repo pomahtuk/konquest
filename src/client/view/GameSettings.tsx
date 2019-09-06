@@ -4,14 +4,18 @@ import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import ConquestGame from "../../logic/Game";
 import getPlanetLimit from "../../logic/helpers/getPlanetLimit";
 
-import { setGameOptions, startGame } from "../actions/game.actions";
+import { setGameOptions } from "../actions/game.actions";
 import gameSettingsSelector, { SettingsStoreSlice } from "../selectors/gameSettings.selector";
 
 import useSlider from "../hooks/useSlider";
 import Button from "./foundations/Button";
 import InputText from "./foundations/InputText";
 
-const GameSettings = (): ReactElement => {
+export interface GameSettingsProps {
+  onStart: () => void;
+}
+
+const GameSettings = ({ onStart }: GameSettingsProps): ReactElement => {
   const dispatch = useDispatch();
   // get data from redux
   const {
@@ -39,7 +43,9 @@ const GameSettings = (): ReactElement => {
         players
       })
     );
-    dispatch(startGame());
+    if (onStart) {
+      onStart();
+    }
   };
 
   return (
