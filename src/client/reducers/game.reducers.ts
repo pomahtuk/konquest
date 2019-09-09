@@ -6,6 +6,7 @@ import Fleet from "../../logic/Fleet";
 import ComputerPlayerEasy from "../../logic/ComputerPlayerEasy";
 import { saveToCookies, readFromCookies, clearCookie } from "../persisters/cookies.persister";
 import { RestoreGameAction, SharedActionTypes } from "../actions/shared.actions";
+import playerMapper from "../../logic/helpers/playerMapper";
 
 export interface GameState {
   iteration: number;
@@ -131,7 +132,7 @@ function konquestGame(
             fieldHeight: state.gameOptions.fieldSize,
             fieldWidth: state.gameOptions.fieldSize,
             neutralPlanetCount: state.gameOptions.neutralPlanetCount,
-            players: state.gameOptions.players.map((p) => (p.isComputer ? new ComputerPlayerEasy(p.screenName) : new Player(p.screenName)))
+            players: state.gameOptions.players.map((p) => playerMapper(p, true))
           },
           saveToCookies
         );

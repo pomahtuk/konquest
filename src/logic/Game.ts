@@ -11,6 +11,7 @@ import validateTurnData from "./helpers/validateTurnData";
 import placePlanets from "./helpers/placePlanets";
 import conductBattle from "./helpers/conductBattle";
 import markDeadPlayers from "./helpers/markDeadPlayers";
+import playerMapper from "./helpers/playerMapper";
 
 export interface GameOptions {
   fieldHeight: number;
@@ -140,11 +141,7 @@ class ConquestGame {
     const playersMap = new Map<string, Player>();
     gameOptions.players = gameOptions.players.map((player) => {
       // TODO: account for computer player
-      const newPayer = new Player(player.screenName);
-      newPayer.id = player.id;
-      newPayer.statEnemyFleetsDestroyed = player.statEnemyFleetsDestroyed;
-      newPayer.statEnemyShipsDestroyed = player.statEnemyShipsDestroyed;
-      newPayer.statShipCount = player.statShipCount;
+      const newPayer = playerMapper(player, true);
       playersMap.set(player.id, newPayer);
       return newPayer;
     });
