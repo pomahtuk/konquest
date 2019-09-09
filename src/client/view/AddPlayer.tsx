@@ -4,16 +4,16 @@ import { useDispatch } from "react-redux";
 import Button from "./foundations/Button";
 import InputText from "./foundations/InputText";
 
-import Player from "../../logic/Player";
 import InputSelect from "./foundations/InputSelect";
-import ComputerPlayerEasy from "../../logic/ComputerPlayerEasy";
 import { addPlayer } from "../actions/players.actions";
+import { ComputerPlayerType } from "../../logic/ComputerPlayer";
+import playerMapper from "../../logic/helpers/playerMapper";
 
-type PlayerTypeVariant = "normal" | "computer";
+type PlayerTypeVariant = "human" | ComputerPlayerType;
 
 const AddPlayer = (): ReactElement => {
   const [newPlayerName, setNewPlayerName] = useState("");
-  const [newPlayerType, setNewPlayerType] = useState<PlayerTypeVariant>("normal");
+  const [newPlayerType, setNewPlayerType] = useState<PlayerTypeVariant>("human");
   const dispatch = useDispatch();
 
   const onNameChange = (event: ChangeEvent<HTMLInputElement>): void => setNewPlayerName(event.target.value);
@@ -22,7 +22,12 @@ const AddPlayer = (): ReactElement => {
 
   const onAddPlayer = (): void => {
     if (newPlayerName && newPlayerName !== "") {
-      dispatch(addPlayer(newPlayerType === "normal" ? new Player(newPlayerName) : new ComputerPlayerEasy(newPlayerName)));
+      const newPlayer = playerMapper({
+        screenName: newPlayerName,
+        isComputer: newPlayerType !== "human",
+        computerType: newPlayerType as ComputerPlayerType
+      });
+      dispatch(addPlayer(newPlayer));
       setNewPlayerName("");
     }
   };
@@ -30,11 +35,19 @@ const AddPlayer = (): ReactElement => {
   const playerTypeOptions = [
     {
       text: "Player",
-      value: "normal"
+      value: "human"
     },
     {
-      text: "Computer",
-      value: "computer"
+      text: "Computer Easy",
+      value: ComputerPlayerType.EASY
+    },
+    {
+      text: "Computer Normal (Offensive)",
+      value: ComputerPlayerType.NORMAL
+    },
+    {
+      text: "Computer Hard (Defensive)",
+      value: ComputerPlayerType.HARD
     }
   ];
 

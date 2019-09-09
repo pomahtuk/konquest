@@ -4,7 +4,13 @@ import ComputerPlayerEasy from "../ComputerPlayerEasy";
 import ComputerPlayerNormal from "../ComputerPlayerNormal";
 import ComputerPlayerHard from "../ComputerPlayerHard";
 
-const playerMapper = (player: Player | ComputerPlayer, preserveStats = false): Player | ComputerPlayer => {
+export interface PlayerMapDefinition {
+  screenName: string;
+  isComputer: boolean;
+  computerType: ComputerPlayerType;
+}
+
+const playerMapper = (player: Player | ComputerPlayer | PlayerMapDefinition, preserveStats = false): Player | ComputerPlayer => {
   let newPlayer: Player | ComputerPlayer;
   if (player.isComputer) {
     switch ((player as ComputerPlayer).computerType) {
@@ -24,12 +30,14 @@ const playerMapper = (player: Player | ComputerPlayer, preserveStats = false): P
     newPlayer = new Player(player.screenName);
   }
 
-  newPlayer.id = player.id;
-
+  const playerReal = player as Player;
+  if (playerReal.id) {
+    newPlayer.id = playerReal.id;
+  }
   if (preserveStats) {
-    newPlayer.statShipCount = player.statShipCount;
-    newPlayer.statEnemyFleetsDestroyed = player.statEnemyFleetsDestroyed;
-    newPlayer.statEnemyShipsDestroyed = player.statEnemyShipsDestroyed;
+    newPlayer.statShipCount = playerReal.statShipCount;
+    newPlayer.statEnemyFleetsDestroyed = playerReal.statEnemyFleetsDestroyed;
+    newPlayer.statEnemyShipsDestroyed = playerReal.statEnemyShipsDestroyed;
   }
 
   return newPlayer;
