@@ -81,7 +81,6 @@ const InputSelect = ({ placeholder, value, options, name, label, disabled, onCha
     <div className={`${wrapperClass} ${className}`}>
       {label && <label className={labelClass}>{label}</label>}
       <select {...rest} disabled={disabled} value={value} onChange={onChange} name={name} className={selectClass}>
-        {placeholder && <option value="">{placeholder}</option>}
         {options.map(
           ({ value, key, text, disabled }): ReactElement => (
             <option value={value} key={key || value} disabled={disabled}>

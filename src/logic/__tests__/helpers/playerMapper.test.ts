@@ -16,14 +16,13 @@ describe("playerMapper", (): void => {
     const playerData: Player = {
       isComputer: false,
       screenName: "some",
-      id: "000",
       isDead: false,
       statEnemyFleetsDestroyed: 0,
       statShipCount: 0,
       statEnemyShipsDestroyed: 0
     };
     const playerInstance = playerMapper(playerData);
-    expect(playerInstance.id).toBe(playerData.id);
+    expect(playerInstance.id).toBeDefined();
     expect(playerInstance.screenName).toBe(playerData.screenName);
     expect(playerInstance.isDead).toBe(playerData.isDead);
     expect(playerInstance.takeTurn).toBeDefined();

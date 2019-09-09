@@ -31,7 +31,10 @@ const playerMapper = (player: Player | ComputerPlayer | PlayerMapDefinition, pre
   }
 
   const playerReal = player as Player;
-  newPlayer.id = playerReal.id;
+  if (playerReal.id) {
+    newPlayer.id = playerReal.id;
+  }
+
   if (preserveStats) {
     newPlayer.statShipCount = playerReal.statShipCount;
     newPlayer.statEnemyFleetsDestroyed = playerReal.statEnemyFleetsDestroyed;

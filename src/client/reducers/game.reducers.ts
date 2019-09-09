@@ -3,7 +3,6 @@ import ConquestGame, { GameStatus, TurnStatus } from "../../logic/Game";
 import Player from "../../logic/Player";
 import { PlanetMap } from "../../logic/Planet";
 import Fleet from "../../logic/Fleet";
-import ComputerPlayerEasy from "../../logic/ComputerPlayerEasy";
 import { saveToCookies, readFromCookies, clearCookie } from "../persisters/cookies.persister";
 import { RestoreGameAction, SharedActionTypes } from "../actions/shared.actions";
 import playerMapper from "../../logic/helpers/playerMapper";
