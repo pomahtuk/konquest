@@ -1,0 +1,341 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Planet /> Renders neutral planet without exploding when origin selected and allowing to set this planet as destination 1`] = `
+.emotion-1 {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 40px;
+}
+
+.emotion-0 {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 999;
+}
+
+.emotion-2 {
+  position: absolute;
+  cursor: pointer;
+  top: -1px;
+  left: 0px;
+  width: 39px;
+  height: 39px;
+  background: none;
+}
+
+.emotion-2:hover {
+  background: rgba(0,0,255,0.3);
+}
+
+<div>
+  <div
+    class="emotion-2"
+    data-testid="planet"
+  >
+    <div
+      aria-describedby="tippy-tooltip-4"
+      class="emotion-1"
+      data-original-title="undefined"
+      data-tooltipped=""
+      style="display: inline;"
+    >
+      <svg
+        height="100%"
+        version="1.1"
+        width="100%"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <defs>
+          <lineargradient
+            id="main_shadow-#000"
+          >
+            <stop
+              offset="0"
+              stop-color="#ccc"
+            />
+            <stop
+              offset="0.6"
+              stop-color="#000"
+            />
+          </lineargradient>
+        </defs>
+        <g
+          transform="rotate(60, 14 14)"
+        >
+          <circle
+            cx="14"
+            cy="14"
+            fill="url(#main_shadow-#000)"
+            r="14"
+          />
+        </g>
+      </svg>
+      <span
+        class="emotion-0"
+      >
+        C
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Planet /> Renders planet not belonging to player without exploding when nothing selected and not allowing click 1`] = `
+.emotion-2 {
+  position: absolute;
+  cursor: pointer;
+  top: -1px;
+  left: 0px;
+  width: 39px;
+  height: 39px;
+  background: none;
+}
+
+.emotion-2:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.emotion-1 {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 40px;
+}
+
+.emotion-0 {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 999;
+}
+
+<div>
+  <div
+    class="emotion-2"
+    data-testid="planet"
+  >
+    <div
+      aria-describedby="tippy-tooltip-1"
+      class="emotion-1"
+      data-original-title="undefined"
+      data-tooltipped=""
+      style="display: inline;"
+    >
+      <svg
+        height="100%"
+        version="1.1"
+        width="100%"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <defs>
+          <lineargradient
+            id="main_shadow-#000"
+          >
+            <stop
+              offset="0"
+              stop-color="#ccc"
+            />
+            <stop
+              offset="0.6"
+              stop-color="#000"
+            />
+          </lineargradient>
+        </defs>
+        <g
+          transform="rotate(60, 14 14)"
+        >
+          <circle
+            cx="14"
+            cy="14"
+            fill="url(#main_shadow-#000)"
+            r="14"
+          />
+        </g>
+      </svg>
+      <span
+        class="emotion-0"
+      >
+        B
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Planet /> Renders player planet without exploding when it is origin planet 1`] = `
+.emotion-1 {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 40px;
+}
+
+.emotion-0 {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 999;
+}
+
+.emotion-2 {
+  position: absolute;
+  cursor: pointer;
+  top: -1px;
+  left: 0px;
+  width: 39px;
+  height: 39px;
+  background: rgba(0,255,0,0.3);
+}
+
+.emotion-2:hover {
+  background: rgba(0,255,0,0.3);
+}
+
+<div>
+  <div
+    class="emotion-2"
+    data-testid="planet"
+  >
+    <div
+      aria-describedby="tippy-tooltip-3"
+      class="emotion-1"
+      data-original-title="undefined"
+      data-tooltipped=""
+      style="display: inline;"
+    >
+      <svg
+        height="100%"
+        version="1.1"
+        width="100%"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <defs>
+          <lineargradient
+            id="main_shadow-#000"
+          >
+            <stop
+              offset="0"
+              stop-color="#ccc"
+            />
+            <stop
+              offset="0.6"
+              stop-color="#000"
+            />
+          </lineargradient>
+        </defs>
+        <g
+          transform="rotate(60, 14 14)"
+        >
+          <circle
+            cx="14"
+            cy="14"
+            fill="url(#main_shadow-#000)"
+            r="14"
+          />
+        </g>
+      </svg>
+      <span
+        class="emotion-0"
+      >
+        A
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Planet /> Renders player planet without exploding when nothing selected 1`] = `
+.emotion-1 {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 40px;
+}
+
+.emotion-0 {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 999;
+}
+
+.emotion-2 {
+  position: absolute;
+  cursor: pointer;
+  top: -1px;
+  left: 0px;
+  width: 39px;
+  height: 39px;
+  background: rgba(255,0,0,0.3);
+}
+
+.emotion-2:hover {
+  background: rgba(255,0,0,0.3);
+}
+
+<div>
+  <div
+    class="emotion-2"
+    data-testid="planet"
+  >
+    <div
+      aria-describedby="tippy-tooltip-2"
+      class="emotion-1"
+      data-original-title="undefined"
+      data-tooltipped=""
+      style="display: inline;"
+    >
+      <svg
+        height="100%"
+        version="1.1"
+        width="100%"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+      >
+        <defs>
+          <lineargradient
+            id="main_shadow-#000"
+          >
+            <stop
+              offset="0"
+              stop-color="#ccc"
+            />
+            <stop
+              offset="0.6"
+              stop-color="#000"
+            />
+          </lineargradient>
+        </defs>
+        <g
+          transform="rotate(60, 14 14)"
+        >
+          <circle
+            cx="14"
+            cy="14"
+            fill="url(#main_shadow-#000)"
+            r="14"
+          />
+        </g>
+      </svg>
+      <span
+        class="emotion-0"
+      >
+        A
+      </span>
+    </div>
+  </div>
+</div>
+`;

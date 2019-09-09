@@ -5,6 +5,7 @@ import wrapWithReduxAndStyle, { CurrentStore } from "../testHelpers/wrapWithRedu
 import GameField from "../GameField";
 import { setGameOptions, startGame } from "../../actions/game.actions";
 import Player from "../../../logic/Player";
+
 describe("<GameField />", (): void => {
   it("renders <GameField /> component", (): void => {
     const wrapper = render(wrapWithReduxAndStyle(<GameField />));

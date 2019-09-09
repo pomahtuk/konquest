@@ -1,8 +1,5 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import { matchers } from "jest-emotion";
-
-expect.extend(matchers);
 
 import wrapWithReduxAndStyle, { CurrentStore } from "../testHelpers/wrapWithReduxAndStyle";
 import PlayerTurn from "../PlayerTurn";

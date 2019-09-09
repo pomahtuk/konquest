@@ -1,9 +1,5 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { matchers } from "jest-emotion";
-
-expect.extend(matchers);
-
 import wrapWithReduxAndStyle from "../testHelpers/wrapWithReduxAndStyle";
 import AddPlayerTurn from "../AddPlayerTurn";
 import Player from "../../../logic/Player";

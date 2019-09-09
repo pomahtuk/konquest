@@ -45,6 +45,7 @@ const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
 
   return (
     <div
+      data-testid="planet"
       className={css`
         position: absolute;
         cursor: pointer;
