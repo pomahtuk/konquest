@@ -1,0 +1,424 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] = `
+.emotion-19 {
+  background: rgba(255,255,255,0.3);
+  border-radius: 4px;
+  padding: 0 0 32px 0;
+}
+
+.emotion-0 {
+  cursor: pointer;
+  margin: 0 0 0 8px;
+  font-size: 10px;
+}
+
+.emotion-4 {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.emotion-2 {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.emotion-3 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  font-family: "BlinkMacSystemFont",-apple-system,"Segoe UI","Roboto","Helvetica","Arial",sans-serif;
+  background: #fff;
+  border-radius: 2px;
+  border: 1px solid #E6E6E6;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 8px 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: calc(8px + 1px);
+  outline: none;
+}
+
+.emotion-3:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,113,194,0.3);
+  border-color: #0071C2;
+  border-radius: 2px;
+}
+
+.emotion-8 {
+  border: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.emotion-6 {
+  padding: 8px 32px 8px 8px;
+  -webkit-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  min-width: calc(32px * 2);
+  z-index: 100;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  font-family: "BlinkMacSystemFont",-apple-system,"Segoe UI","Roboto","Helvetica","Arial",sans-serif;
+  background: #fff;
+  border-radius: 2px;
+  border: 1px solid #E6E6E6;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 8px 0;
+}
+
+.emotion-6:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,113,194,0.3);
+  border-color: #0071C2;
+  border-radius: 2px;
+}
+
+.emotion-7 {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  fill: #333333;
+  position: absolute;
+  pointer-events: none;
+  right: 8px;
+  top: 50%;
+  -webkit-transform: translateY(30%);
+  -ms-transform: translateY(30%);
+  transform: translateY(30%);
+}
+
+.emotion-20 {
+  box-sizing: border-box;
+  clear: both;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+@media screen and (max-width:575px) {
+  .emotion-20 {
+    margin: calc(-1 * 8px) calc(-1 * 8px/2) 0 calc(-1 * 8px/2);
+  }
+}
+
+@media screen and (min-width:576px) {
+  .emotion-20 {
+    margin: calc(-1 * 16px) calc(-1 * 16px/2) 0 calc(-1 * v16px/2);
+  }
+}
+
+@media screen and (min-width:992px) {
+  .emotion-20 {
+    margin: calc(-1 * 24px) calc(-1 * 24px) 0 calc(-1 * 24px/2);
+  }
+}
+
+@media screen and (min-width:1200px) {
+  .emotion-20 {
+    margin: calc(-1 * 32px) calc(-1 * 32px) 0 calc(-1 * 32px/2);
+  }
+}
+
+.emotion-10 {
+  box-sizing: border-box;
+  padding: 8px calc(8px/2) 0 calc(8px/2);
+  -webkit-flex-basis: calc(100% / (12/12));
+  -ms-flex-preferred-size: calc(100% / (12/12));
+  flex-basis: calc(100% / (12/12));
+  width: calc(100% / (12/12));
+  max-width: calc(100% / (12/12));
+}
+
+@media screen and (min-width:576px) {
+  .emotion-10 {
+    padding: 16px calc(16px/2) 0 calc(16px/2);
+  }
+}
+
+@media screen and (min-width:992px) {
+  .emotion-10 {
+    padding: 24px calc(24px/2) 0 calc(24px/2);
+    width: calc(100% / (12/6));
+    -webkit-flex-basis: calc(100% / (12/6));
+    -ms-flex-preferred-size: calc(100% / (12/6));
+    flex-basis: calc(100% / (12/6));
+    max-width: calc(100% / (12/6));
+  }
+}
+
+@media screen and (min-width:1200px) {
+  .emotion-10 {
+    padding: 32px calc(32px/2) 0 calc(32px/2);
+  }
+}
+
+.emotion-9 {
+  border: 1px solid #0071C2;
+  border-radius: 2px;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  vertical-align: middle;
+  position: relative;
+  background-color: #fff;
+  color: #0071C2;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.emotion-9:hover,
+.emotion-9:active {
+  background-color: #E4F4FF;
+  border-color: #005C9D;
+}
+
+.emotion-9 [disabled],
+.emotion-9 [disabled]:hover {
+  background-color: #6B6B6B;
+  border-color: #6B6B6B;
+  cursor: not-allowed;
+}
+
+.emotion-17 {
+  border: 1px solid #0071C2;
+  border-radius: 2px;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  vertical-align: middle;
+  position: relative;
+  background-color: #0071C2;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.emotion-17:hover,
+.emotion-17:active {
+  background-color: #005C9D;
+  border-color: #005C9D;
+}
+
+.emotion-17 [disabled],
+.emotion-17 [disabled]:hover {
+  background-color: #6B6B6B;
+  border-color: #6B6B6B;
+  cursor: not-allowed;
+}
+
+<div>
+  <div
+    class="emotion-19 emotion-20"
+  >
+    <div
+      class="emotion-10"
+    >
+      <div>
+        <h1
+          style="margin-top: 0px;"
+        >
+          Players:
+        </h1>
+        <ul>
+          <li>
+            <span>
+              👨‍🚀
+               
+              Player One
+            </span>
+            <span
+              class="emotion-0"
+              data-testid="remove"
+            >
+              ❌
+            </span>
+          </li>
+          <li>
+            <span>
+              👨‍🚀
+               
+              Player Two
+            </span>
+            <span
+              class="emotion-0"
+              data-testid="remove"
+            >
+              ❌
+            </span>
+          </li>
+        </ul>
+        <div
+          class="emotion-4"
+        >
+          <label
+            class="emotion-2"
+          >
+            Player name
+          </label>
+          <input
+            class="emotion-3"
+            placeholder="Player name"
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          class="emotion-8 undefined"
+        >
+          <label
+            class="emotion-2"
+          >
+            Player type
+          </label>
+          <select
+            class="emotion-6"
+          >
+            <option
+              value="human"
+            >
+              Player
+            </option>
+            <option
+              value="easy"
+            >
+              Computer Easy
+            </option>
+            <option
+              value="normal"
+            >
+              Computer Normal (Offensive)
+            </option>
+            <option
+              value="hard"
+            >
+              Computer Hard (Defensive)
+            </option>
+          </select>
+          <span
+            class="emotion-7"
+          >
+            <svg
+              height="1em"
+              viewBox="0 0 128 128"
+              width="1em"
+            >
+              <path
+                d="M92 52a4 4 0 0 1-2.8-1.2L64 25.7 38.8 50.8a4 4 0 0 1-5.6-5.6L64 14.3l30.8 30.9A4 4 0 0 1 92 52zm0 24a4 4 0 0 0-2.8 1.2L64 102.3 38.8 77.2a4 4 0 0 0-5.6 5.6L64 113.7l30.8-30.9A4 4 0 0 0 92 76z"
+              />
+            </svg>
+          </span>
+        </div>
+        <button
+          class="emotion-9"
+          type="button"
+        >
+          Add player
+        </button>
+      </div>
+    </div>
+    <div
+      class="emotion-10"
+    >
+      <h1
+        style="margin-top: 0px;"
+      >
+        Game settings:
+      </h1>
+      <div
+        class="emotion-4"
+      >
+        <label
+          class="emotion-2"
+        >
+          Field size
+        </label>
+        <input
+          class="emotion-3"
+          data-testid="fieldSize"
+          max="20"
+          min="4"
+          type="number"
+          value="5"
+        />
+      </div>
+      <div
+        class="emotion-4"
+      >
+        <label
+          class="emotion-2"
+        >
+          Neutral planets
+        </label>
+        <input
+          class="emotion-3"
+          data-testid="neutralPlanets"
+          max="3"
+          min="0"
+          type="number"
+          value="3"
+        />
+      </div>
+      <button
+        class="emotion-17"
+        type="button"
+      >
+        Start Game
+      </button>
+    </div>
+  </div>
+</div>
+`;

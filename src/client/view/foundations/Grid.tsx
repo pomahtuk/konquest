@@ -3,19 +3,18 @@ import styled from "@emotion/styled";
 import { ThemeContext } from "../themes/ThemeProvider";
 import GridColumn from "./GridColumn";
 
-export type GridProps = {
+export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   align?: "center" | "end";
   justify?: "space-between" | "center" | "space-around";
   bleed?: boolean;
   reversed?: boolean;
   className?: string;
-  attributes?: HTMLAttributes<HTMLDivElement>;
-};
+}
 
 export type GridSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | "half" | "full";
 
-const Grid = ({ children, className, align, justify, bleed, reversed, attributes }: GridProps): ReactElement => {
+const Grid = ({ children, className, align, justify, bleed, reversed, ...rest }: GridProps): ReactElement => {
   const theme = useContext(ThemeContext);
   const GridStyled = styled.div({
     boxSizing: "border-box",
@@ -40,7 +39,7 @@ const Grid = ({ children, className, align, justify, bleed, reversed, attributes
     }
   });
   return (
-    <GridStyled {...attributes} className={className}>
+    <GridStyled {...rest} className={className}>
       {bleed
         ? React.Children.map(children, (child: ReactNode) => {
             if (child && typeof child !== "string" && typeof child !== "number" && child !== true && (child as ReactElement).type === GridColumn) {

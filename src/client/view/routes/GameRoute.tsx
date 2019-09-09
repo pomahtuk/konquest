@@ -38,7 +38,7 @@ const GameRoute: React.SFC<GameRouteProps> = (): ReactElement | null => {
   `;
 
   return (
-    <Grid>
+    <Grid data-testid="gamefield">
       <GridColumn size={8} sizeMedium={8}>
         <GameField />
       </GridColumn>
