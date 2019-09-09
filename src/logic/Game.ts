@@ -169,6 +169,7 @@ class ConquestGame {
             newPlanet.production = planet.production;
             newPlanet.ships = planet.ships;
             newPlanet.killPercent = planet.killPercent;
+            newPlanet.mainColor = planet.mainColor;
             acc[planetKey] = newPlanet;
             return acc;
           }, {});

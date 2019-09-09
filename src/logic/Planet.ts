@@ -1,3 +1,5 @@
+import randomColor from "randomcolor";
+
 import Player from "./Player";
 
 export interface PlanetCoordinates {
@@ -16,6 +18,7 @@ export default class Planet {
   // Attack fleets take the kill percentage of their planet of departure,
   // and defense fleets use the kill percentage of the planet they are defending.
   public coordinates: PlanetCoordinates;
+  public mainColor: string;
 
   public constructor(name: string, player?: Player | null, coordinates: PlanetCoordinates = { x: 0, y: 0 }) {
     // initialize
@@ -35,6 +38,7 @@ export default class Planet {
 
     this.production = production;
     this.killPercent = killPercent;
+    this.mainColor = randomColor({ luminosity: "dark" });
   }
 
   public produce(): void {

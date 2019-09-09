@@ -81,7 +81,7 @@ const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
           border-radius: ${blockSize}px;
         `}
       >
-        <PlanetImage radius={imageSize / 2} />
+        <PlanetImage radius={imageSize / 2} mainColor={planet.mainColor} />
         <span
           className={css`
             position: absolute;
