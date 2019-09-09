@@ -1,11 +1,21 @@
 import React, { ReactElement, useContext } from "react";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, Redirect } from "@reach/router";
 import { ThemeContext } from "../themes/ThemeProvider";
 import { css } from "emotion";
 import hexToRgba from "../helpers/hexToRgba";
+import { useSelector, shallowEqual } from "react-redux";
+import statsRouteSelector from "../../selectors/stats.route.selector";
+import { GameStatus } from "../../../logic/Game";
+import Player from "../../../logic/Player";
+import { SETTINGS } from "../../routeNames";
 
 const StatsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
   const theme = useContext(ThemeContext);
+  const { winner, players, status } = useSelector(statsRouteSelector, shallowEqual);
+
+  if (!winner || status !== GameStatus.COMPLETED) {
+    return <Redirect to={SETTINGS} />;
+  }
 
   const statusContainer = css`
     background: rgba(${hexToRgba(theme.colors.white, "0.3")});
@@ -34,18 +44,19 @@ const StatsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Player one</td>
-            <td>120</td>
-            <td>60</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>Player two</td>
-            <td>80</td>
-            <td>30</td>
-            <td>1</td>
-          </tr>
+          {players.map(
+            (player: Player): ReactElement => (
+              <tr key={player.id}>
+                <td>
+                  {player.id === winner.id && "👑 "}
+                  {player.screenName}
+                </td>
+                <td>{player.statShipCount}</td>
+                <td>{player.statEnemyShipsDestroyed}</td>
+                <td>{player.statEnemyFleetsDestroyed}</td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </div>

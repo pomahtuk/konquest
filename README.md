@@ -2,11 +2,14 @@
 
 https://github.com/KDE/konquest
 
+https://konquest-bxwpddcb2q-ew.a.run.app
+
 Main things to be done:
 - [x] Add a way to serialize and deserialize game
-- [ ] Add a way to restore state on client and to save game to cookies on every turn 
-- [ ] Implement proper routing (route for settings and actual game, with redirect and desirialization)
-- [ ] Add post-game stats screen
+- [x] Add a way to restore state on client and to save game to cookies on every turn 
+- [x] Implement proper routing (route for settings and actual game, with redirect)
+- [ ] Implement functionality to let usrr refresh page and continue game from where they left
+- [x] Add post-game stats screen
 - [ ] Add a way to get back to settings page
 - [ ] Implement 2 more type of Computer player - Deffensive and Offensive
 - [ ] If First player is Computer - it is impossible to have a game - fix it.

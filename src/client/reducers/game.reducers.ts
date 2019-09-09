@@ -19,6 +19,7 @@ export interface GameState {
   gameRestoreError: boolean;
   errorText?: string;
   currentPlayerFleets: ArrivingFleet[];
+  activePlayers: Player[];
 }
 
 export interface ArrivingFleet {
@@ -42,7 +43,8 @@ export const defaultState: GameState = {
   gameStartError: false,
   gameRestoreError: false,
   errorText: undefined,
-  currentPlayerFleets: []
+  currentPlayerFleets: [],
+  activePlayers: []
 };
 
 export const getArrivingPlayerFleets = (fleets: Fleet[][], activePlayer: Player): ArrivingFleet[] => {
@@ -133,6 +135,7 @@ function konquestGame(
           },
           saveToCookies
         );
+        players = game.getPlayers();
         return {
           ...state,
           iteration: state.iteration + 1,
@@ -142,9 +145,10 @@ function konquestGame(
           gameRestoreError: false,
           status: game.status,
           winner: game.winner,
-          activePlayer: game.getPlayers()[game.waitingForPlayer],
+          activePlayer: players[game.waitingForPlayer],
           currentPlayerFleets: [],
-          planets: game.getPlanets()
+          planets: game.getPlanets(),
+          activePlayers: players
         };
       } catch (e) {
         return {
@@ -156,7 +160,8 @@ function konquestGame(
     case GameActionTypes.ADD_PLAYER_TURN:
       if (game && state.isStarted === true) {
         turnStatus = game.addPlayerTurnData(action.turnData);
-        activePlayer = game.getPlayers()[game.waitingForPlayer];
+        players = game.getPlayers();
+        activePlayer = players[game.waitingForPlayer];
         if (turnStatus !== TurnStatus.INVALID) {
           return {
             ...state,
@@ -165,7 +170,8 @@ function konquestGame(
             activePlayer,
             planets: game.getPlanets(),
             errorText: undefined,
-            currentPlayerFleets: getArrivingPlayerFleets(game.getFleets(), activePlayer)
+            currentPlayerFleets: getArrivingPlayerFleets(game.getFleets(), activePlayer),
+            activePlayers: players
           };
         } else {
           return {

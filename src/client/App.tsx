@@ -4,7 +4,6 @@ import { css as emotionCss } from "emotion";
 import emotionNormalize from "emotion-normalize";
 import { Router } from "@reach/router";
 
-import Playground from "./view/Playground";
 import { ThemeContext } from "./view/themes/ThemeProvider";
 import ImageCredentials from "./view/ImageCredentials";
 import SettingsRoute from "./view/routes/SettingsRoute";
@@ -69,8 +68,6 @@ const App = ({ image, credit, storedGame }: AppProps): ReactElement => {
           <SettingsRoute path={SETTINGS} default />
           <GameRoute path={PLAY} storedGame={storedGame} />
           <StatsRoute path={STATS} />
-          {/* legacy */}
-          <Playground path="/playground" />
         </Router>
       </Container>
       <ImageCredentials credit={credit} />
