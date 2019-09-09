@@ -13,7 +13,7 @@ describe("<Planet />", (): void => {
     CurrentStore.dispatch(
       setGameOptions({
         fieldSize: 4,
-        neutralPlanetCount: 1,
+        neutralPlanetCount: 2,
         players: [new Player("1"), new Player("2")]
       })
     );
@@ -69,6 +69,20 @@ describe("<Planet />", (): void => {
     planets.C.coordinates = testCoordinates;
     const { container, getByTestId } = render(wrapWithReduxAndStyle(<Planet blockSize={40} planet={planets["C"]} />));
     expect(container).toMatchSnapshot();
+    const planetElement = getByTestId("planet");
+    fireEvent.click(planetElement);
+    expect(CurrentStore.getState().turn.destinationPlanet.name).toBe("C");
+  });
+
+  it("Renders neutral planet and not allowing to set this planet as destination when destination already set", (): void => {
+    const {
+      game: { planets }
+    } = CurrentStore.getState();
+    // make sure tests would not fail due to random factors
+    planets.D.mainColor = "#000";
+    planets.D.coordinates = testCoordinates;
+    const { getByTestId } = render(wrapWithReduxAndStyle(<Planet blockSize={40} planet={planets["D"]} />));
+    // at this point click should do nothing
     const planetElement = getByTestId("planet");
     fireEvent.click(planetElement);
     expect(CurrentStore.getState().turn.destinationPlanet.name).toBe("C");

@@ -37,9 +37,11 @@ const PlanetElement = ({ planet, blockSize }: PlanetProps): ReactElement => {
       dispatch(setOriginPlanet(planet));
     } else if (originPlanet && !destinationPlanet) {
       dispatch(setDestinationPlanet(planet));
-    } else if (planet.owner && planet.owner.id === activePlayer.id) {
-      dispatch(setOriginPlanet(planet));
-      dispatch(setDestinationPlanet(undefined));
+    } else {
+      if (planet.owner && planet.owner.id === activePlayer.id) {
+        dispatch(setOriginPlanet(planet));
+        dispatch(setDestinationPlanet(undefined));
+      }
     }
   };
 
