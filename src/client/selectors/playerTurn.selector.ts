@@ -10,6 +10,7 @@ import { TurnStoreData } from "../reducers/turn.reducers";
 export interface PlayerTurnStoreSlice {
   activePlayer: Player;
   originPlanet?: Planet;
+  currentShipsModifier: { [key: string]: number };
   destinationPlanet?: Planet;
   orders: PlayerTurnOrder[];
   currentPlayerFleets: ArrivingFleet[];
@@ -18,6 +19,7 @@ export interface PlayerTurnStoreSlice {
 const playerTurnSelectorFunction = (game: GameState, turn: TurnStoreData): PlayerTurnStoreSlice => ({
   activePlayer: game.activePlayer as Player,
   originPlanet: turn.originPlanet,
+  currentShipsModifier: turn.currentShipsModifier,
   destinationPlanet: turn.destinationPlanet,
   orders: turn.currentPlayerOrders,
   currentPlayerFleets: game.currentPlayerFleets

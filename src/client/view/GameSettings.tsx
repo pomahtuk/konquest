@@ -24,16 +24,28 @@ const GameSettings = ({ onStart }: GameSettingsProps): ReactElement => {
   }: SettingsStoreSlice = useSelector(gameSettingsSelector, shallowEqual);
 
   // use it for inputs
-  const { value: fieldSizeValue, onChange: changeFieldSize } = useSlider(fieldSize);
+  const { value: fieldSizeValue, onChange: changeFieldSize, setValue: setSizeValue } = useSlider(fieldSize);
   const { value: neutralPlanetsValue, onChange: changeNeutral, setValue } = useSlider(neutralPlanetCount);
 
   const maxPlanets = getPlanetLimit((fieldSizeValue as number) ** 2, players.length);
 
   useEffect((): void => {
     if (neutralPlanetsValue > maxPlanets) {
-      setValue(maxPlanets);
+      // make sure we are not doing negative count here
+      setValue(Math.max(maxPlanets, 1));
     }
   }, [neutralPlanetsValue, maxPlanets, setValue]);
+
+  useEffect((): void => {
+    if (fieldSizeValue > ConquestGame.maxSize) {
+      // make sure we are not doing negative count here
+      setSizeValue(ConquestGame.maxSize);
+    }
+    if (fieldSizeValue < ConquestGame.minSize) {
+      // make sure we are not doing negative count here
+      setSizeValue(ConquestGame.minSize);
+    }
+  }, [fieldSizeValue, setSizeValue]);
 
   const changeSettings = (): void => {
     dispatch(

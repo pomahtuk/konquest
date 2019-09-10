@@ -88,4 +88,53 @@ describe("<PlayerTurn />", (): void => {
     } = CurrentStore.getState();
     expect(currentPlayerOrders).toHaveLength(0);
   });
+
+  it("<PlayerTurn /> does not allow user to send negative amounts of ships or more than planet have left", (): void => {
+    const { getByTestId, getByText } = render(wrapWithReduxAndStyle(<PlayerTurn />));
+    // now let's set selected planets
+    selectPlanets();
+
+    const {
+      game: { planets }
+    } = CurrentStore.getState();
+
+    // try too much
+    const amountInput = getByTestId("order-amount") as HTMLInputElement;
+    const changeEventTooMuch = { target: { value: "100" } };
+    fireEvent.change(amountInput, changeEventTooMuch);
+    expect(Number(amountInput.value)).toBe(planets.A.ships);
+
+    // create modifier
+    const changeEventNormal = { target: { value: "4" } };
+    fireEvent.change(amountInput, changeEventNormal);
+    const addOrderButton = getByText("Add order");
+    fireEvent.click(addOrderButton);
+    // add order
+    const {
+      turn: { currentPlayerOrders, currentShipsModifier }
+    } = CurrentStore.getState();
+    expect(currentPlayerOrders).toHaveLength(1);
+    expect(currentPlayerOrders[0].amount).toBe(4);
+    expect(currentShipsModifier["A"]).toBe(4);
+    // select planets
+    selectPlanets();
+    // try too much again
+    const changeEventNowTooMuch = { target: { value: "10" } };
+    fireEvent.change(amountInput, changeEventNowTooMuch);
+    const addOrderButtonNow = getByText("Add order");
+    fireEvent.click(addOrderButtonNow);
+
+    const {
+      turn: { currentPlayerOrders: cpo, currentShipsModifier: csm }
+    } = CurrentStore.getState();
+    expect(cpo).toHaveLength(2);
+    expect(cpo[1].amount).toBe(6);
+    expect(csm["A"]).toBe(10);
+
+    // select planets
+    selectPlanets();
+
+    const changeEventTooLittle = { target: { value: "-100" } };
+    fireEvent.change(amountInput, changeEventTooLittle);
+  });
 });

@@ -13,7 +13,7 @@ import ArrivingFleets from "./ArrivingFleets";
 
 const PlayerTurn = (): ReactElement => {
   const dispatch = useDispatch();
-  const { orders, activePlayer, originPlanet, destinationPlanet, currentPlayerFleets }: PlayerTurnStoreSlice = useSelector(
+  const { orders, activePlayer, originPlanet, destinationPlanet, currentPlayerFleets, currentShipsModifier }: PlayerTurnStoreSlice = useSelector(
     playerTurnSelector,
     shallowEqual
   );
@@ -21,9 +21,24 @@ const PlayerTurn = (): ReactElement => {
 
   useEffect(() => {
     if (originPlanet) {
-      setValue(originPlanet.ships);
+      setValue(originPlanet.ships - (currentShipsModifier[originPlanet.name] || 0));
     }
-  }, [setValue, originPlanet]);
+  }, [setValue, originPlanet, currentShipsModifier]);
+
+  useEffect(() => {
+    // make sure we are not able to send more than we have
+    if (originPlanet) {
+      const maxValue = originPlanet.ships - (currentShipsModifier[originPlanet.name] || 0);
+      if (value > maxValue) {
+        setValue(maxValue);
+      }
+
+      if (value < 0) {
+        setValue(0);
+      }
+    }
+    // also make sure we are not sending negative value
+  }, [value, setValue, originPlanet, currentShipsModifier]);
 
   const cleanUp = (): void => {
     setValue(0);
