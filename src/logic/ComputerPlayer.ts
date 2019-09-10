@@ -46,7 +46,7 @@ class ComputerPlayer extends Player {
         let shouldAttack = false;
         let shipsToSend = Math.floor(origin.ships * 0.7);
         let destinationName = "";
-        let minDistance = 1;
+        let minDistance = 10;
 
         if (shipsToSend >= this.minimumShips) {
           for (const destination of planetList) {
