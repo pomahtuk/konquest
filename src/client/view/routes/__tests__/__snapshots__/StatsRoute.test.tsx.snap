@@ -1,6 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<StatsRoute /> Redirecting to Settings when game is not complete 1`] = `<div />`;
+exports[`<StatsRoute /> Redirecting to Settings when game is not complete 1`] = `
+<div>
+  <span>
+    Redirect
+  </span>
+</div>
+`;
 
 exports[`<StatsRoute /> Renders without exploding 1`] = `
 .emotion-1 {

@@ -7,15 +7,23 @@ import { startGame, setGameOptions } from "../../../actions/game.actions";
 import Player from "../../../../logic/Player";
 import { GameStatus } from "../../../../logic/Game";
 
+import { Redirect as MockRedirect } from "@reach/router";
+jest.mock("@reach/router", () => {
+  const RouterMocks = jest.requireActual("@reach/router");
+  return {
+    ...RouterMocks,
+    Redirect: jest.fn().mockImplementation(() => {
+      return <span>Redirect</span>;
+    })
+  };
+});
+
 const testPlayer = new Player("test");
 
 describe("<GameRoute />", (): void => {
   it("Redirecting to Settings when game is not started", (): void => {
-    const originError = console.error;
-    console.error = jest.fn();
     render(wrapWithReduxAndStyle(<GameRoute />));
-    expect(console.error).toHaveBeenCalled();
-    console.error = originError;
+    expect(MockRedirect).toHaveBeenCalledTimes(1);
   });
 
   it("Can render game once it started", (): void => {
@@ -32,8 +40,6 @@ describe("<GameRoute />", (): void => {
   });
 
   it("Redirecting to Stats once game is complete when game is not started", (): void => {
-    const originError = console.error;
-    console.error = jest.fn();
     CurrentStore.replaceReducer(() => ({
       game: {
         isStarted: true,
@@ -44,7 +50,6 @@ describe("<GameRoute />", (): void => {
       }
     }));
     render(wrapWithReduxAndStyle(<GameRoute />));
-    expect(console.error).toHaveBeenCalled();
-    console.error = originError;
+    expect(MockRedirect).toHaveBeenCalledTimes(2);
   });
 });

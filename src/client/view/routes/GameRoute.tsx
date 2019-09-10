@@ -24,11 +24,11 @@ const GameRoute: React.SFC<GameRouteProps> = (): ReactElement | null => {
   const theme = useContext(ThemeContext);
 
   if (!isStarted) {
-    return <Redirect to={SETTINGS} />;
+    return <Redirect to={SETTINGS} noThrow />;
   }
 
   if (status === GameStatus.COMPLETED) {
-    return <Redirect to={STATS} />;
+    return <Redirect to={STATS} noThrow />;
   }
 
   const turnContainer = css`

@@ -14,7 +14,7 @@ const StatsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
   const { winner, players, status } = useSelector(statsRouteSelector, shallowEqual);
 
   if (!winner || status !== GameStatus.COMPLETED) {
-    return <Redirect to={SETTINGS} />;
+    return <Redirect to={SETTINGS} noThrow />;
   }
 
   const statusContainer = css`
