@@ -89,7 +89,7 @@ describe("<PlayerTurn />", (): void => {
     expect(currentPlayerOrders).toHaveLength(0);
   });
 
-  it("<PlayerTurn /> does not allow user to send negative amounts of ships or more than planet have left", (): void => {
+  it("<PlayerTurn /> does not allow user to send more than planet have left", (): void => {
     const { getByTestId, getByText } = render(wrapWithReduxAndStyle(<PlayerTurn />));
     // now let's set selected planets
     selectPlanets();
@@ -130,11 +130,18 @@ describe("<PlayerTurn />", (): void => {
     expect(cpo).toHaveLength(2);
     expect(cpo[1].amount).toBe(6);
     expect(csm["A"]).toBe(10);
+  });
 
-    // select planets
+  it("<PlayerTurn /> does not allow user to send negative amounts", (): void => {
+    const { getByTestId } = render(wrapWithReduxAndStyle(<PlayerTurn />));
+    // now let's set selected planets
     selectPlanets();
 
+    // try too much
+    const amountInput = getByTestId("order-amount") as HTMLInputElement;
     const changeEventTooLittle = { target: { value: "-100" } };
     fireEvent.change(amountInput, changeEventTooLittle);
+
+    expect(amountInput.value).toBe("0");
   });
 });
