@@ -84,7 +84,7 @@ class ConquestGame {
   private [planets]: PlanetMap = {};
   private [players]: Player[] = [];
   private [planetCount] = 0;
-  private [waitingForPlayer] = 0;
+  private [waitingForPlayer] = -1;
   private [fleetTimeline]: Fleet[][] = [];
   private [status]: GameStatus = GameStatus.NOT_STARTED;
   private [winner]: Player | null = null;
@@ -127,6 +127,8 @@ class ConquestGame {
       fieldWidth: this[fieldWidth],
       planetCount: this[planetCount]
     });
+    // we start from negative to make sure that when firs player is computer we are able to have a game
+    this[findNextValidPlayer]();
     this.persister = persister;
     if (this.persister) {
       this.persister(this.serialize());

@@ -13,7 +13,7 @@ const StatsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
   const theme = useContext(ThemeContext);
   const { winner, players, status } = useSelector(statsRouteSelector, shallowEqual);
 
-  if (!winner || status !== GameStatus.COMPLETED) {
+  if (status !== GameStatus.COMPLETED) {
     return <Redirect to={SETTINGS} noThrow />;
   }
 
@@ -31,7 +31,6 @@ const StatsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
       padding: ${theme.units.small};
     }
   `;
-
   return (
     <div className={statusContainer}>
       <table className={tableClass}>
@@ -48,8 +47,8 @@ const StatsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
             (player: Player): ReactElement => (
               <tr key={player.id}>
                 <td>
-                  {player.id === winner.id && "👑 "}
-                  {player.screenName}
+                  {winner ? player.id === winner.id && "👑 " : player.isDead && "💀 "}
+                  {player.screenName + (player.isComputer ? " (🤖)" : "")}
                 </td>
                 <td>{player.statShipCount}</td>
                 <td>{player.statEnemyShipsDestroyed}</td>
