@@ -155,8 +155,7 @@ describe("Could have a game", (): void => {
     // check if there are any fleets en route
     const fleets = game.getFleets();
     const fleetsTravelling = fleets.reduce((acc, fleetData) => {
-      acc.concat(fleetData);
-      return acc;
+      return [...acc, ...fleetData];
     }, []);
     if (fleetsTravelling.length > 0) {
       // wait a bit

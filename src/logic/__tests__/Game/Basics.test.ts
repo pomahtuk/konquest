@@ -49,6 +49,18 @@ describe("Main game", (): void => {
     expect(game.getTurns().length).toBe(0);
   });
 
+  it("Creates a new game with given params and exposing fieldSize", (): void => {
+    const game = new ConquestGame({
+      fieldHeight: 10,
+      fieldWidth: 10,
+      neutralPlanetCount: 5,
+      players: [player1, player2]
+    });
+
+    expect(game).toBeDefined();
+    expect(game.fieldSize).toMatchObject([10, 10]);
+  });
+
   it("Can serialize and de-serialize game", (): void => {
     const player3 = new Player("player3");
     const player4 = new Player("player4");

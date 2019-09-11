@@ -7,6 +7,7 @@ import Player from "../../../../logic/Player";
 import { GameStatus } from "../../../../logic/Game";
 
 import { Redirect as MockRedirect } from "@reach/router";
+import ComputerPlayerEasy from "../../../../logic/ComputerPlayerEasy";
 jest.mock("@reach/router", () => {
   const RouterMocks = jest.requireActual("@reach/router");
   return {
@@ -32,6 +33,21 @@ describe("<StatsRoute />", (): void => {
       game: {
         winner: testPlayer,
         activePlayers: [testPlayer],
+        status: GameStatus.COMPLETED
+      }
+    }));
+    CurrentStore.dispatch({ type: "some" });
+    const { container } = render(wrapWithReduxAndStyle(<StatsRoute />));
+    expect(container).toMatchSnapshot();
+  });
+
+  it("Renders players in different states (computer, dead without a winner)", (): void => {
+    testPlayer.isDead = true;
+    const computerPlayer = new ComputerPlayerEasy("test comp");
+    CurrentStore.replaceReducer(() => ({
+      game: {
+        winner: null,
+        activePlayers: [testPlayer, computerPlayer],
         status: GameStatus.COMPLETED
       }
     }));

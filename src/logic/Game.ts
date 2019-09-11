@@ -72,6 +72,12 @@ const SymbolMapForSerializer = {
   winner: winner
 };
 
+export const findPlayerFleets = (fleets: Fleet[][], player: Player): Fleet[] =>
+  fleets.reduce((acc, fleetList) => {
+    const playerFleets = fleetList.filter((fleet) => fleet.owner.id === player.id);
+    return [...acc, ...playerFleets];
+  }, []);
+
 class ConquestGame {
   public static maxSize = 20;
   public static minSize = 4;
@@ -305,13 +311,7 @@ class ConquestGame {
     }
     // moving computer turn processing here for now, but make sure not to make a turn once game completed
     if (nextPlayer.isComputer && this[status] !== GameStatus.COMPLETED) {
-      const orders = nextPlayer.takeTurn(
-        this[planets],
-        this[fleetTimeline].reduce((acc, fleetList) => {
-          acc.concat(fleetList.filter((fleet) => fleet.owner.id === nextPlayer.id));
-          return acc;
-        }, [])
-      );
+      const orders = nextPlayer.takeTurn(this[planets], findPlayerFleets(this[fleetTimeline], nextPlayer));
       this[addDataToTurn]({
         player: nextPlayer,
         orders

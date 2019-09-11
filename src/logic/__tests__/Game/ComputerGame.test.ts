@@ -1,7 +1,9 @@
 import ComputerPlayerEasy from "../../ComputerPlayerEasy";
 import Player from "../../Player";
-import ConquestGame, { TurnStatus, GameStatus } from "../../Game";
+import ConquestGame, { TurnStatus, GameStatus, findPlayerFleets } from "../../Game";
 import { PlanetMap } from "../../Planet";
+import ComputerPlayerHard from "../../ComputerPlayerHard";
+import Fleet from "../../Fleet";
 
 const computer = new ComputerPlayerEasy("test");
 const player = new Player("gamer");
@@ -24,7 +26,49 @@ describe("Could have a game with Computer player", (): void => {
     });
   });
 
-  it("can let computer make a turn", (): void => {
+  // here, as only used for computer player
+  it("can find playerFleets", (): void => {
+    const allFleets: Fleet[][] = [
+      [
+        {
+          owner: player,
+          amount: 10,
+          killPercent: 0.5,
+          destination: "B"
+        },
+        {
+          owner: computer,
+          amount: 10,
+          killPercent: 0.4,
+          destination: "B"
+        }
+      ],
+      [
+        {
+          owner: player,
+          amount: 10,
+          killPercent: 0.8,
+          destination: "D"
+        }
+      ]
+    ];
+    const playerFleets = findPlayerFleets(allFleets, player);
+    expect(playerFleets).toHaveLength(2);
+  });
+
+  it("Can stop game if only computer players are left", (): void => {
+    const anotherComp = new ComputerPlayerHard("another");
+    const ownGame = new ConquestGame({
+      players: [anotherComp, computer],
+      fieldHeight: 4,
+      fieldWidth: 4,
+      neutralPlanetCount: 1
+    });
+    expect(ownGame.status).toBe(GameStatus.COMPLETED);
+    expect(ownGame.winner).toBe(null);
+  });
+
+  it("Can have game with computer player", (): void => {
     // do nothing
     const result = makeEmptyPlayerTurn(game);
     // turn must be valid

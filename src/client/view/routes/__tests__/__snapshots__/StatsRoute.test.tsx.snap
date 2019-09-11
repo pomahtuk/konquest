@@ -8,6 +8,81 @@ exports[`<StatsRoute /> Redirecting to Settings when game is not complete 1`] = 
 </div>
 `;
 
+exports[`<StatsRoute /> Renders players in different states (computer, dead without a winner) 1`] = `
+.emotion-1 {
+  background: rgba(255,255,255,0.3);
+  border-radius: 4px;
+  padding: 8px 0;
+}
+
+.emotion-0 {
+  width: 100%;
+  text-align: center;
+}
+
+.emotion-0 tr {
+  padding: 4px;
+}
+
+<div>
+  <div
+    class="emotion-1"
+  >
+    <table
+      class="emotion-0"
+    >
+      <thead>
+        <tr>
+          <th>
+            Player
+          </th>
+          <th>
+            Ships produced
+          </th>
+          <th>
+            Enemy ships destroyed
+          </th>
+          <th>
+            Enemy fleets destroyed
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            💀 
+            test
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+        <tr>
+          <td>
+            test comp (🤖)
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            0
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+
 exports[`<StatsRoute /> Renders without exploding 1`] = `
 .emotion-1 {
   background: rgba(255,255,255,0.3);
