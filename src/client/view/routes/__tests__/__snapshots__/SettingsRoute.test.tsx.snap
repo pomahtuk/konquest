@@ -311,6 +311,7 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
           </label>
           <input
             class="emotion-3"
+            data-testid="playerName"
             placeholder="Player name"
             type="text"
             value=""
@@ -326,6 +327,7 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
           </label>
           <select
             class="emotion-6"
+            data-testid="playerType"
           >
             <option
               value="human"
