@@ -1,18 +1,20 @@
 type Sizes = "smallest" | "smaller" | "small" | "medium" | "large" | "larger" | "largest";
 
 type Colors =
-  | "destructiveDark"
-  | "destructive"
   | "grayscaleDark"
   | "grayscale"
   | "grayscaleLight"
   | "black"
   | "white"
+  | "red"
   | "actionDark"
   | "action"
   | "actionLight"
   | "primary"
   | "primaryDark"
+  | "primaryLight"
+  | "buttonBg"
+  | "buttonDestructiveBg"
   | "background";
 
 type FontWeights = "normal" | "medium" | "bold";
@@ -93,23 +95,25 @@ const baseTheme: Theme = {
     huge: "@media screen and (min-width: 1200px)"
   },
   colors: {
-    destructiveDark: "#A30000",
-    destructive: "#CC0000",
-
     grayscaleDark: "#333333",
     grayscale: "#6B6B6B",
     grayscaleLight: "#E6E6E6",
 
     black: "#000",
     white: "#fff",
+    red: "#f00",
 
     actionDark: "#005C9D",
     action: "#0071C2",
     actionLight: "#E4F4FF",
 
     background: "#021114a6",
+    buttonBg: "#062b2da6",
+    buttonDestructiveBg: "#220303a6",
+
     primary: "#26dafd",
-    primaryDark: "#029dbb"
+    primaryDark: "#029dbb",
+    primaryLight: "#acf9fb"
   },
   units: {
     smallest: "0px",

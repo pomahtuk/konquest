@@ -10,9 +10,11 @@ Main things to be done:
 - [x] Implement proper routing (route for settings and actual game, with redirect)
 - [ ] Implement functionality to let user refresh page and continue game from where they left
 - [x] Add post-game stats screen
-- [x] Implement 2 more type of Computer player - Deffensive and Offensive
+- [x] Implement 2 more type of Computer player - Defensive and Offensive
 - [x] If First player is Computer - it is impossible to have a game - fix it.
 - [x] Fix maximum stack reached error when playing with more than one Computer player and no human players left
+- [ ] Add Hover state to buttons
+- [ ] Switch inputs to style similar to https://arwes.dev
 - [ ] Add balanced (known as BECAI in original game) Computer player
 - [ ] Cover all code code with tests (reach 100% coverage)
 - [ ] Have a proper user-interface designed and implemented

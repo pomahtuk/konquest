@@ -7,6 +7,7 @@ expect.extend(matchers);
 import Button from "../Button";
 import wrapWithReduxAndStyle from "../../testHelpers/wrapWithReduxAndStyle";
 import baseTheme from "../../themes/base.theme";
+import hexToRgba from "../../helpers/hexToRgba";
 
 const buttonText = "hello";
 
@@ -24,41 +25,25 @@ describe("<Button />", (): void => {
   it("renders <Button /> in primary variant", (): void => {
     const { getByText } = render(wrapWithReduxAndStyle(<Button variant="primary">{buttonText}</Button>));
     const element = getByText(buttonText);
-    expect(element).toHaveStyleRule("color", baseTheme.colors.white);
-    expect(element).toHaveStyleRule("background-color", baseTheme.colors.action);
-  });
-
-  it("renders <Button /> in secondary variant", (): void => {
-    const { getByText } = render(wrapWithReduxAndStyle(<Button variant="secondary">{buttonText}</Button>));
-    const element = getByText(buttonText);
-    expect(element).toHaveStyleRule("color", baseTheme.colors.action);
-    expect(element).toHaveStyleRule("background-color", baseTheme.colors.white);
+    expect(element).toHaveStyleRule("color", baseTheme.colors.primaryLight);
+    expect(element).toHaveStyleRule(
+      "background-color",
+      `rgba(${hexToRgba(baseTheme.colors.buttonBg, "0.65")
+        .split(", ")
+        .join(",")})`
+    );
   });
 
   it("renders <Button /> in destructive variant", (): void => {
     const { getByText } = render(wrapWithReduxAndStyle(<Button variant="destructive">{buttonText}</Button>));
     const element = getByText(buttonText);
-    expect(element).toHaveStyleRule("color", baseTheme.colors.white);
-    expect(element).toHaveStyleRule("background-color", baseTheme.colors.destructive);
-  });
-
-  it("renders <Button /> in large size", (): void => {
-    const { getByText } = render(wrapWithReduxAndStyle(<Button size="large">{buttonText}</Button>));
-    const element = getByText(buttonText);
-    expect(element).toHaveStyleRule("font-size", baseTheme.fontSizes.medium);
-    expect(element).toHaveStyleRule("padding", `calc(${baseTheme.units.larger} / 2) ${baseTheme.units.larger}`);
-  });
-
-  it("renders <Button /> in wide variant", (): void => {
-    const { getByText } = render(wrapWithReduxAndStyle(<Button wide>{buttonText}</Button>));
-    const element = getByText(buttonText);
-    expect(element).toHaveStyleRule("width", "100%");
-  });
-
-  it("renders <Button /> in disabled state", (): void => {
-    const { getByText } = render(wrapWithReduxAndStyle(<Button disabled>{buttonText}</Button>));
-    const element = getByText(buttonText);
-    expect(element.getAttribute("disabled")).toBeDefined();
+    expect(element).toHaveStyleRule("color", baseTheme.colors.red);
+    expect(element).toHaveStyleRule(
+      "background-color",
+      `rgba(${hexToRgba(baseTheme.colors.buttonDestructiveBg, "0.65")
+        .split(", ")
+        .join(",")})`
+    );
   });
 
   it("renders <Button /> with additional className", (): void => {

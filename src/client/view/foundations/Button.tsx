@@ -1,31 +1,83 @@
 import React, { ReactElement, useContext, ReactNode } from "react";
 import styled from "@emotion/styled";
 import { ThemeContext } from "../themes/ThemeProvider";
+import hexToRgba from "../helpers/hexToRgba";
 
 type ButtonProps = {
   children?: ReactNode;
-  variant?: "primary" | "secondary" | "destructive";
-  size?: "large";
-  wide?: boolean;
+  variant?: "primary" | "destructive";
   onClick?: () => void;
   className?: string;
   type?: "button" | "submit";
-  disabled?: boolean;
 };
 
-const Button = ({ children, type = "button", variant, size, disabled, wide, className, onClick }: ButtonProps): ReactElement => {
+type CornerProps = {
+  position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+};
+
+const Button = ({ children, type = "button", variant, className, onClick }: ButtonProps): ReactElement => {
   const theme = useContext(ThemeContext);
 
-  const color = variant === "secondary" ? theme.colors.action : theme.colors.white;
-  const backgroundColorHover =
-    variant === "secondary" ? theme.colors.actionLight : variant === "destructive" ? theme.colors.destructiveDark : theme.colors.actionDark;
-  const backgroundColor = variant === "secondary" ? theme.colors.white : variant === "destructive" ? theme.colors.destructive : theme.colors.action;
-  const borderColorHover = variant === "destructive" ? theme.colors.destructiveDark : theme.colors.actionDark;
-  const borderColor = variant === "destructive" ? theme.colors.destructive : theme.colors.action;
+  const color = variant === "destructive" ? theme.colors.red : theme.colors.primaryLight;
+  const backgroundColor =
+    variant === "destructive" ? `rgba(${hexToRgba(theme.colors.buttonDestructiveBg, "0.65")})` : `rgba(${hexToRgba(theme.colors.buttonBg, "0.65")})`;
+  const borderColor = variant === "destructive" ? theme.colors.red : theme.colors.primaryLight;
+
+  const ButtonWrapper = styled.div`
+    position: relative;
+    display: inline-block;
+    top: 0;
+    left: 0;
+  `;
+
+  const Corner = styled.div`
+    border-color: ${borderColor};
+    z-index: 1;
+    opacity: 1;
+    position: absolute;
+    border-style: solid;
+    width: 8px;
+    height: 8px;
+    border-width: ${({ position }: CornerProps): string => {
+      switch (position) {
+        case "top-left":
+          return "1px 0 0 1px";
+        case "top-right":
+          return "1px 1px 0 0";
+        case "bottom-left":
+          return "0 0 1px 1px";
+        default:
+          return "0 1px 1px 0";
+      }
+    }};
+    top: ${({ position }: CornerProps): string => {
+      if (position === "top-left" || position === "top-right") {
+        return "-1px";
+      }
+      return "";
+    }};
+    bottom: ${({ position }: CornerProps): string => {
+      if (position === "bottom-left" || position === "bottom-right") {
+        return "-1px";
+      }
+      return "";
+    }};
+    left: ${({ position }: CornerProps): string => {
+      if (position === "bottom-left" || position === "top-left") {
+        return "-1px";
+      }
+      return "";
+    }};
+    right: ${({ position }: CornerProps): string => {
+      if (position === "bottom-right" || position === "top-right") {
+        return "-1px";
+      }
+      return "";
+    }};
+  `;
 
   const ButtonTag = styled.button`
     border: 1px solid ${borderColor};
-    border-radius: ${theme.units.smaller};
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -39,36 +91,28 @@ const Button = ({ children, type = "button", variant, size, disabled, wide, clas
     background-color: ${backgroundColor};
     color: ${color};
     font-size: ${theme.fontSizes.small};
-    font-weight: ${theme.fontWeights.bold};
+    font-weight: ${theme.fontWeights.normal};
     line-height: ${theme.lineHeights.small};
+    font-family: Arial, sans-serif;
+    user-select: none;
+    position: relative;
+    z-index: 2;
 
-    :hover,
-    :active {
-      background-color: ${backgroundColorHover};
-      border-color: ${borderColorHover};
+    :focus {
+      outline: none;
     }
-
-    [disabled],
-    [disabled]:hover {
-      background-color: ${theme.colors.grayscale};
-      border-color: ${theme.colors.grayscale};
-      cursor: not-allowed;
-    }
-
-    ${size === "large"
-      ? `
-      padding: calc(${theme.units.larger} / 2) ${theme.units.larger};
-      font-size: ${theme.fontSizes.medium};
-      font-weight: ${theme.fontWeights.normal};
-      line-height: ${theme.lineHeights.medium};
-    `
-      : ""}
-    ${wide ? "width: 100%;" : ""}
   `;
+
   return (
-    <ButtonTag className={className} onClick={onClick} type={type} disabled={disabled}>
-      {children}
-    </ButtonTag>
+    <ButtonWrapper>
+      <Corner position="top-left" />
+      <Corner position="top-right" />
+      <Corner position="bottom-left" />
+      <Corner position="bottom-right" />
+      <ButtonTag className={className} onClick={onClick} type={type}>
+        {children}
+      </ButtonTag>
+    </ButtonWrapper>
   );
 };
 

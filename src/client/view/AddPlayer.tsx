@@ -56,9 +56,7 @@ const AddPlayer = (): ReactElement => {
       <InputText label="Player name" type="text" value={newPlayerName} onChange={onNameChange} placeholder="Player name" data-testid="playerName" />
       <InputSelect label="Player type" value={newPlayerType} onChange={onTypeChange} options={playerTypeOptions} data-testid="playerType" />
 
-      <Button onClick={onAddPlayer} variant="secondary">
-        Add player
-      </Button>
+      <Button onClick={onAddPlayer}>Add player</Button>
     </React.Fragment>
   );
 };

@@ -1,9 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Button /> renders <Button /> component 1`] = `
+.emotion-5 {
+  position: relative;
+  display: inline-block;
+  top: 0;
+  left: 0;
+}
+
 .emotion-0 {
-  border: 1px solid #0071C2;
-  border-radius: 2px;
+  border-color: #acf9fb;
+  z-index: 1;
+  opacity: 1;
+  position: absolute;
+  border-style: solid;
+  width: 8px;
+  height: 8px;
+  border-width: 1px 0 0 1px;
+  top: -1px;
+  left: -1px;
+}
+
+.emotion-1 {
+  border-color: #acf9fb;
+  z-index: 1;
+  opacity: 1;
+  position: absolute;
+  border-style: solid;
+  width: 8px;
+  height: 8px;
+  border-width: 1px 1px 0 0;
+  top: -1px;
+  right: -1px;
+}
+
+.emotion-2 {
+  border-color: #acf9fb;
+  z-index: 1;
+  opacity: 1;
+  position: absolute;
+  border-style: solid;
+  width: 8px;
+  height: 8px;
+  border-width: 0 0 1px 1px;
+  bottom: -1px;
+  left: -1px;
+}
+
+.emotion-3 {
+  border-color: #acf9fb;
+  z-index: 1;
+  opacity: 1;
+  position: absolute;
+  border-style: solid;
+  width: 8px;
+  height: 8px;
+  border-width: 0 1px 1px 0;
+  bottom: -1px;
+  right: -1px;
+}
+
+.emotion-4 {
+  border: 1px solid #acf9fb;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -24,30 +82,44 @@ exports[`<Button /> renders <Button /> component 1`] = `
   box-sizing: border-box;
   vertical-align: middle;
   position: relative;
-  background-color: #0071C2;
-  color: #fff;
+  background-color: rgba(6,43,45,0.65);
+  color: #acf9fb;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 20px;
+  font-family: Arial,sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+  z-index: 2;
 }
 
-.emotion-0:hover,
-.emotion-0:active {
-  background-color: #005C9D;
-  border-color: #005C9D;
-}
-
-.emotion-0 [disabled],
-.emotion-0 [disabled]:hover {
-  background-color: #6B6B6B;
-  border-color: #6B6B6B;
-  cursor: not-allowed;
+.emotion-4:focus {
+  outline: none;
 }
 
 <div>
-  <button
-    class="emotion-0"
-    type="button"
-  />
+  <div
+    class="emotion-5"
+  >
+    <div
+      class="emotion-0"
+    />
+    <div
+      class="emotion-1"
+    />
+    <div
+      class="emotion-2"
+    />
+    <div
+      class="emotion-3"
+    />
+    <button
+      class="emotion-4"
+      type="button"
+    />
+  </div>
 </div>
 `;

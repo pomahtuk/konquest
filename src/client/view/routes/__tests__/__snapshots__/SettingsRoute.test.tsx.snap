@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] = `
-.emotion-19 {
+.emotion-29 {
   background: rgba(2,17,20,0.6);
   border: 1px solid #029dbb;
   padding: 0 0 32px 0;
@@ -99,7 +99,7 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
   transform: translateY(30%);
 }
 
-.emotion-20 {
+.emotion-30 {
   box-sizing: border-box;
   clear: both;
   display: -webkit-box;
@@ -116,30 +116,30 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
 }
 
 @media screen and (max-width:575px) {
-  .emotion-20 {
+  .emotion-30 {
     margin: calc(-1 * 8px) calc(-1 * 8px/2) 0 calc(-1 * 8px/2);
   }
 }
 
 @media screen and (min-width:576px) {
-  .emotion-20 {
+  .emotion-30 {
     margin: calc(-1 * 16px) calc(-1 * 16px/2) 0 calc(-1 * v16px/2);
   }
 }
 
 @media screen and (min-width:992px) {
-  .emotion-20 {
+  .emotion-30 {
     margin: calc(-1 * 24px) calc(-1 * 24px) 0 calc(-1 * 24px/2);
   }
 }
 
 @media screen and (min-width:1200px) {
-  .emotion-20 {
+  .emotion-30 {
     margin: calc(-1 * 32px) calc(-1 * 32px) 0 calc(-1 * 32px/2);
   }
 }
 
-.emotion-10 {
+.emotion-15 {
   box-sizing: border-box;
   padding: 8px calc(8px/2) 0 calc(8px/2);
   -webkit-flex-basis: calc(100% / (12/12));
@@ -150,13 +150,13 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
 }
 
 @media screen and (min-width:576px) {
-  .emotion-10 {
+  .emotion-15 {
     padding: 16px calc(16px/2) 0 calc(16px/2);
   }
 }
 
 @media screen and (min-width:992px) {
-  .emotion-10 {
+  .emotion-15 {
     padding: 24px calc(24px/2) 0 calc(24px/2);
     width: calc(100% / (12/6));
     -webkit-flex-basis: calc(100% / (12/6));
@@ -167,14 +167,72 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
 }
 
 @media screen and (min-width:1200px) {
-  .emotion-10 {
+  .emotion-15 {
     padding: 32px calc(32px/2) 0 calc(32px/2);
   }
 }
 
+.emotion-14 {
+  position: relative;
+  display: inline-block;
+  top: 0;
+  left: 0;
+}
+
 .emotion-9 {
-  border: 1px solid #0071C2;
-  border-radius: 2px;
+  border-color: #acf9fb;
+  z-index: 1;
+  opacity: 1;
+  position: absolute;
+  border-style: solid;
+  width: 8px;
+  height: 8px;
+  border-width: 1px 0 0 1px;
+  top: -1px;
+  left: -1px;
+}
+
+.emotion-10 {
+  border-color: #acf9fb;
+  z-index: 1;
+  opacity: 1;
+  position: absolute;
+  border-style: solid;
+  width: 8px;
+  height: 8px;
+  border-width: 1px 1px 0 0;
+  top: -1px;
+  right: -1px;
+}
+
+.emotion-11 {
+  border-color: #acf9fb;
+  z-index: 1;
+  opacity: 1;
+  position: absolute;
+  border-style: solid;
+  width: 8px;
+  height: 8px;
+  border-width: 0 0 1px 1px;
+  bottom: -1px;
+  left: -1px;
+}
+
+.emotion-12 {
+  border-color: #acf9fb;
+  z-index: 1;
+  opacity: 1;
+  position: absolute;
+  border-style: solid;
+  width: 8px;
+  height: 8px;
+  border-width: 0 1px 1px 0;
+  bottom: -1px;
+  right: -1px;
+}
+
+.emotion-13 {
+  border: 1px solid #acf9fb;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -195,75 +253,30 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
   box-sizing: border-box;
   vertical-align: middle;
   position: relative;
-  background-color: #fff;
-  color: #0071C2;
+  background-color: rgba(6,43,45,0.65);
+  color: #acf9fb;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 20px;
-}
-
-.emotion-9:hover,
-.emotion-9:active {
-  background-color: #E4F4FF;
-  border-color: #005C9D;
-}
-
-.emotion-9 [disabled],
-.emotion-9 [disabled]:hover {
-  background-color: #6B6B6B;
-  border-color: #6B6B6B;
-  cursor: not-allowed;
-}
-
-.emotion-17 {
-  border: 1px solid #0071C2;
-  border-radius: 2px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-family: inherit;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  box-sizing: border-box;
-  vertical-align: middle;
+  font-family: Arial,sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   position: relative;
-  background-color: #0071C2;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
+  z-index: 2;
 }
 
-.emotion-17:hover,
-.emotion-17:active {
-  background-color: #005C9D;
-  border-color: #005C9D;
-}
-
-.emotion-17 [disabled],
-.emotion-17 [disabled]:hover {
-  background-color: #6B6B6B;
-  border-color: #6B6B6B;
-  cursor: not-allowed;
+.emotion-13:focus {
+  outline: none;
 }
 
 <div>
   <div
-    class="emotion-19 emotion-20"
+    class="emotion-29 emotion-30"
   >
     <div
-      class="emotion-10"
+      class="emotion-15"
     >
       <div>
         <h1
@@ -362,16 +375,32 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
             </svg>
           </span>
         </div>
-        <button
-          class="emotion-9"
-          type="button"
+        <div
+          class="emotion-14"
         >
-          Add player
-        </button>
+          <div
+            class="emotion-9"
+          />
+          <div
+            class="emotion-10"
+          />
+          <div
+            class="emotion-11"
+          />
+          <div
+            class="emotion-12"
+          />
+          <button
+            class="emotion-13"
+            type="button"
+          >
+            Add player
+          </button>
+        </div>
       </div>
     </div>
     <div
-      class="emotion-10"
+      class="emotion-15"
     >
       <h1
         style="margin-top: 0px;"
@@ -412,12 +441,28 @@ exports[`<SettingsRoute /> Redirecting to Settings when game is not started 1`] 
           value="3"
         />
       </div>
-      <button
-        class="emotion-17"
-        type="button"
+      <div
+        class="emotion-14"
       >
-        Start Game
-      </button>
+        <div
+          class="emotion-9"
+        />
+        <div
+          class="emotion-10"
+        />
+        <div
+          class="emotion-11"
+        />
+        <div
+          class="emotion-12"
+        />
+        <button
+          class="emotion-13"
+          type="button"
+        >
+          Start Game
+        </button>
+      </div>
     </div>
   </div>
 </div>

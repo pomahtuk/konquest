@@ -39,11 +39,7 @@ const AddPlayerTurn = ({
           </Button>
         </React.Fragment>
       )}
-      {originPlanet && (
-        <Button variant="secondary" onClick={onCancel}>
-          Cancel order
-        </Button>
-      )}
+      {originPlanet && <Button onClick={onCancel}>Cancel order</Button>}
     </div>
   );
 };
