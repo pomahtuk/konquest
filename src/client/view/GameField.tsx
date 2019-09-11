@@ -27,7 +27,7 @@ const GameField = (): ReactElement | null => {
     return null;
   }
 
-  const fillColor = hexToRgba(theme.colors.background, "0.65");
+  const fillColor = hexToRgba(theme.colors.background, "0.325");
 
   return (
     <div ref={wrapperRef}>

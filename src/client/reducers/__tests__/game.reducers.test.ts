@@ -26,6 +26,9 @@ describe("game reducer", (): void => {
       amount: 10,
       arrivingIn: 1
     });
+    // should not fail
+    const brokenFleets = getArrivingPlayerFleets([], player1);
+    expect(brokenFleets).toHaveLength(0);
   });
 
   it("Properly handling exception on starting game with invalid options", (): void => {

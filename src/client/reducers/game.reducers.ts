@@ -48,7 +48,7 @@ export const defaultState: GameState = {
 };
 
 export const getArrivingPlayerFleets = (fleets: Fleet[][], activePlayer: Player): ArrivingFleet[] => {
-  return fleets.reduce((acc: ArrivingFleet[], fleetList: Fleet[], index: number): ArrivingFleet[] => {
+  return fleets.reduce((acc: ArrivingFleet[], fleetList: Fleet[] = [], index: number): ArrivingFleet[] => {
     fleetList.forEach((fleet: Fleet): void => {
       if (fleet.owner.id === activePlayer.id) {
         acc.push({
