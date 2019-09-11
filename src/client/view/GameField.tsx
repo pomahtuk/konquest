@@ -27,7 +27,7 @@ const GameField = (): ReactElement | null => {
     return null;
   }
 
-  const fillColor = hexToRgba(theme.colors.white, "0.15");
+  const fillColor = hexToRgba(theme.colors.background, "0.65");
 
   return (
     <div ref={wrapperRef}>
@@ -36,20 +36,20 @@ const GameField = (): ReactElement | null => {
           width: ${fieldSize * blockSize}px;
           height: ${fieldSize * blockSize}px;
           position: relative;
-          border: 1px solid ${theme.colors.black};
+          border: 1px solid ${theme.colors.primaryDark};
           background: repeating-linear-gradient(
               90deg,
               rgba(${fillColor}),
               rgba(${fillColor}) ${blockSize - 1}px,
-              ${theme.colors.black} ${blockSize - 1}px,
-              ${theme.colors.black} ${blockSize}px
+              ${theme.colors.primaryDark} ${blockSize - 1}px,
+              ${theme.colors.primaryDark} ${blockSize}px
             ),
             repeating-linear-gradient(
               0deg,
               rgba(${fillColor}),
               rgba(${fillColor}) ${blockSize - 1}px,
-              ${theme.colors.black} ${blockSize - 1}px,
-              ${theme.colors.black} ${blockSize}px
+              ${theme.colors.primaryDark} ${blockSize - 1}px,
+              ${theme.colors.primaryDark} ${blockSize}px
             );
         `}
       >

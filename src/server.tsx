@@ -67,6 +67,7 @@ server
           <meta charset="utf-8" />
           <title>Galactic conquest</title>
           <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link href="https://fonts.googleapis.com/css?family=Electrolize|Titillium+Web:400,700&display=swap" rel="stylesheet">
           ${assets.client.css ? `<link rel="stylesheet" href="${assets.client.css}">` : ""}
         </head>
         <body>

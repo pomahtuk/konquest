@@ -18,7 +18,7 @@ const Button = ({ children, type = "button", variant, size, disabled, wide, clas
 
   const color = variant === "secondary" ? theme.colors.action : theme.colors.white;
   const backgroundColorHover =
-    variant === "secondary" ? theme.colors.actionLighter : variant === "destructive" ? theme.colors.destructiveDark : theme.colors.actionDark;
+    variant === "secondary" ? theme.colors.actionLight : variant === "destructive" ? theme.colors.destructiveDark : theme.colors.actionDark;
   const backgroundColor = variant === "secondary" ? theme.colors.white : variant === "destructive" ? theme.colors.destructive : theme.colors.action;
   const borderColorHover = variant === "destructive" ? theme.colors.destructiveDark : theme.colors.actionDark;
   const borderColor = variant === "destructive" ? theme.colors.destructive : theme.colors.action;
@@ -39,7 +39,7 @@ const Button = ({ children, type = "button", variant, size, disabled, wide, clas
     background-color: ${backgroundColor};
     color: ${color};
     font-size: ${theme.fontSizes.small};
-    font-weight: ${theme.fontWeights.medium};
+    font-weight: ${theme.fontWeights.bold};
     line-height: ${theme.lineHeights.small};
 
     :hover,

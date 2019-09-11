@@ -71,7 +71,7 @@ const PlayerTurn = (): ReactElement => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <AddPlayerTurn
         activePlayer={activePlayer}
         amount={value as number}
@@ -94,7 +94,7 @@ const PlayerTurn = (): ReactElement => {
       </Button>
 
       <ArrivingFleets fleets={currentPlayerFleets} />
-    </div>
+    </React.Fragment>
   );
 };
 

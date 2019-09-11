@@ -7,6 +7,7 @@
     "chota",
     "crossorigin",
     "downlevel",
+    "electrolize",
     "esnext",
     "gamefield",
     "grayscale",
@@ -23,6 +24,7 @@
     "stackblur",
     "styletron",
     "testid",
+    "titillium",
     "xlink",
     "xmlns"
   ],

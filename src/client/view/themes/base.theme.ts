@@ -3,44 +3,21 @@ type Sizes = "smallest" | "smaller" | "small" | "medium" | "large" | "larger" | 
 type Colors =
   | "destructiveDark"
   | "destructive"
-  | "destructiveLight"
-  | "destructiveLighter"
-  | "destructiveLightest"
-  | "calloutDark"
-  | "callout"
-  | "calloutLight"
-  | "calloutLighter"
-  | "calloutLightest"
-  | "complementDark"
-  | "complement"
-  | "complementLight"
-  | "complementLighter"
-  | "complementLightest"
-  | "constructiveDark"
-  | "constructive"
-  | "constructiveLight"
-  | "constructiveLighter"
-  | "constructiveLightest"
-  | "primaryDark"
-  | "primary"
-  | "primaryLight"
-  | "primaryLighter"
-  | "primaryLightest"
   | "grayscaleDark"
   | "grayscale"
   | "grayscaleLight"
-  | "grayscaleLighter"
-  | "grayscaleLightest"
   | "black"
   | "white"
   | "actionDark"
   | "action"
   | "actionLight"
-  | "actionLighter";
+  | "primary"
+  | "primaryDark"
+  | "background";
 
 type FontWeights = "normal" | "medium" | "bold";
 
-type FontStacks = "sans" | "serif" | "mono";
+type FontStacks = "sans" | "emphasis" | "mono";
 
 type ZIndex = "0" | "1" | "2" | "3" | "4";
 
@@ -98,8 +75,8 @@ const baseTheme: Theme = {
     bold: "700"
   },
   fontStacks: {
-    sans: '"BlinkMacSystemFont", -apple-system, "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif;',
-    serif: '"Georgia", serif',
+    sans: '"Titillium Web", sans-serif;',
+    emphasis: '"Electrolize", serif',
     mono: '"Monaco", "Courier New", monospace'
   },
   zIndex: {
@@ -118,47 +95,21 @@ const baseTheme: Theme = {
   colors: {
     destructiveDark: "#A30000",
     destructive: "#CC0000",
-    destructiveLight: "#FCB4B4",
-    destructiveLighter: "#FFEBEB",
-    destructiveLightest: "#FFF0F0",
-
-    calloutDark: "#BC5B01",
-    callout: "#FF8000",
-    calloutLight: "#FFC489",
-    calloutLighter: "#FFF0E0",
-    calloutLightest: "#FFF8F0",
-
-    complementDark: "#CD8900",
-    complement: "#FEBB02",
-    complementLight: "#FFE08A",
-    complementLighter: "#FDF4D8",
-    complementLightest: "#FEFBF0",
-
-    constructiveDark: "#006607",
-    constructive: "#008009",
-    constructiveLight: "#97E59C",
-    constructiveLighter: "#E7FDE9",
-    constructiveLightest: "#F1FEF2",
-
-    primaryDark: "#00224F",
-    primary: "#003580",
-    primaryLight: "#BAD4F7",
-    primaryLighter: "#EBF3FF",
-    primaryLightest: "#FAFCFF",
 
     grayscaleDark: "#333333",
     grayscale: "#6B6B6B",
-    grayscaleLight: "#BDBDBD",
-    grayscaleLighter: "#E6E6E6",
-    grayscaleLightest: "#F5F5F5",
+    grayscaleLight: "#E6E6E6",
 
     black: "#000",
     white: "#fff",
 
     actionDark: "#005C9D",
     action: "#0071C2",
-    actionLight: "#A3D7FC",
-    actionLighter: "#E4F4FF"
+    actionLight: "#E4F4FF",
+
+    background: "#021114a6",
+    primary: "#26dafd",
+    primaryDark: "#029dbb"
   },
   units: {
     smallest: "0px",

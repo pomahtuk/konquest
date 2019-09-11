@@ -22,7 +22,7 @@ export interface InputSelectProps extends HTMLProps<HTMLSelectElement> {
   onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const InputSelect = ({ placeholder, value, options, name, label, disabled, onChange, className, ...rest }: InputSelectProps): ReactElement => {
+const InputSelect = ({ value, options, name, label, disabled, onChange, className, ...rest }: InputSelectProps): ReactElement => {
   const theme = useContext(ThemeContext);
 
   const wrapperClass = css`
@@ -37,6 +37,8 @@ const InputSelect = ({ placeholder, value, options, name, label, disabled, onCha
   const labelClass = css`
     display: block;
     margin-bottom: ${theme.units.small};
+    font-family: ${theme.fontStacks.emphasis};
+    font-weight: ${theme.fontWeights.bold};
   `;
 
   const selectClass = css`
@@ -46,12 +48,9 @@ const InputSelect = ({ placeholder, value, options, name, label, disabled, onCha
     min-width: calc(${theme.units.largest} * 2);
     z-index: ${theme.zIndex[1]};
     font-size: ${theme.fontSizes.small};
-    font-weight: ${theme.fontWeights.normal};
-    line-height: ${theme.lineHeights.small};
-    font-family: ${theme.fontStacks.sans};
     background: ${theme.colors.white};
     border-radius: ${theme.units.smaller};
-    border: 1px solid ${theme.colors.grayscaleLighter};
+    border: 1px solid ${theme.colors.grayscaleLight};
     display: block;
     width: 100%;
     text-align: left;

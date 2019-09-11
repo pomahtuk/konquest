@@ -27,7 +27,7 @@ exports[`<PlayerTurn /> renders <PlayerTurn /> component at the beginning of pla
   background-color: #0071C2;
   color: #fff;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 20px;
 }
 
@@ -46,21 +46,19 @@ exports[`<PlayerTurn /> renders <PlayerTurn /> component at the beginning of pla
 
 <div>
   <div>
+    <h2>
+      1
+       turn
+    </h2>
     <div>
-      <h2>
-        1
-         turn
-      </h2>
-      <div>
-        Please select origin planet
-      </div>
+      Please select origin planet
     </div>
-    <button
-      class="emotion-0"
-      type="button"
-    >
-      Complete turn
-    </button>
   </div>
+  <button
+    class="emotion-0"
+    type="button"
+  >
+    Complete turn
+  </button>
 </div>
 `;

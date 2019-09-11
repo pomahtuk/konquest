@@ -27,7 +27,7 @@ exports[`<Button /> renders <Button /> component 1`] = `
   background-color: #0071C2;
   color: #fff;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 20px;
 }
 

@@ -51,12 +51,20 @@ const App = ({ image, credit, storedGame }: AppProps): ReactElement => {
             font-size: ${theme.fontSizes.medium};
             line-height: ${theme.lineHeights.medium};
             font-weight: ${theme.fontWeights.normal};
+            color: ${theme.colors.primary};
           }
           body {
             background: url(${image}.jpg) no-repeat center center fixed;
             background-size: cover;
             min-width: 100%;
             min-height: 100%;
+          }
+          h1,
+          h1,
+          h3,
+          h4,
+          h5 {
+            font-family: ${theme.fontStacks.emphasis};
           }
           * {
             box-sizing: border-box;

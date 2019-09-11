@@ -14,8 +14,8 @@ const SettingsRoute: React.SFC<RouteComponentProps> = (): ReactElement => {
   const theme = useContext(ThemeContext);
 
   const settingsGrid = css`
-    background: rgba(${hexToRgba(theme.colors.white, "0.3")});
-    border-radius: ${theme.units.small};
+    background: rgba(${hexToRgba(theme.colors.background, "0.6")});
+    border: 1px solid ${theme.colors.primaryDark};
     padding: 0 0 ${theme.units.largest} 0;
   `;
 

@@ -32,8 +32,8 @@ const GameRoute: React.SFC<GameRouteProps> = (): ReactElement | null => {
   }
 
   const turnContainer = css`
-    background: rgba(${hexToRgba(theme.colors.white, "0.3")});
-    border-radius: ${theme.units.small};
+    background: rgba(${hexToRgba(theme.colors.background, "0.65")});
+    border: 1px solid ${theme.colors.primaryDark};
     padding: ${theme.units.medium};
   `;
 
@@ -42,8 +42,10 @@ const GameRoute: React.SFC<GameRouteProps> = (): ReactElement | null => {
       <GridColumn size={8} sizeMedium={8}>
         <GameField />
       </GridColumn>
-      <GridColumn size={4} sizeMedium={4} className={turnContainer}>
-        <PlayerTurn />
+      <GridColumn size={4} sizeMedium={4}>
+        <div className={turnContainer}>
+          <PlayerTurn />
+        </div>
       </GridColumn>
     </Grid>
   );

@@ -10,8 +10,8 @@ exports[`<StatsRoute /> Redirecting to Settings when game is not complete 1`] = 
 
 exports[`<StatsRoute /> Renders players in different states (computer, dead without a winner) 1`] = `
 .emotion-1 {
-  background: rgba(255,255,255,0.3);
-  border-radius: 4px;
+  background: rgba(2,17,20,0.65);
+  border: 1px solid #029dbb;
   padding: 8px 0;
 }
 
@@ -85,8 +85,8 @@ exports[`<StatsRoute /> Renders players in different states (computer, dead with
 
 exports[`<StatsRoute /> Renders without exploding 1`] = `
 .emotion-1 {
-  background: rgba(255,255,255,0.3);
-  border-radius: 4px;
+  background: rgba(2,17,20,0.65);
+  border: 1px solid #029dbb;
   padding: 8px 0;
 }
 

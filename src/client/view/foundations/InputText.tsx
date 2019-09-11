@@ -27,16 +27,17 @@ const InputText = ({ disabled, type, placeholder, label, value, onChange, min, m
   const labelClass = css`
     display: block;
     margin-bottom: ${theme.units.small};
+    font-family: ${theme.fontStacks.emphasis};
+    font-weight: ${theme.fontWeights.bold};
   `;
 
   const sharedInput = css`
     font-size: ${theme.fontSizes.small};
     font-weight: ${theme.fontWeights.normal};
     line-height: ${theme.lineHeights.small};
-    font-family: ${theme.fontStacks.sans};
     background: ${theme.colors.white};
     border-radius: ${theme.units.smaller};
-    border: 1px solid ${theme.colors.grayscaleLighter};
+    border: 1px solid ${theme.colors.grayscaleLight};
     display: block;
     width: 100%;
     text-align: left;
