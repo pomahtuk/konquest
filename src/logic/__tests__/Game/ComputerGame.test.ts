@@ -121,6 +121,17 @@ describe("Could have a game with Computer player", (): void => {
     // and to make sure that our fleet arrived at destination and destroyed
     makeEmptyPlayerTurn(game);
 
+    // now game processed another turn
+    // check if there are any fleets en route
+    const fleets = game.getFleets();
+    const fleetsTravelling = fleets.reduce((acc, fleetData) => {
+      return [...acc, ...fleetData];
+    }, []);
+    if (fleetsTravelling.length > 0) {
+      // wait a bit
+      makeEmptyPlayerTurn(game);
+    }
+
     // now Computer player won the game!
     expect(game.status).toBe(GameStatus.COMPLETED);
     expect(game.winner).toBeDefined();
