@@ -379,6 +379,13 @@ class ConquestGame {
     if (alivePlayers.length === 1) {
       this[winner] = alivePlayers[0];
       this[status] = GameStatus.COMPLETED;
+      return;
+    }
+    // if only computers left we don't really care about the winner
+    const humanPlayersLeft = alivePlayers.filter((player): boolean => !player.isComputer);
+    if (humanPlayersLeft.length === 0) {
+      this[winner] = null;
+      this[status] = GameStatus.COMPLETED;
     }
   }
 

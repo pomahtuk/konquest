@@ -35,7 +35,7 @@ describe("Could have a game", (): void => {
   // then when enough produced - combining fleets at neutral
   // and attacking player 2 capturing their planet
 
-  it("Trows error when passing invalid turn", (): void => {
+  it("Returns invalid status when passing invalid turn", (): void => {
     const result = game.addPlayerTurnData({
       player: player1,
       orders: [
@@ -117,32 +117,52 @@ describe("Could have a game", (): void => {
       makeIdlePlayer2Turn(game);
     }
     // done waiting, combine fleets
-    const availableFleetAtA = game.getPlanets()["A"].ships;
+    // find best planet to use
+    const combinePlanet = game.getPlanets()["A"].killPercent > game.getPlanets()["C"].killPercent ? "A" : "C";
+    const sourcePlanet = combinePlanet === "A" ? "C" : "A";
+    let availableFleetAtSource = game.getPlanets()[sourcePlanet].ships;
     game.addPlayerTurnData({
       player: player1,
       orders: [
         {
-          origin: "A",
-          destination: "C",
-          amount: availableFleetAtA
+          origin: sourcePlanet,
+          destination: combinePlanet,
+          amount: availableFleetAtSource
         }
       ]
     });
     makeIdlePlayer2Turn(game);
     // at this point turn processed and we have combined fleet at planet C
-    const availableFleetAtC = game.getPlanets()["C"].ships;
+    const availableFleetAtDestination = game.getPlanets()[combinePlanet].ships;
+    availableFleetAtSource = game.getPlanets()[sourcePlanet].ships;
     game.addPlayerTurnData({
       player: player1,
       orders: [
         {
-          origin: "C",
+          origin: combinePlanet,
           destination: "B",
-          amount: availableFleetAtC
+          amount: availableFleetAtDestination
+        },
+        {
+          origin: sourcePlanet,
+          destination: "B",
+          amount: availableFleetAtSource
         }
       ]
     });
     makeIdlePlayer2Turn(game);
     // now game processed another turn
+    // check if there are any fleets en route
+    const fleets = game.getFleets();
+    const fleetsTravelling = fleets.reduce((acc, fleetData) => {
+      acc.concat(fleetData);
+      return acc;
+    }, []);
+    if (fleetsTravelling.length > 0) {
+      // wait a bit
+      makeIdlePlayer1Turn(game);
+      makeIdlePlayer2Turn(game);
+    }
     // we should know the winner
     expect(game.status).toBe(GameStatus.COMPLETED);
     expect(game.winner).toBeDefined();
